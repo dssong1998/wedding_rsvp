@@ -4,10 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-const RAW_API_BASE =
+const CLIENT_API_BASE =
   process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") ??
-  process.env.API_BASE?.replace(/\/$/, "") ??
   "";
+const SERVER_API_BASE =
+  process.env.API_BASE?.replace(/\/$/, "") ??
+  CLIENT_API_BASE;
 const DEFAULT_API_PORT = process.env.API_PORT ?? "4000";
 
 const MOBILE_UA_REGEX = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i;
@@ -34,26 +36,26 @@ function extractRequestHostname(request: NextRequest): string {
 }
 
 function resolveServerApiBase(): string {
-  if (RAW_API_BASE) return RAW_API_BASE;
+  if (SERVER_API_BASE) return SERVER_API_BASE;
   return `http://127.0.0.1:${DEFAULT_API_PORT}`;
 }
 
 function resolveClientApiBase(request: NextRequest): string {
   const requestHostname = extractRequestHostname(request);
 
-  if (!RAW_API_BASE) {
+  if (!CLIENT_API_BASE) {
     return `${request.nextUrl.protocol}//${requestHostname}:${DEFAULT_API_PORT}`;
   }
 
   try {
-    const parsed = new URL(RAW_API_BASE);
+    const parsed = new URL(CLIENT_API_BASE);
     if (isLoopbackHost(parsed.hostname) && !isLoopbackHost(requestHostname)) {
       parsed.hostname = requestHostname;
       return parsed.toString().replace(/\/$/, "");
     }
-    return RAW_API_BASE;
+    return CLIENT_API_BASE;
   } catch {
-    return RAW_API_BASE;
+    return CLIENT_API_BASE;
   }
 }
 
