@@ -3,14 +3,23 @@ set -eu
 
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 cd "$SCRIPT_DIR"
+ENV_FILE="${SCRIPT_DIR}/.env"
+ENV_EXAMPLE="${SCRIPT_DIR}/.env.example"
 
-if [ ! -f ".env" ]; then
-  echo "ERROR: deploy/.env file is missing."
+if [ ! -f "$ENV_FILE" ] && [ -f "$ENV_EXAMPLE" ]; then
+  cp "$ENV_EXAMPLE" "$ENV_FILE"
+  echo "Created ${ENV_FILE} from .env.example."
+  echo "Fill real values in ${ENV_FILE}, then run this script again."
+  exit 1
+fi
+
+if [ ! -f "$ENV_FILE" ]; then
+  echo "ERROR: env file is missing: ${ENV_FILE}"
   exit 1
 fi
 
 # shellcheck disable=SC1091
-. ".env"
+. "$ENV_FILE"
 
 WEB_DOMAIN="${WEB_DOMAIN:-daeseokdain.com}"
 API_DOMAIN="${API_DOMAIN:-api.daeseokdain.com}"
