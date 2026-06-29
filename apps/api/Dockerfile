@@ -1,4 +1,8 @@
-FROM node:20-alpine AS builder
+FROM node:20-bookworm-slim AS builder
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends ca-certificates openssl \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN corepack enable
 WORKDIR /app
@@ -15,7 +19,11 @@ RUN pnpm --filter @wedding/shared build
 RUN pnpm --filter api prisma:generate
 RUN pnpm --filter api build
 
-FROM node:20-alpine AS runner
+FROM node:20-bookworm-slim AS runner
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends ca-certificates openssl \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN corepack enable
 WORKDIR /app

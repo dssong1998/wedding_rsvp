@@ -101,6 +101,9 @@ cd deploy
 ./deploy.sh
 ```
 
+`deploy.sh`는 인증서가 없으면 자동으로 HTTP bootstrap nginx로 기동하고,
+인증서 발급 절차(`bootstrap-cert.sh`)를 안내합니다.
+
 최초 1회 시드가 필요하면:
 
 ```bash
@@ -131,10 +134,14 @@ cd deploy
   - DNS 전파 완료 여부 확인
   - 80/443 포트 오픈 여부 확인
   - `deploy/.env`의 도메인/이메일 값 재확인
+  - `deploy.sh`가 "TLS cert not found"를 출력하면 먼저 `./bootstrap-cert.sh --staging` → `./bootstrap-cert.sh` 실행
 - `ENOSPC: no space left on device` / `failed to execute bake: signal: killed`:
   - 디스크 부족 또는 빌드 캐시 과다 상황입니다.
   - `./deploy.sh --prune` 실행 후 다시 `./deploy.sh`
   - 필요하면 서버에 swap 추가 후 재시도
+- `PrismaClientInitializationError` + `libssl.so.1.1`:
+  - Alpine 기반에서 Prisma OpenSSL 호환 문제가 발생할 수 있습니다.
+  - 이 프로젝트는 API 이미지를 Debian slim 기반으로 변경했으니 최신 코드 pull 후 `./deploy.sh --prune && ./deploy.sh`로 재빌드하세요.
 - CORS 오류:
   - `CORS_ORIGIN`에 `https://dae-da.com,https://www.dae-da.com` 포함 확인
 - 모바일에서 API 호출 실패:

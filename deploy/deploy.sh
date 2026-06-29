@@ -18,6 +18,9 @@ if [ ! -f "$ENV_FILE" ]; then
   exit 1
 fi
 
+# shellcheck disable=SC1091
+. "$ENV_FILE"
+
 DO_SEED=0
 DO_PRUNE=0
 for arg in "$@"; do
@@ -57,12 +60,23 @@ if [ "$DO_PRUNE" -eq 1 ]; then
   fi
 fi
 
+WEB_DOMAIN="${WEB_DOMAIN:-dae-da.com}"
+CERT_FULLCHAIN="${SCRIPT_DIR}/certbot/conf/live/${WEB_DOMAIN}/fullchain.pem"
+CERT_PRIVKEY="${SCRIPT_DIR}/certbot/conf/live/${WEB_DOMAIN}/privkey.pem"
+
 echo "[1/4] Building web/api images..."
 COMPOSE_BAKE=false docker compose --env-file "$ENV_FILE" -f docker-compose.yml build api
 COMPOSE_BAKE=false docker compose --env-file "$ENV_FILE" -f docker-compose.yml build web
 
-echo "[2/4] Applying updated stack..."
-docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d --remove-orphans
+if [ ! -f "$CERT_FULLCHAIN" ] || [ ! -f "$CERT_PRIVKEY" ]; then
+  echo "[2/4] TLS cert not found for ${WEB_DOMAIN}. Starting HTTP bootstrap nginx."
+  docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d --remove-orphans postgres api web
+  docker compose --env-file "$ENV_FILE" -f docker-compose.yml -f docker-compose.bootstrap.yml up -d --no-deps nginx
+  echo "Run './bootstrap-cert.sh --staging' then './bootstrap-cert.sh', and rerun './deploy.sh'."
+else
+  echo "[2/4] Applying updated stack..."
+  docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d --remove-orphans
+fi
 
 if [ "$DO_SEED" -eq 1 ]; then
   echo "[3/4] Running seed..."
