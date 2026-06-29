@@ -372,7 +372,7 @@ body{background:#ffffff}
 /* ===== 사진 라운드 제거 (직사각형) ===== */
 .tkt-photo{border-radius:0}
 
-/* ===== 1페이지: 봉투 스테이지 (숲→엽서→봉투 레이어) ===== */
+/* ===== 1페이지: 엽서 스테이지 (숲→엽서) ===== */
 .envelope-stage{padding:0;position:relative;overflow:hidden;background:transparent}
 .envelope-stage:not(.opened){touch-action:none}
 /* L1 엽서 (숲 배경 위) */
@@ -384,25 +384,7 @@ body{background:#ffffff}
 .pc-names span{color:#b98a4e;font-style:italic;margin:0 .08em}
 .pc-date{font-family:var(--type);font-size:3.2cqh;letter-spacing:.14em;color:#6a6f64}
 .pc-place{font-family:var(--kor);font-size:3.6cqh;color:var(--tink)}
-/* L2 봉투 — 상/하/좌/우 삼각형 플랩 + 접힘 그림자 */
-.es-envelope{position:absolute;inset:0;z-index:4;perspective:1500px}
-.es-envelope .flap{position:absolute;inset:0}
-.flap-top{clip-path:polygon(0 0,100% 0,50% 50%);background:linear-gradient(180deg,#f7f2ea,#eae3d6);filter:drop-shadow(0 2px 5px rgba(60,50,35,.18))}
-.flap-bottom{clip-path:polygon(0 100%,100% 100%,50% 50%);background:linear-gradient(0deg,#f3eee5,#ece5d8);filter:drop-shadow(0 -2px 5px rgba(60,50,35,.16))}
-.flap-right{clip-path:polygon(100% 0,100% 100%,50% 50%);background:linear-gradient(270deg,#f5f0e7,#e7e0d2);filter:drop-shadow(-2px 0 5px rgba(60,50,35,.16))}
-.flap-left{clip-path:polygon(0 0,0 100%,50% 50%);background:linear-gradient(90deg,#f8f3eb,#e6dfd1);transform-origin:left center;z-index:2;filter:drop-shadow(3px 0 7px rgba(60,50,35,.22));backface-visibility:visible}
-.es-seam{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse 26% 36% at 50% 50%,rgba(48,38,26,.2),transparent 72%)}
 .envelope-stage .nav-cue{z-index:6;color:#6a6256;right:auto;left:50%;transform:translateX(-50%);bottom:3cqh}
-.cover.opened .es-envelope{display:none}
-
-/* ===== 플랩 재설계: 좌우 접합 / 상하는 측면에만 닿음 ===== */
-.es-envelope{perspective:1700px}
-.es-envelope .flap{backface-visibility:visible}
-.flap-top{clip-path:polygon(0 0,100% 0,51% 44%,49% 44%);background:linear-gradient(180deg,#f7f2ea,#ece5d8);z-index:2;filter:drop-shadow(0 1.6px 2.4px rgba(58,48,33,.32))}
-.flap-bottom{clip-path:polygon(0 100%,100% 100%,51% 56%,49% 56%);background:linear-gradient(0deg,#f4efe6,#ebe4d7);z-index:2;filter:drop-shadow(0 -1.6px 2.4px rgba(58,48,33,.28))}
-.flap-right{clip-path:polygon(100% 0,100% 100%,50% 56%,50% 44%);background:linear-gradient(270deg,#f5f0e7,#e7e0d2);z-index:1;filter:drop-shadow(-1.6px 0 2.4px rgba(58,48,33,.26))}
-.flap-left{clip-path:polygon(0 0,0 100%,50% 56%,50% 44%);background:linear-gradient(90deg,#f8f3eb,#e9e2d4);transform-origin:left center;z-index:4;filter:drop-shadow(1.6px 0 2.6px rgba(58,48,33,.3))}
-.es-seam{display:none}
 /* ===== 엽서: 순백 + 우아한 초청 카드 ===== */
 .es-postcard{padding:7cqh 16cqh}
 .pc-card{flex:1;height:82cqh;position:relative;box-shadow:0 24px 54px -14px rgba(16,24,14,.55);overflow:visible;perspective:1900px;transform-style:preserve-3d}
@@ -428,16 +410,6 @@ body{background:#ffffff}
 .pc-div .dia{font-size:2.2cqh;line-height:1}
 .es-postcard .pc-couple{font-family:"Nanum Myeongjo",var(--kor),serif!important;font-weight:700;font-size:7.6cqh;color:#23211d;letter-spacing:.03em;z-index:1}
 .es-postcard .pc-couple i{font-style:italic;font-family:Georgia,"Times New Roman",serif!important;color:#bd9356;font-weight:400;margin:0 .14em}
-
-/* ===== 봉투 크기 = 엽서 크기 (딱 맞게 축소) ===== */
-.es-envelope{display:flex;align-items:center;justify-content:center;padding:7cqh 16cqh;perspective:none;background:transparent}
-.es-env-inner{position:relative;flex:1;height:82cqh;perspective:1700px}
-.es-env-inner .flap{position:absolute;inset:0;backface-visibility:visible}
-/* ===== 열린 뒤 남은 3개 플랩 우측으로 밀어서 사라짐 ===== */
-.es-env-inner.slide-out .flap-top,
-.es-env-inner.slide-out .flap-bottom,
-.es-env-inner.slide-out .flap-right{transition:transform .55s cubic-bezier(.5,0,.25,1),opacity .55s ease;transform:translateX(135%);opacity:0}
-.es-env-inner.slide-out .flap-left{transition:opacity .9s ease;opacity:0}
 </style>
 </head>
 <body>
@@ -458,14 +430,6 @@ body{background:#ffffff}
                 <div class="pc-paper-sign">다인과 대석 드림</div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="es-envelope" id="envWrap">
-          <div class="es-env-inner">
-            <div class="flap flap-top"></div>
-            <div class="flap flap-bottom"></div>
-            <div class="flap flap-right"></div>
-            <div class="flap flap-left" id="envLeftFlap"></div>
           </div>
         </div>
         <button class="nav-cue" onclick="openCover()">OPEN <span class="ar">&rarr;</span></button>
@@ -856,26 +820,15 @@ function onArrive(i){
 function advance(){var ps=lpanels();if(curIdx<ps.length-1)gotoPanel(ps[curIdx+1]);}
 (function(){
   var cover=document.getElementById("cover");
-  var env=document.getElementById("envWrap");
-  var lf=document.getElementById("envLeftFlap");
-  if(!cover||!env||!lf){window.openCover=function(){};return;}
+  if(!cover){window.openCover=function(){};return;}
   var opened=false;
   function openCover(){
     if(opened)return;opened=true;
-    var transparencyDelay=1500;
-    var dropLead=1500;
-    var slideOutAt=1500+transparencyDelay;
-    var dropAt=Math.max(0,slideOutAt-dropLead);
-    lf.style.transition="transform 1.6s cubic-bezier(.33,0,.18,1)";
-    setTimeout(function(){lf.style.transform="rotateY(-178deg)";},620);
-    var inner=env.querySelector(".es-env-inner");
-    setTimeout(function(){if(env)env.classList.add("drop-first");},dropAt);
-    setTimeout(function(){if(inner)inner.classList.add("slide-out");},slideOutAt);
+    var hideAt=1550;
     setTimeout(function(){
       cover.classList.add("opened");
-      env.style.display="none";
       setTimeout(function(){cover.classList.add("flipped");},140);
-    },2550+transparencyDelay);
+    },hideAt);
   }
   window.openCover=openCover;
   /* 페이지 오픈 0.7초 뒤 자동 시작 */
