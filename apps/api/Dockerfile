@@ -33,4 +33,4 @@ COPY --from=builder /app /app
 WORKDIR /app/apps/api
 EXPOSE 4000
 
-CMD ["sh", "-c", "pnpm prisma:migrate:deploy || pnpm prisma db push; node dist/main.js"]
+CMD ["sh", "-c", "pnpm prisma:migrate:deploy || true; pnpm prisma db push; node dist/main.js"]

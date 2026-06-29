@@ -99,7 +99,8 @@ else
 fi
 
 if [ "$DO_SEED" -eq 1 ]; then
-  echo "[3/4] Running seed..."
+  echo "[3/4] Syncing DB schema then running seed..."
+  docker compose --env-file "$ENV_FILE" -f docker-compose.yml exec -T api sh -lc 'pnpm prisma:migrate:deploy || true; pnpm prisma db push'
   docker compose --env-file "$ENV_FILE" -f docker-compose.yml exec -T api pnpm prisma:seed
   echo "[4/4] Done."
 else
