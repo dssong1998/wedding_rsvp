@@ -1,0 +1,16 @@
+{
+  "name": "wedding-invite",
+  "private": true,
+  "packageManager": "pnpm@10.13.1",
+  "scripts": {
+    "build": "corepack pnpm --filter @wedding/shared build && corepack pnpm --filter api build && corepack pnpm --filter web build",
+    "dev": "corepack pnpm --parallel --filter api --filter web dev",
+    "lint": "corepack pnpm --filter @wedding/shared lint && corepack pnpm --filter api lint && corepack pnpm --filter web lint",
+    "typecheck": "corepack pnpm --filter @wedding/shared typecheck && corepack pnpm --filter api typecheck && corepack pnpm --filter web typecheck",
+    "format": "corepack pnpm --filter @wedding/shared format && corepack pnpm --filter api format && corepack pnpm --filter web format"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.12",
+    "typescript": "^5.6.3"
+  }
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<title>Wedding Invite Desktop Mockup</title>
+<style>
+:root{
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  background:#e9e9ec;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:"Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+}
+
+.mock-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+.device{
+  position:relative;
+  background:#17150f;
+  padding:10px;
+  box-shadow:0 50px 90px -34px rgba(0,0,0,.5),inset 0 0 0 2px #2a2722;
+  transition:width .4s var(--ease),aspect-ratio .4s var(--ease),border-radius .4s var(--ease);
+}
+.device.land{width:min(96vw,calc(95vh*19.5/9));aspect-ratio:19.5/9;border-radius:42px}
+.device.port{width:min(86vw,calc(95vh*9/19.5));aspect-ratio:9/19.5;border-radius:46px}
+.screen{
+  position:relative;
+  width:100%;
+  height:100%;
+  border-radius:32px;
+  overflow:hidden;
+  background:#fff;
+}
+.device.port .screen{border-radius:36px}
+.screen iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+  background:#fff;
+}
+.speaker{position:absolute;background:#000;opacity:.5;z-index:9;border-radius:4px}
+.cam{position:absolute;background:#0b0b0b;width:7px;height:7px;border-radius:50%;box-shadow:inset 0 0 0 1px #333;z-index:9}
+.device.land .speaker{left:8px;top:50%;transform:translateY(-50%);width:5px;height:20%}
+.device.land .cam{left:17px;top:50%;transform:translateY(-50%)}
+.device.port .speaker{top:9px;left:50%;transform:translateX(-50%);height:5px;width:20%}
+.device.port .cam{top:9px;left:calc(50% + 16%)}
+.hint{
+  color:#5f5a4f;
+  font-size:12px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+  <div class="mock-wrap">
+    <div class="device land" id="device">
+      <div class="speaker" aria-hidden="true"></div>
+      <div class="cam" aria-hidden="true"></div>
+      <div class="screen">
+        <iframe id="inviteFrame" src="about:blank" title="Wedding Invitation"></iframe>
+      </div>
+    </div>
+    <div class="hint">Desktop Mockup Preview</div>
+  </div>
+
+<script>
+(function(){
+  var path=location.pathname||"";
+  var isInvitePath=/^\/invited(?:@|%40)/i.test(path);
+  var frame=document.getElementById("inviteFrame");
+  function buildEmbedTarget(){
+    if(isInvitePath){
+      var url=new URL(location.href);
+      url.searchParams.set("embed","1");
+      var q=url.searchParams.toString();
+      return url.pathname+(q?("?"+q):"")+url.hash;
+    }
+    return "wedding-invite-2.html?embed=1";
+  }
+  var ua=navigator.userAgent||"";
+  var isMobileUA=/Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+  var coarse=window.matchMedia&&window.matchMedia("(pointer: coarse)").matches;
+  if(isMobileUA||coarse){
+    location.replace(buildEmbedTarget());
+    return;
+  }
+  if(frame)frame.src=buildEmbedTarget();
+  var device=document.getElementById("device");
+  if(!device)return;
+  function syncOrientation(){
+    var portrait=window.innerHeight>window.innerWidth;
+    device.classList.toggle("port",portrait);
+    device.classList.toggle("land",!portrait);
+  }
+  window.addEventListener("resize",syncOrientation,{passive:true});
+  syncOrientation();
+})();
+</script>
+</body>
+</html>

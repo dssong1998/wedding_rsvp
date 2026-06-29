@@ -1,0 +1,204 @@
+:root {
+  color-scheme: light;
+  --ink: #1f1f1f;
+  --paper: #f8f7f3;
+  --line: #ded8cc;
+  --accent: #2f4868;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family:
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    "Apple SD Gothic Neo",
+    "Malgun Gothic",
+    sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+a {
+  color: inherit;
+}
+
+.public-root {
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px 56px;
+}
+
+.public-wrap {
+  width: min(720px, 100%);
+  display: grid;
+  gap: 18px;
+}
+
+.public-card {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 18px;
+  background: #fffdf8;
+}
+
+.public-hero {
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / 0.22), rgb(0 0 0 / 0.45)),
+    url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80")
+      center / cover no-repeat;
+}
+
+.public-card h1,
+.public-card h2 {
+  margin: 0;
+  line-height: 1.28;
+}
+
+.public-card h1 {
+  font-size: clamp(24px, 6vw, 36px);
+}
+
+.public-card h2 {
+  font-size: clamp(18px, 5vw, 26px);
+}
+
+.public-muted {
+  margin: 8px 0 0;
+  color: #6e6a62;
+}
+
+.public-letter {
+  margin: 12px 0 0;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px;
+  background: #fffcf6;
+}
+
+.lang-toggle button {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.lang-toggle button.active {
+  background: var(--accent);
+  color: white;
+}
+
+.gift-list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.gift-item {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 4px;
+}
+
+.gift-item strong {
+  font-size: 14px;
+}
+
+.public-footer {
+  text-align: center;
+  color: #817b72;
+  font-size: 13px;
+}
+
+.admin-root {
+  min-height: 100dvh;
+  padding: 20px;
+  display: grid;
+  place-items: start center;
+  background: #f6f8fc;
+}
+
+.admin-wrap {
+  width: min(1000px, 100%);
+  display: grid;
+  gap: 16px;
+}
+
+.admin-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #dae2ee;
+  padding: 16px;
+}
+
+.admin-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.admin-input,
+.admin-btn {
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid #c6d4e8;
+  font-size: 14px;
+}
+
+.admin-btn {
+  background: #27508a;
+  color: white;
+  cursor: pointer;
+}
+
+.admin-btn.secondary {
+  background: white;
+  color: #27508a;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.admin-table th,
+.admin-table td {
+  border-bottom: 1px solid #e5edf7;
+  padding: 10px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.admin-badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 12px;
+  border: 1px solid #c4d4ea;
+  background: #f5f9ff;
+}

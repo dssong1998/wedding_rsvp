@@ -1,0 +1,16 @@
+.DS_Store
+node_modules
+.turbo
+.pnpm-store
+dist
+build
+.next
+coverage
+*.log
+deploy/.env
+deploy/certbot/conf
+deploy/certbot/www
+apps/api/prisma/dev.db
+apps/api/prisma/dev.db-journal
+apps/api/.env
+apps/web/.env.local
