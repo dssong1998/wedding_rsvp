@@ -21,8 +21,8 @@ fi
 # shellcheck disable=SC1091
 . "$ENV_FILE"
 
-WEB_DOMAIN="${WEB_DOMAIN:-daeseokdain.com}"
-API_DOMAIN="${API_DOMAIN:-api.daeseokdain.com}"
+WEB_DOMAIN="${WEB_DOMAIN:-dae-da.com}"
+API_DOMAIN="${API_DOMAIN:-api.dae-da.com}"
 
 WEB_URL="https://${WEB_DOMAIN}"
 API_URL="https://${API_DOMAIN}"

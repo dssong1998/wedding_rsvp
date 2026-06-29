@@ -12,7 +12,7 @@ async function bootstrap(): Promise<void> {
   const nodeEnv = config.get<string>("NODE_ENV") ?? "development";
 
   const allowedOrigins = (config.get<string>("CORS_ORIGIN") ??
-    "https://daeseokdain.com,http://localhost:3000,http://192.168.35.139:3000")
+    "https://dae-da.com,https://www.dae-da.com,http://localhost:3000,http://192.168.35.139:3000")
     .split(",")
     .map((value) => value.trim())
     .filter(Boolean);

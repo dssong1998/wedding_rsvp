@@ -32,9 +32,9 @@ sudo ufw enable
 
 아래 A 레코드를 모두 서버 공인 IP로 연결합니다.
 
-- `daeseokdain.com`
-- `www.daeseokdain.com`
-- `api.daeseokdain.com`
+- `dae-da.com`
+- `www.dae-da.com`
+- `api.dae-da.com`
 
 ## 3) 코드 배치
 
@@ -54,7 +54,7 @@ cp deploy/.env.example deploy/.env
 - `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`
 - `SESSION_SECRET`
 - `CORS_ORIGIN` (프론트 도메인들)
-- `NEXT_PUBLIC_API_BASE` (예: `https://api.daeseokdain.com`)
+- `NEXT_PUBLIC_API_BASE` (예: `https://api.dae-da.com`)
 - `API_BASE` (권장: `http://api:4000`, web 컨테이너 내부 호출용)
 - `WEB_DOMAIN`, `WWW_DOMAIN`, `API_DOMAIN`
 - `LETSENCRYPT_EMAIL`
@@ -136,7 +136,7 @@ cd deploy
   - `./deploy.sh --prune` 실행 후 다시 `./deploy.sh`
   - 필요하면 서버에 swap 추가 후 재시도
 - CORS 오류:
-  - `CORS_ORIGIN`에 `https://daeseokdain.com,https://www.daeseokdain.com` 포함 확인
+  - `CORS_ORIGIN`에 `https://dae-da.com,https://www.dae-da.com` 포함 확인
 - 모바일에서 API 호출 실패:
   - `NEXT_PUBLIC_API_BASE`가 실제 API 도메인인지 확인
   - `API_BASE=http://api:4000` 유지 권장

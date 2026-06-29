@@ -37,9 +37,11 @@ for arg in "$@"; do
 done
 
 AVAIL_KB="$(df -Pk . | awk 'NR==2 { print $4 }')"
-if [ "${AVAIL_KB:-0}" -lt 3145728 ]; then
-  echo "WARNING: low disk space (<3GB). ENOSPC may occur during docker build."
+MIN_FREE_KB=3145728
+if [ "${AVAIL_KB:-0}" -lt "$MIN_FREE_KB" ] && [ "$DO_PRUNE" -eq 0 ]; then
+  echo "ERROR: low disk space (<3GB). Build aborted to avoid ENOSPC."
   echo "Run './deploy.sh --prune' first, or free disk manually."
+  exit 1
 fi
 
 if [ "$DO_PRUNE" -eq 1 ]; then
@@ -47,6 +49,12 @@ if [ "$DO_PRUNE" -eq 1 ]; then
   docker builder prune -af
   docker image prune -af
   docker container prune -f
+  AVAIL_KB="$(df -Pk . | awk 'NR==2 { print $4 }')"
+  if [ "${AVAIL_KB:-0}" -lt "$MIN_FREE_KB" ]; then
+    echo "ERROR: disk space is still low after prune (<3GB)."
+    echo "Free additional space, then rerun deploy."
+    exit 1
+  fi
 fi
 
 echo "[1/4] Building web/api images..."
