@@ -100,7 +100,7 @@ fi
 
 if [ "$DO_SEED" -eq 1 ]; then
   echo "[3/4] Running seed..."
-  docker compose --env-file "$ENV_FILE" -f docker-compose.yml exec api node dist/prisma/seed.js
+  docker compose --env-file "$ENV_FILE" -f docker-compose.yml exec -T api pnpm prisma:seed
   echo "[4/4] Done."
 else
   echo "[3/4] Skipping seed."

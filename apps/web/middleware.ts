@@ -17,10 +17,7 @@ export function middleware(request: NextRequest): NextResponse {
     return NextResponse.next();
   }
 
-  const redirectUrl = request.nextUrl.clone();
-  redirectUrl.pathname = "/";
-  redirectUrl.search = "";
-  return NextResponse.redirect(redirectUrl);
+  return NextResponse.redirect("https://dae-da.com/");
 }
 
 export const config = {
