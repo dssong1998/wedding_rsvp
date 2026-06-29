@@ -61,14 +61,34 @@ if [ "$DO_PRUNE" -eq 1 ]; then
 fi
 
 WEB_DOMAIN="${WEB_DOMAIN:-dae-da.com}"
-CERT_FULLCHAIN="${SCRIPT_DIR}/certbot/conf/live/${WEB_DOMAIN}/fullchain.pem"
-CERT_PRIVKEY="${SCRIPT_DIR}/certbot/conf/live/${WEB_DOMAIN}/privkey.pem"
+SSL_PROVIDER="${SSL_PROVIDER:-cloudflare}"
+CF_SSL_CERT_DIR="${CF_SSL_CERT_DIR:-/etc/ssl/cloudflare}"
+CF_SSL_CERT_FILE="${CF_SSL_CERT_FILE:-${WEB_DOMAIN}.pem}"
+CF_SSL_KEY_FILE="${CF_SSL_KEY_FILE:-${WEB_DOMAIN}.key}"
+
+if [ "$SSL_PROVIDER" = "cloudflare" ]; then
+  CERT_FULLCHAIN="${CF_SSL_CERT_DIR%/}/${CF_SSL_CERT_FILE}"
+  CERT_PRIVKEY="${CF_SSL_CERT_DIR%/}/${CF_SSL_KEY_FILE}"
+  if [ ! -f "$CERT_FULLCHAIN" ] || [ ! -f "$CERT_PRIVKEY" ]; then
+    echo "ERROR: Cloudflare cert files not found."
+    echo "Expected:"
+    echo "  ${CERT_FULLCHAIN}"
+    echo "  ${CERT_PRIVKEY}"
+    exit 1
+  fi
+elif [ "$SSL_PROVIDER" = "letsencrypt" ]; then
+  CERT_FULLCHAIN="${SCRIPT_DIR}/certbot/conf/live/${WEB_DOMAIN}/fullchain.pem"
+  CERT_PRIVKEY="${SCRIPT_DIR}/certbot/conf/live/${WEB_DOMAIN}/privkey.pem"
+else
+  echo "ERROR: Unknown SSL_PROVIDER=${SSL_PROVIDER} (use cloudflare or letsencrypt)"
+  exit 1
+fi
 
 echo "[1/4] Building web/api images..."
 COMPOSE_BAKE=false docker compose --env-file "$ENV_FILE" -f docker-compose.yml build api
 COMPOSE_BAKE=false docker compose --env-file "$ENV_FILE" -f docker-compose.yml build web
 
-if [ ! -f "$CERT_FULLCHAIN" ] || [ ! -f "$CERT_PRIVKEY" ]; then
+if [ "$SSL_PROVIDER" = "letsencrypt" ] && { [ ! -f "$CERT_FULLCHAIN" ] || [ ! -f "$CERT_PRIVKEY" ]; }; then
   echo "[2/4] TLS cert not found for ${WEB_DOMAIN}. Starting HTTP bootstrap nginx."
   docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d --remove-orphans postgres api web
   docker compose --env-file "$ENV_FILE" -f docker-compose.yml -f docker-compose.bootstrap.yml up -d --no-deps nginx

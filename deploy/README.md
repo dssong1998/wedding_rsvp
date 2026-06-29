@@ -1,6 +1,7 @@
 # Deployment Guide (Vultr + Docker Compose)
 
-이 프로젝트는 `web`(Next.js), `api`(NestJS), `postgres`, `nginx`, `certbot`를 Docker Compose로 운영합니다.
+이 프로젝트는 `web`(Next.js), `api`(NestJS), `postgres`, `nginx`를 Docker Compose로 운영합니다.
+(`SSL_PROVIDER=letsencrypt`일 때만 `certbot` 컨테이너 사용)
 
 ## 1) 서버 준비
 
@@ -57,16 +58,36 @@ cp deploy/.env.example deploy/.env
 - `NEXT_PUBLIC_API_BASE` (예: `https://api.dae-da.com`)
 - `API_BASE` (권장: `http://api:4000`, web 컨테이너 내부 호출용)
 - `WEB_DOMAIN`, `WWW_DOMAIN`, `API_DOMAIN`
-- `LETSENCRYPT_EMAIL`
+- `SSL_PROVIDER` (`cloudflare` 또는 `letsencrypt`)
+- `CF_SSL_CERT_DIR`, `CF_SSL_CERT_FILE`, `CF_SSL_KEY_FILE` (`cloudflare`일 때)
+- `LETSENCRYPT_EMAIL` (`letsencrypt`일 때)
 - `DISCORD_WEBHOOK_URL`, `DISCORD_OTP_WEBHOOK_URL` (필요 시)
 
-## 5) 최초 인증서 발급 (1회)
+## 5) 인증서 준비
 
 실행 권한 부여:
 
 ```bash
 chmod +x deploy/bootstrap-cert.sh deploy/deploy.sh deploy/healthcheck.sh
 ```
+
+### A. Cloudflare Origin Certificate 사용 (권장)
+
+1. 서버에 인증서 파일 배치(호스트):
+   - `${CF_SSL_CERT_DIR}/${CF_SSL_CERT_FILE}`
+   - `${CF_SSL_CERT_DIR}/${CF_SSL_KEY_FILE}`
+2. `deploy/.env`:
+   - `SSL_PROVIDER=cloudflare`
+3. 적용:
+
+```bash
+cd deploy
+./bootstrap-cert.sh
+```
+
+### B. Let's Encrypt 사용
+
+`deploy/.env`에서 `SSL_PROVIDER=letsencrypt`로 설정 후 실행.
 
 먼저 Let's Encrypt staging으로 검증:
 
@@ -81,10 +102,10 @@ cd deploy
 ./bootstrap-cert.sh
 ```
 
-이 스크립트는 다음을 자동 수행합니다.
+`bootstrap-cert.sh`는 다음을 자동 수행합니다.
 
-1. HTTP-only nginx로 임시 기동
-2. certbot으로 인증서 발급
+1. (`letsencrypt`) HTTP-only nginx 임시 기동
+2. (`letsencrypt`) certbot 발급
 3. TLS nginx 설정으로 전환
 
 인증서 발급 후 앱 컨테이너는 별도로 배포합니다:
@@ -134,7 +155,8 @@ cd deploy
   - DNS 전파 완료 여부 확인
   - 80/443 포트 오픈 여부 확인
   - `deploy/.env`의 도메인/이메일 값 재확인
-  - `deploy.sh`가 "TLS cert not found"를 출력하면 먼저 `./bootstrap-cert.sh --staging` → `./bootstrap-cert.sh` 실행
+  - `SSL_PROVIDER=cloudflare`면 `CF_SSL_CERT_DIR/FILE` 경로의 파일 존재 여부 확인
+  - `SSL_PROVIDER=letsencrypt`면 먼저 `./bootstrap-cert.sh --staging` → `./bootstrap-cert.sh` 실행
 - `ENOSPC: no space left on device` / `failed to execute bake: signal: killed`:
   - 디스크 부족 또는 빌드 캐시 과다 상황입니다.
   - `./deploy.sh --prune` 실행 후 다시 `./deploy.sh`
@@ -150,7 +172,7 @@ cd deploy
 
 ## 10) 운영 팁
 
-- certbot 자동 갱신 컨테이너는 이미 compose에 포함됨
+- certbot 자동 갱신 컨테이너는 `SSL_PROVIDER=letsencrypt` 구성에서만 사용
 - 배포 전 점검:
   - `docker compose -f deploy/docker-compose.yml config` 로 문법 확인
   - `./deploy/healthcheck.sh`로 외부 접근 확인

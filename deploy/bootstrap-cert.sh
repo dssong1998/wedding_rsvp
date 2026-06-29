@@ -25,11 +25,43 @@ fi
 WEB_DOMAIN="${WEB_DOMAIN:-}"
 WWW_DOMAIN="${WWW_DOMAIN:-}"
 API_DOMAIN="${API_DOMAIN:-}"
+SSL_PROVIDER="${SSL_PROVIDER:-cloudflare}"
+CF_SSL_CERT_DIR="${CF_SSL_CERT_DIR:-/etc/ssl/cloudflare}"
+CF_SSL_CERT_FILE="${CF_SSL_CERT_FILE:-${WEB_DOMAIN}.pem}"
+CF_SSL_KEY_FILE="${CF_SSL_KEY_FILE:-${WEB_DOMAIN}.key}"
 LETSENCRYPT_EMAIL="${LETSENCRYPT_EMAIL:-}"
 
-if [ -z "$WEB_DOMAIN" ] || [ -z "$WWW_DOMAIN" ] || [ -z "$API_DOMAIN" ] || [ -z "$LETSENCRYPT_EMAIL" ]; then
-  echo "ERROR: Missing required domain/email values in deploy/.env."
-  echo "Required: WEB_DOMAIN, WWW_DOMAIN, API_DOMAIN, LETSENCRYPT_EMAIL"
+if [ -z "$WEB_DOMAIN" ] || [ -z "$WWW_DOMAIN" ] || [ -z "$API_DOMAIN" ]; then
+  echo "ERROR: Missing required domain values in deploy/.env."
+  echo "Required: WEB_DOMAIN, WWW_DOMAIN, API_DOMAIN"
+  exit 1
+fi
+
+if [ "$SSL_PROVIDER" = "cloudflare" ]; then
+  CERT_FULLCHAIN="${CF_SSL_CERT_DIR%/}/${CF_SSL_CERT_FILE}"
+  CERT_PRIVKEY="${CF_SSL_CERT_DIR%/}/${CF_SSL_KEY_FILE}"
+  if [ ! -f "$CERT_FULLCHAIN" ] || [ ! -f "$CERT_PRIVKEY" ]; then
+    echo "ERROR: Cloudflare cert files not found."
+    echo "Expected:"
+    echo "  ${CERT_FULLCHAIN}"
+    echo "  ${CERT_PRIVKEY}"
+    exit 1
+  fi
+
+  echo "SSL_PROVIDER=cloudflare detected. No certbot step required."
+  echo "Switching nginx to TLS config..."
+  docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d --no-deps nginx
+  echo "Done. Next step: run ./deploy.sh"
+  exit 0
+fi
+
+if [ "$SSL_PROVIDER" != "letsencrypt" ]; then
+  echo "ERROR: Unknown SSL_PROVIDER=${SSL_PROVIDER} (use cloudflare or letsencrypt)"
+  exit 1
+fi
+
+if [ -z "$LETSENCRYPT_EMAIL" ]; then
+  echo "ERROR: LETSENCRYPT_EMAIL is required when SSL_PROVIDER=letsencrypt."
   exit 1
 fi
 
@@ -40,12 +72,12 @@ docker compose --env-file "$ENV_FILE" -f docker-compose.yml -f docker-compose.bo
 
 echo "[2/4] Requesting Let's Encrypt certificate..."
 if [ "${1:-}" = "--staging" ]; then
-  docker compose --env-file "$ENV_FILE" -f docker-compose.yml run --rm --entrypoint certbot certbot \
+  docker compose --profile letsencrypt --env-file "$ENV_FILE" -f docker-compose.yml run --rm --entrypoint certbot certbot \
     certonly --non-interactive --staging --webroot -w /var/www/certbot \
     -d "$WEB_DOMAIN" -d "$WWW_DOMAIN" -d "$API_DOMAIN" \
     --email "$LETSENCRYPT_EMAIL" --agree-tos --no-eff-email
 else
-  docker compose --env-file "$ENV_FILE" -f docker-compose.yml run --rm --entrypoint certbot certbot \
+  docker compose --profile letsencrypt --env-file "$ENV_FILE" -f docker-compose.yml run --rm --entrypoint certbot certbot \
     certonly --non-interactive --webroot -w /var/www/certbot \
     -d "$WEB_DOMAIN" -d "$WWW_DOMAIN" -d "$API_DOMAIN" \
     --email "$LETSENCRYPT_EMAIL" --agree-tos --no-eff-email
