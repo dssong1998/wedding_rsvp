@@ -40,13 +40,13 @@ docker compose --env-file "$ENV_FILE" -f docker-compose.yml -f docker-compose.bo
 
 echo "[2/4] Requesting Let's Encrypt certificate..."
 if [ "${1:-}" = "--staging" ]; then
-  docker compose --env-file "$ENV_FILE" -f docker-compose.yml run --rm certbot \
-    certbot certonly --staging --webroot -w /var/www/certbot \
+  docker compose --env-file "$ENV_FILE" -f docker-compose.yml run --rm --entrypoint certbot certbot \
+    certonly --non-interactive --staging --webroot -w /var/www/certbot \
     -d "$WEB_DOMAIN" -d "$WWW_DOMAIN" -d "$API_DOMAIN" \
     --email "$LETSENCRYPT_EMAIL" --agree-tos --no-eff-email
 else
-  docker compose --env-file "$ENV_FILE" -f docker-compose.yml run --rm certbot \
-    certbot certonly --webroot -w /var/www/certbot \
+  docker compose --env-file "$ENV_FILE" -f docker-compose.yml run --rm --entrypoint certbot certbot \
+    certonly --non-interactive --webroot -w /var/www/certbot \
     -d "$WEB_DOMAIN" -d "$WWW_DOMAIN" -d "$API_DOMAIN" \
     --email "$LETSENCRYPT_EMAIL" --agree-tos --no-eff-email
 fi
