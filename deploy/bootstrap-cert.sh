@@ -36,7 +36,7 @@ fi
 mkdir -p certbot/conf certbot/www
 
 echo "[1/4] Starting temporary HTTP-only nginx for ACME..."
-docker compose --env-file "$ENV_FILE" -f docker-compose.yml -f docker-compose.bootstrap.yml up -d postgres api web nginx
+docker compose --env-file "$ENV_FILE" -f docker-compose.yml -f docker-compose.bootstrap.yml up -d --no-deps nginx
 
 echo "[2/4] Requesting Let's Encrypt certificate..."
 if [ "${1:-}" = "--staging" ]; then
@@ -51,7 +51,8 @@ else
     --email "$LETSENCRYPT_EMAIL" --agree-tos --no-eff-email
 fi
 
-echo "[3/4] Starting full stack with TLS nginx config..."
-docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d
+echo "[3/4] Switching nginx to TLS config..."
+docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d --no-deps nginx
 
 echo "[4/4] Certificate bootstrap complete."
+echo "Next step: run ./deploy.sh to build and start web/api."

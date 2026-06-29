@@ -85,7 +85,13 @@ cd deploy
 
 1. HTTP-only nginx로 임시 기동
 2. certbot으로 인증서 발급
-3. TLS nginx 포함 전체 스택 재기동
+3. TLS nginx 설정으로 전환
+
+인증서 발급 후 앱 컨테이너는 별도로 배포합니다:
+
+```bash
+./deploy.sh
+```
 
 ## 6) 애플리케이션 배포
 

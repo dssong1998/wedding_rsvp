@@ -19,7 +19,8 @@ if [ ! -f "$ENV_FILE" ]; then
 fi
 
 echo "[1/3] Building web/api images..."
-docker compose --env-file "$ENV_FILE" -f docker-compose.yml build web api
+COMPOSE_BAKE=false docker compose --env-file "$ENV_FILE" -f docker-compose.yml build api
+COMPOSE_BAKE=false docker compose --env-file "$ENV_FILE" -f docker-compose.yml build web
 
 echo "[2/3] Applying updated stack..."
 docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d --remove-orphans
