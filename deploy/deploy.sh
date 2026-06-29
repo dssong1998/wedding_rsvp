@@ -18,17 +18,50 @@ if [ ! -f "$ENV_FILE" ]; then
   exit 1
 fi
 
-echo "[1/3] Building web/api images..."
+DO_SEED=0
+DO_PRUNE=0
+for arg in "$@"; do
+  case "$arg" in
+    --seed)
+      DO_SEED=1
+      ;;
+    --prune)
+      DO_PRUNE=1
+      ;;
+    *)
+      echo "Unknown option: $arg"
+      echo "Usage: ./deploy.sh [--prune] [--seed]"
+      exit 1
+      ;;
+  esac
+done
+
+AVAIL_KB="$(df -Pk . | awk 'NR==2 { print $4 }')"
+if [ "${AVAIL_KB:-0}" -lt 3145728 ]; then
+  echo "WARNING: low disk space (<3GB). ENOSPC may occur during docker build."
+  echo "Run './deploy.sh --prune' first, or free disk manually."
+fi
+
+if [ "$DO_PRUNE" -eq 1 ]; then
+  echo "[0/4] Pruning unused Docker cache/images..."
+  docker builder prune -af
+  docker image prune -af
+  docker container prune -f
+fi
+
+echo "[1/4] Building web/api images..."
 COMPOSE_BAKE=false docker compose --env-file "$ENV_FILE" -f docker-compose.yml build api
 COMPOSE_BAKE=false docker compose --env-file "$ENV_FILE" -f docker-compose.yml build web
 
-echo "[2/3] Applying updated stack..."
+echo "[2/4] Applying updated stack..."
 docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d --remove-orphans
 
-if [ "${1:-}" = "--seed" ]; then
-  echo "[3/3] Running seed..."
+if [ "$DO_SEED" -eq 1 ]; then
+  echo "[3/4] Running seed..."
   docker compose --env-file "$ENV_FILE" -f docker-compose.yml exec api node dist/prisma/seed.js
+  echo "[4/4] Done."
 else
-  echo "[3/3] Done."
+  echo "[3/4] Skipping seed."
+  echo "[4/4] Done."
   echo "Tip: run './deploy.sh --seed' once if this is first deployment."
 fi

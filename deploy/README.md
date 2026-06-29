@@ -97,6 +97,7 @@ cd deploy
 
 ```bash
 cd deploy
+./deploy.sh --prune
 ./deploy.sh
 ```
 
@@ -130,6 +131,10 @@ cd deploy
   - DNS 전파 완료 여부 확인
   - 80/443 포트 오픈 여부 확인
   - `deploy/.env`의 도메인/이메일 값 재확인
+- `ENOSPC: no space left on device` / `failed to execute bake: signal: killed`:
+  - 디스크 부족 또는 빌드 캐시 과다 상황입니다.
+  - `./deploy.sh --prune` 실행 후 다시 `./deploy.sh`
+  - 필요하면 서버에 swap 추가 후 재시도
 - CORS 오류:
   - `CORS_ORIGIN`에 `https://daeseokdain.com,https://www.daeseokdain.com` 포함 확인
 - 모바일에서 API 호출 실패:
