@@ -719,7 +719,7 @@ body{background:#ffffff}
 .pc-front::after,.pc-paper::after{content:"";position:absolute;inset:4.1cqh;border:1px solid #f0ebe0;pointer-events:none}
 .pc-paper{display:flex;align-items:center;justify-content:left;padding:7.6cqh 12.2cqh;z-index:1;opacity:0;transform:rotateX(90deg);transition:transform 1.35s cubic-bezier(.22,1,.36,1),opacity .62s ease}
 .pc-paper-sheet{width:100%;max-width:100%;height:100%;display:flex;flex-direction:column;justify-content:center}
-.pc-paper-letter{margin:0;font-family:var(--kor);font-size:4.5cqh;line-height:1.6;color:#2f2d28;text-align:left}
+.pc-paper-letter{margin:0;font-family:var(--kor);font-size:4cqh;line-height:1.6;color:#2f2d28;text-align:left}
 .pc-paper-letter span{display:block;margin-bottom:.52em;white-space:nowrap}
 .pc-paper-letter span:last-child{margin-bottom:0}
 .pc-paper-sign{align-self:flex-end;margin-top:1.4cqh;font-family:var(--kor);font-size:2.7cqh;letter-spacing:.02em;color:#756f63;line-height:1}
@@ -946,9 +946,18 @@ function getInviteApiBase(){
   var runtimeBase=(window.__INVITE_API_BASE||"").trim();
   if(runtimeBase)return runtimeBase.replace(/\/$/,"");
   if(window.location){
-    var host=(window.location.hostname||"").trim();
-    if(host&&(window.location.port==="3000"||window.location.port===""||window.location.port==="80"||window.location.port==="443")){
-      return window.location.protocol+"//"+host+":4000";
+    var host=(window.location.hostname||"").trim().toLowerCase();
+    if(host){
+      if(host==="localhost"||host==="127.0.0.1"||host==="0.0.0.0"){
+        return window.location.protocol+"//"+host+":4000";
+      }
+      if(host.indexOf("www.")===0){
+        host=host.slice(4);
+      }
+      if(host.indexOf("api.")!==0){
+        host="api."+host;
+      }
+      return window.location.protocol+"//"+host;
     }
   }
   return "";
@@ -1736,15 +1745,15 @@ function onArrive(i){
   var opened=false;
   function openCover(){
     if(opened)return;opened=true;
-    var hideAt=950;
+    var hideAt=1200;
     setTimeout(function(){
       cover.classList.add("opened");
-      setTimeout(function(){cover.classList.add("flipped");},150);
+      setTimeout(function(){cover.classList.add("flipped");},30e0);
     },hideAt);
   }
   window.openCover=openCover;
   /* 페이지 오픈 0.7초 뒤 자동 시작 */
-  setTimeout(openCover,800);
+  setTimeout(openCover,1200);
 })();
 var _idxTimer=null;
 var navLockUntil=0;

@@ -133,9 +133,18 @@ body.fun-preloading .fun-loading{display:flex}
   function resolveApiBase(){
     var injected=(window.__INVITE_API_BASE||"").trim();
     if(injected)return injected.replace(/\/$/,"");
-    var host=(window.location.hostname||"").trim();
+    var host=(window.location.hostname||"").trim().toLowerCase();
     if(!host)return "";
-    return window.location.protocol+"//"+host+":4000";
+    if(isLoopbackHost(host)){
+      return window.location.protocol+"//"+host+":4000";
+    }
+    if(host.indexOf("www.")===0){
+      host=host.slice(4);
+    }
+    if(host.indexOf("api.")!==0){
+      host="api."+host;
+    }
+    return window.location.protocol+"//"+host;
   }
   function buildApiUrl(path){
     var base=resolveApiBase();

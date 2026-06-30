@@ -36,22 +36,31 @@ function resolveServerApiBase(): string {
   return `http://127.0.0.1:${DEFAULT_API_PORT}`;
 }
 
+function resolveClientApiOriginByHost(request: NextRequest, hostname: string): string {
+  const normalized = hostname.toLowerCase();
+  if (isLoopbackHost(normalized)) {
+    return `${request.nextUrl.protocol}//${normalized}:${DEFAULT_API_PORT}`;
+  }
+  const baseHost = normalized.startsWith("www.") ? normalized.slice(4) : normalized;
+  const apiHost = baseHost.startsWith("api.") ? baseHost : `api.${baseHost}`;
+  return `${request.nextUrl.protocol}//${apiHost}`;
+}
+
 function resolveClientApiBase(request: NextRequest): string {
   const requestHostname = extractRequestHostname(request);
 
   if (!CLIENT_API_BASE) {
-    return `${request.nextUrl.protocol}//${requestHostname}:${DEFAULT_API_PORT}`;
+    return resolveClientApiOriginByHost(request, requestHostname);
   }
 
   try {
     const parsed = new URL(CLIENT_API_BASE);
     if (isLoopbackHost(parsed.hostname) && !isLoopbackHost(requestHostname)) {
-      parsed.hostname = requestHostname;
-      return parsed.toString().replace(/\/$/, "");
+      return resolveClientApiOriginByHost(request, requestHostname);
     }
     return CLIENT_API_BASE;
   } catch {
-    return CLIENT_API_BASE;
+    return resolveClientApiOriginByHost(request, requestHostname);
   }
 }
 
