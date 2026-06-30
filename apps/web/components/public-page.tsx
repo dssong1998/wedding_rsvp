@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Language = "ko" | "en";
 
@@ -37,24 +37,24 @@ const COPY: Record<
   }
 > = {
   ko: {
-    title: "DAIN + DAESEOK",
-    subtitle: "아름다움을 이야기 해 보려 합니다",
+    title: "DAIN & DAESEOK",
+    subtitle: "결혼을 합니다.",
     letterTitle: "편지",
     accountsTitle: "축의금 계좌",
     accountLabel: "예금주",
     mapsTitle: "오시는 길",
     mapCta: "네이버 지도로 길찾기",
-    footer: "초대받은 손님 전용 청첩장은 개인 링크로 접속해 주세요."
+    footer: "전해주신 사랑과 응원에 진심으로 감사드립니다."
   },
   en: {
-    title: "DAIN + DAESEOK",
-    subtitle: "A small note of love",
+    title: "DAIN & DAESEOK",
+    subtitle: "We are getting married.",
     letterTitle: "Letter",
     accountsTitle: "Gift Accounts",
     accountLabel: "Account Holder",
     mapsTitle: "Directions",
     mapCta: "Open Naver Map",
-    footer: "Wedding details are available only via personal invite links."
+    footer: "Thank you for your love and support."
   }
 };
 
@@ -63,15 +63,54 @@ const ACCOUNTS = [
   { side: "신부측", bank: "우리은행", number: "3333-33-333333", holder: "김다인" }
 ];
 
+const PUBLIC_PHOTOS = ["/assets/images/wedding_public_poster.jpeg"];
+
+function preloadImage(src: string): Promise<void> {
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    img.decoding = "async";
+    img.onload = () => resolve();
+    img.onerror = () => resolve();
+    img.src = src;
+    if (img.complete) {
+      resolve();
+    }
+  });
+}
+
 export function PublicPage(): JSX.Element {
   const [lang, setLang] = useState<Language>("ko");
+  const [isReady, setIsReady] = useState(false);
   const copy = useMemo(() => COPY[lang], [lang]);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all(PUBLIC_PHOTOS.map((src) => preloadImage(src))).finally(() => {
+      if (!cancelled) setIsReady(true);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (!isReady) {
+    return (
+      <main className="public-loading-root" aria-busy="true" aria-live="polite">
+        <div className="public-loading-card">
+          <div className="public-loading-spinner" />
+          <p>사진을 불러오는 중입니다...</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="public-root">
       <div className="public-wrap">
         <section className="public-card">
-          <div className="public-hero" />
+          <div className="public-hero">
+            <img src={PUBLIC_PHOTOS[0]} alt="웨딩 포스터" loading="eager" />
+          </div>
           <h1 style={{ marginTop: 16 }}>{copy.title}</h1>
           <p className="public-muted">{copy.subtitle}</p>
           <div style={{ marginTop: 12 }} className="lang-toggle">
@@ -113,17 +152,6 @@ export function PublicPage(): JSX.Element {
             ))}
           </ul>
         </section>
-
-        <section className="public-card">
-          <h2>{copy.mapsTitle}</h2>
-          <p className="public-muted">37.455800, 127.071087</p>
-          <p style={{ marginTop: 10, marginBottom: 0 }}>
-            <a href="https://naver.me/GYCqKhaF" target="_blank" rel="noreferrer">
-              {copy.mapCta}
-            </a>
-          </p>
-        </section>
-
         <p className="public-footer">{copy.footer}</p>
       </div>
     </main>

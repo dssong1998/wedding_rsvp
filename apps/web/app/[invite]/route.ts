@@ -226,8 +226,8 @@ ${frameLessStyle}
     zipInput.setAttribute("readonly", "readonly");
     roadInput.setAttribute("readonly", "readonly");
     roadInput.setAttribute("autocomplete", "off");
-    zipInput.placeholder = "눌러서 카카오 주소 검색";
-    roadInput.placeholder = "주소를 누르면 카카오 검색이 열립니다";
+    zipInput.placeholder = "우편번호";
+    roadInput.placeholder = "주소";
     zipInput.style.cursor = "pointer";
     roadInput.style.cursor = "pointer";
 
@@ -299,6 +299,13 @@ ${frameLessStyle}
     if (countField) countField.style.display = group === "attend" && value === "no" ? "none" : "";
   }
 
+  function setGuestNameMessage(name) {
+    const guestName = g("guest-name");
+    if (!guestName) return;
+    const normalizedName = (name || "").trim();
+    guestName.textContent = normalizedName ? normalizedName + " 님을 모십니다." : "";
+  }
+
   async function prefillExisting(name) {
     try {
       const response = await fetch(apiBase + "/rsvp/me?name=" + encodeURIComponent(name));
@@ -344,6 +351,7 @@ ${frameLessStyle}
       state.seats = payload.seats || 1;
       state.attend = null;
       state.after = null;
+      setGuestNameMessage(state.name);
 
       const seats = g("seats");
       if (seats) seats.innerHTML = "<b>" + state.name + "</b>님, <b class='n'>" + state.seats + "</b>석이 준비되어 있어요.";
@@ -460,6 +468,7 @@ ${frameLessStyle}
     state.seats = 1;
     state.attend = null;
     state.after = null;
+    setGuestNameMessage(invitedName);
     const last4Field = g("last4-field");
     if (last4Field) last4Field.style.display = "none";
     if (window.backToCard) window.backToCard();
@@ -467,6 +476,7 @@ ${frameLessStyle}
 
   document.addEventListener("DOMContentLoaded", function() {
     setupKakaoAddressLookup();
+    setGuestNameMessage(invitedName);
     const nameField = g("gname");
     if (nameField && !nameField.value) {
       nameField.value = invitedName;

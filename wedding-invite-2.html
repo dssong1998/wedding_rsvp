@@ -11,7 +11,7 @@
 <style>
 :root{
   --disp:"Fraunces",Georgia,serif; --type:"Special Elite","Courier New",monospace;
-  --kor:"Gowun Batang",serif; --korsans:"Gowun Dodum",sans-serif; --hand:"Ballpoint","Gowun Batang",cursive;
+  --kor:"Helvetica Neue",Helvetica,Arial,serif; --korsans:"Nanum Myungjo",sans-serif; --hand:"Ballpoint","Nanum Batang",cursive;
   --ink:#23211c; --soft:#736c5b; --line:rgba(35,33,28,.18);
   --cobalt:#1f4a86; --tileblue:#16335c; --az:#2f6db5; --bg:#fff; --ease:cubic-bezier(.22,1,.36,1);
   --app-vw:100vw; --app-vh:100dvh;
@@ -43,6 +43,50 @@ body{
   font-family:var(--kor);
   color:var(--ink);
   -webkit-font-smoothing:antialiased;
+}
+body.invite-preloading{
+  overflow:hidden;
+}
+body.invite-preloading .screen{
+  visibility:hidden;
+}
+.invite-loading{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3.2cqw;
+  background:#0f1726;
+  color:#fffdf3;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .24s ease;
+}
+body.invite-preloading .invite-loading{
+  opacity:1;
+  pointer-events:auto;
+}
+.invite-loading-spinner{
+  width:8.8cqw;
+  height:8.8cqw;
+  min-width:34px;
+  min-height:34px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.28);
+  border-top-color:#fffdf3;
+  animation:inviteSpin .9s linear infinite;
+}
+.invite-loading-text{
+  margin:0;
+  font-family:var(--kor);
+  font-size:3.8cqw;
+  letter-spacing:.02em;
+}
+@keyframes inviteSpin{
+  to{transform:rotate(360deg)}
 }
 
 .screen{position:relative;width:100%;height:auto;min-height:var(--section-vh);border-radius:0;overflow:visible;background:var(--bg);scrollbar-width:none}
@@ -166,7 +210,7 @@ body{
 .ex-row{display:flex;align-items:baseline;gap:1.8cqh;margin-bottom:2cqh}
 .ex-num{font-family:var(--cond);font-size:4.8cqh;color:#a9c0e0;line-height:1}
 .ex .tkt-sec{margin:0}
-.ex-place{font-family:var(--kor);font-weight:700;font-size:7.2cqh;line-height:1;letter-spacing:.01em}
+.ex-place{font-family:"Helvetica Neue",Helvetica,Arial,var(--kor),sans-serif;font-weight:700;font-size:7.2cqh;line-height:1;letter-spacing:.01em}
 .ex-meta{font-family:"Special Elite","Gowun Dodum",sans-serif;font-size:3.4cqh;color:#3a3a3a;margin-top:1.4cqh;letter-spacing:.02em}
 .ex .tkt-dress{font-family:var(--cond);font-size:5.4cqh;letter-spacing:.06em;margin-top:.4cqh}
 .ex .ex-sec:nth-child(2){justify-content:flex-start;align-items:stretch}
@@ -221,7 +265,7 @@ body{background:var(--slate)}
 .tk-stub::before{top:0;transform:translate(-50%,-50%)}
 .tk-stub::after{bottom:0;transform:translate(-50%,50%)}
 /* 2,3페이지: 좌상단 인셋 사진(여백+라운드), 구분선 제거 */
-.tkt-photo{flex:0 0 34%;overflow:hidden;border:0;margin:6cqh 2cqh 6cqh 6cqh;border-radius:1.6cqmin;box-shadow:0 10px 26px -16px rgba(0,0,0,.45);align-self:flex-start;height:64cqh}
+.tkt-photo{flex:0 0 34%;overflow:hidden;border:0;margin:6cqh 2cqh 6cqh 6cqh;border-radius:1.6cqmin;box-shadow:0 10px 26px -16px rgba(0,0,0,.45);align-self:center;height:64cqh}
 
 /* ===== 흰색 테마 + 입체 그림자 ===== */
 body{background:#ffffff}
@@ -405,7 +449,11 @@ body{background:#ffffff}
 .es-postcard .pc-couple i{font-style:italic;font-family:Georgia,"Times New Roman",serif!important;color:#bd9356;font-weight:400;margin:0 .14em}
 </style>
 </head>
-<body>
+<body class="invite-preloading">
+  <div class="invite-loading" id="inviteLoading" role="status" aria-live="polite" aria-label="이미지 로딩 중">
+    <div class="invite-loading-spinner" aria-hidden="true"></div>
+    <p class="invite-loading-text">Loading...</p>
+  </div>
   <div class="screen">
 
       <section class="panel cover envelope-stage" data-panel id="cover">
@@ -415,7 +463,7 @@ body{background:#ffffff}
               <svg class="pc-orn" viewBox="0 0 160 20" fill="none" stroke="#c8b083" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><path d="M80 10 C62 2 44 17 24 10"/><path d="M80 10 C98 2 116 17 136 10"/><circle cx="80" cy="10" r="2.6" fill="#c8b083" stroke="none"/></svg>
               <div class="pc-title">You&rsquo;re Invited</div>
               <div class="pc-div"><span class="ln"></span><span class="dia">&#9670;</span><span class="ln r"></span></div>
-              <div class="pc-couple">송대석 <i>&amp;</i> 김다인</div>
+              <div class="pc-couple" id="guest-name"></div>
             </div>
             <div class="pc-paper" aria-hidden="true">
               <div class="pc-paper-sheet">
@@ -474,7 +522,7 @@ body{background:#ffffff}
         <div class="ip-card">
           <button class="pp-back" type="button" onclick="backToCard()">&lsaquo; 청첩장</button>
           <div class="ip-head">참석 정보 <small>RSVP</small></div>
-          <p class="np-notice"><span class="k">지정된 하객분들만을 위해</span> 참석 여부와 받으실 주소를 알려주세요.</p>
+          <p class="np-notice">지정된 하객분들만 초대되는 결혼식인만큼 <span class="k">정확한 참석 여부</span>를 알려주세요.</p>
           <div class="field">
             <label class="label" for="gname">받으실 분 성함 <span class="req">*</span></label>
             <div class="id-row"><input class="input" id="gname" placeholder="성함을 적어주세요" autocomplete="off"/><button class="btn" type="button" onclick="identifyGuest()">확인</button></div>
@@ -508,7 +556,7 @@ body{background:#ffffff}
             </div>
             <div class="field"><label class="label" for="aZip">우편번호</label><input class="input" id="aZip" inputmode="numeric" placeholder="00000"/></div>
             <div class="field"><label class="label" for="aRoad">주소 <span class="req">*</span></label><input class="input" id="aRoad" placeholder="도로명 또는 지번 주소"/></div>
-            <div class="field"><label class="label" for="aDetail">상세주소</label><input class="input" id="aDetail" placeholder="동/호수 등"/></div>
+            <div class="field"><label class="label" for="aDetail">상세주소</label><input class="input" id="aDetail" placeholder="동/호수"/></div>
             <div class="err" id="subErr"></div>
             <button class="btn block" type="button" onclick="submitRsvp()">회신 보내기</button>
           </div>
@@ -525,7 +573,7 @@ body{background:#ffffff}
   </div>
 
 <script>
-const GUESTS={"박지훈":[{seats:2}],"최유나":[{seats:3}],"김민수":[{last4:"1111",seats:2},{last4:"2222",seats:4}]};
+
 const state={name:"",seats:2,attend:null,after:null};
 const UA=(navigator.userAgent||"").toUpperCase();
 const isKakaoWebView=UA.indexOf("KAKAOTALK")>-1;
@@ -541,6 +589,71 @@ var stableAppVw=0;
 var stableAppVh=0;
 var stableGlassUiH=0;
 var stableSectionVh=0;
+var inviteBooted=false;
+var INVITE_IMAGE_ASSETS=["/assets/images/wedding_poster.jpeg","/assets/images/wedding_ticket_image.jpeg"];
+function preloadImageAsset(src){
+  return new Promise(function(resolve){
+    var target=(src||"").trim();
+    if(!target){resolve();return;}
+    var img=new Image();
+    var done=false;
+    function finish(){
+      if(done)return;
+      done=true;
+      resolve();
+    }
+    img.onload=finish;
+    img.onerror=finish;
+    img.src=target;
+    if(img.complete)finish();
+  });
+}
+function collectInviteImageAssets(){
+  var fromDom=Array.prototype.slice.call(document.querySelectorAll("img[src]")).map(function(node){
+    return (node.getAttribute("src")||"").trim();
+  });
+  return INVITE_IMAGE_ASSETS.concat(fromDom).filter(function(src,idx,list){
+    return src&&list.indexOf(src)===idx;
+  });
+}
+function notifyParentInviteReady(){
+  try{
+    if(window.parent&&window.parent!==window){
+      window.parent.postMessage({type:"invite-ready"},"*");
+    }
+  }catch(_){}
+}
+function finishInviteLoading(){
+  document.body.classList.remove("invite-preloading");
+  document.body.classList.add("invite-ready");
+  notifyParentInviteReady();
+  var loading=document.getElementById("inviteLoading");
+  if(loading){
+    setTimeout(function(){
+      if(loading.parentNode)loading.parentNode.removeChild(loading);
+    },260);
+  }
+}
+function startInviteApp(){
+  if(inviteBooted)return;
+  inviteBooted=true;
+  syncDeviceSize();
+  setReplyMode(false);
+  primeStartPosition();
+  setGuestNameMessage(getInvitedNameFromPath());
+  var c=lpanels()[0];
+  if(c)c.classList.add("seen");
+  onArrive(0);
+}
+function bootInviteWithPreload(){
+  var assets=collectInviteImageAssets();
+  Promise.all(assets.map(preloadImageAsset)).finally(function(){
+    requestAnimationFrame(function(){
+      startInviteApp();
+      finishInviteLoading();
+    });
+  });
+}
 function getOrientationKey(vw,vh){
   return vw>=vh?"land":"port";
 }
@@ -704,10 +817,38 @@ let startLocked=true;
 let mainScrollTop=0;
 var pageAnimating=false;
 var pageAnimTimer=null;
+var autoAdvanceTimer=null;
+var autoReplyEntered=false;
+var AUTO_ADVANCE_GAP=5000;
 function lpanels(){
   return Array.prototype.slice.call(deckLand.querySelectorAll(".panel")).filter(function(p){
     return p.offsetParent!==null;
   });
+}
+function clearAutoAdvanceTimer(){
+  clearTimeout(autoAdvanceTimer);
+  autoAdvanceTimer=null;
+}
+function scheduleAutoAdvance(){
+  clearAutoAdvanceTimer();
+  if(!screenEl||screenEl.classList.contains("reply-mode"))return;
+  var ps=lpanels();
+  if(!ps.length)return;
+  var last=ps.length-1;
+  var base=Math.max(0,Math.min(curIdx,last));
+  autoAdvanceTimer=setTimeout(function(){
+    if(!screenEl||screenEl.classList.contains("reply-mode"))return;
+    unlockStartLock();
+    var active=lpanels();
+    if(!active.length)return;
+    var lastIdx=active.length-1;
+    var nowIdx=Math.max(0,Math.min(nearestPanelIndex(getPageScrollTop()),lastIdx));
+    if(nowIdx>=lastIdx){
+      if(!autoReplyEntered)enterReply();
+      return;
+    }
+    snapToPanelIndex(nowIdx+1,"smooth");
+  },AUTO_ADVANCE_GAP);
 }
 function startPageAnimation(ms){
   pageAnimating=true;
@@ -763,6 +904,7 @@ function setReplyMode(on){
   if(!screenEl)return;
   screenEl.classList.toggle("reply-mode",on);
   document.body.classList.toggle("reply-mode-open",on);
+  clearAutoAdvanceTimer();
   resetGestureState();
   navLockUntil=0;
   if(on){
@@ -773,6 +915,7 @@ function setReplyMode(on){
     updateKeyboardClass(false);
   }
   syncDeviceSize();
+  if(!on)scheduleAutoAdvance();
 }
 function resetDeckStart(){
   setPageScrollTop(0);
@@ -798,6 +941,7 @@ function gotoPanel(p){
 function onArrive(i){
   targetPanelIndex=i;
   curIdx=i;
+  scheduleAutoAdvance();
 }
 (function(){
   var cover=document.getElementById("cover");
@@ -805,15 +949,15 @@ function onArrive(i){
   var opened=false;
   function openCover(){
     if(opened)return;opened=true;
-    var hideAt=1550;
+    var hideAt=950;
     setTimeout(function(){
       cover.classList.add("opened");
-      setTimeout(function(){cover.classList.add("flipped");},140);
+      setTimeout(function(){cover.classList.add("flipped");},150);
     },hideAt);
   }
   window.openCover=openCover;
   /* 페이지 오픈 0.7초 뒤 자동 시작 */
-  setTimeout(openCover,700);
+  setTimeout(openCover,800);
 })();
 var _idxTimer=null;
 var navLockUntil=0;
@@ -934,6 +1078,8 @@ window.addEventListener("touchcancel",function(){touchGesture=null;},{passive:tr
   window.addEventListener(evt,unlockStartLock,{passive:true});
 });
 function enterReply(){
+  autoReplyEntered=true;
+  clearAutoAdvanceTimer();
   mainScrollTop=getPageScrollTop();
   setReplyMode(true);
 }
@@ -956,14 +1102,28 @@ function restoreTl(){setTl(tlSel.time,tlSel.ev);}
 function selectTl(el){tlSel={time:el.dataset.time,ev:el.dataset.ev};document.querySelectorAll("#timeline .tl-dot").forEach(d=>d.classList.remove("active"));el.classList.add("active");setTl(tlSel.time,tlSel.ev);}
 
 /* ===== rsvp ===== */
+function setGuestNameMessage(name){
+  var guestNameEl=document.getElementById("guest-name");
+  if(!guestNameEl)return;
+  var normalizedName=(name||"").trim();
+  guestNameEl.textContent=normalizedName?normalizedName+" 님":"";
+}
+function getInvitedNameFromPath(){
+  try{
+    var raw=decodeURIComponent((window.location.pathname||"").split("/").pop()||"");
+    if(raw.toLowerCase().indexOf("invited@")!==0)return "";
+    return raw.slice("invited@".length).trim();
+  }catch(_){
+    return "";
+  }
+}
 function identifyGuest(){
   const err=document.getElementById("idErr");
   const name=document.getElementById("gname").value.trim();
   err.textContent="";
   if(!name){err.textContent="성함을 적어주세요.";return;}
-  const entries=GUESTS[name];
-  const chosen=(entries&&entries[0])||{seats:2};
-  state.name=name;state.seats=chosen.seats||2;state.attend=null;state.after=null;
+  state.name=name;state.seats=0;state.attend=null;state.after=null
+  setGuestNameMessage(name);
   document.getElementById("seats").innerHTML="<b>"+name+"</b>님, <b class='n'>"+state.seats+"</b>석이 준비되어 있어요.";
   document.getElementById("count").max=state.seats;document.getElementById("count").value=1;
   document.getElementById("aName").value=name;
@@ -1000,16 +1160,11 @@ function resetAll(){
   backToCard();
 }
 
-window.addEventListener("load",primeStartPosition);
-window.addEventListener("pageshow",primeStartPosition);
-requestAnimationFrame(function(){
-  syncDeviceSize();
-  setReplyMode(false);
+window.addEventListener("pageshow",function(){
+  if(!inviteBooted)return;
   primeStartPosition();
-  var c=lpanels()[0];
-  if(c)c.classList.add("seen");
-  onArrive(0);
 });
+bootInviteWithPreload();
 </script>
 </body>
 </html>

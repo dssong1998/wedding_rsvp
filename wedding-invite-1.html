@@ -17,6 +17,47 @@ body{
   justify-content:center;
   font-family:"Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
 }
+body.desktop-invite-preloading{
+  overflow:hidden;
+}
+body.desktop-invite-preloading .mock-wrap{
+  visibility:hidden;
+}
+.desktop-invite-loading{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  background:#10141d;
+  color:#fffdf4;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .24s ease;
+}
+body.desktop-invite-preloading .desktop-invite-loading{
+  opacity:1;
+  pointer-events:auto;
+}
+.desktop-invite-spinner{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fffdf4;
+  animation:desktopInviteSpin .9s linear infinite;
+}
+.desktop-invite-loading p{
+  margin:0;
+  font-size:14px;
+  letter-spacing:.02em;
+}
+@keyframes desktopInviteSpin{
+  to{transform:rotate(360deg)}
+}
 
 .mock-wrap{
   display:flex;
@@ -63,7 +104,11 @@ body{
 }
 </style>
 </head>
-<body>
+<body class="desktop-invite-preloading">
+  <div class="desktop-invite-loading" id="desktopInviteLoading" role="status" aria-live="polite" aria-label="초대장 로딩 중">
+    <div class="desktop-invite-spinner" aria-hidden="true"></div>
+    <p>사진을 불러오는 중입니다...</p>
+  </div>
   <div class="mock-wrap">
     <div class="device land" id="device">
       <div class="speaker" aria-hidden="true"></div>
@@ -80,6 +125,30 @@ body{
   var path=location.pathname||"";
   var isInvitePath=/^\/invited(?:@|%40)/i.test(path);
   var frame=document.getElementById("inviteFrame");
+  var frameReady=false;
+  var frameLoadFallbackTimer=null;
+  var failSafeTimer=null;
+  function finishDesktopLoading(){
+    if(frameReady)return;
+    frameReady=true;
+    clearTimeout(frameLoadFallbackTimer);
+    clearTimeout(failSafeTimer);
+    document.body.classList.remove("desktop-invite-preloading");
+    var loading=document.getElementById("desktopInviteLoading");
+    if(loading){
+      setTimeout(function(){
+        if(loading.parentNode)loading.parentNode.removeChild(loading);
+      },260);
+    }
+  }
+  function onInviteReadyMessage(event){
+    if(!frame||event.source!==frame.contentWindow)return;
+    var data=event.data;
+    if(data&&typeof data==="object"&&data.type==="invite-ready"){
+      finishDesktopLoading();
+    }
+  }
+  window.addEventListener("message",onInviteReadyMessage);
   function buildEmbedTarget(){
     if(isInvitePath){
       var url=new URL(location.href);
@@ -96,7 +165,16 @@ body{
     location.replace(buildEmbedTarget());
     return;
   }
-  if(frame)frame.src=buildEmbedTarget();
+  if(frame){
+    frame.addEventListener("load",function(){
+      clearTimeout(frameLoadFallbackTimer);
+      frameLoadFallbackTimer=setTimeout(finishDesktopLoading,3200);
+    });
+    frame.src=buildEmbedTarget();
+  }else{
+    finishDesktopLoading();
+  }
+  failSafeTimer=setTimeout(finishDesktopLoading,12000);
   var device=document.getElementById("device");
   if(!device)return;
   function syncOrientation(){
