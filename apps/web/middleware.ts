@@ -10,6 +10,7 @@ export function middleware(request: NextRequest): NextResponse {
     pathname === "/" ||
     isInvitePath ||
     pathname.startsWith("/_next") ||
+    pathname.startsWith("/fun") ||
     pathname.startsWith("/assets") ||
     pathname === "/favicon.ico" ||
     pathname.startsWith(`${ADMIN_PATH}`)

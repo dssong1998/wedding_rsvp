@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>더 즐기기</title>
+<style>
+:root{
+  --ink:#2e2b25;
+  --soft:#7f786b;
+  --line:#e1dbcf;
+  --bg:#f6f3ec;
+  --card:#fffdf8;
+  --accent:#3c4a4d;
+}
+*{box-sizing:border-box}
+html,body{width:100%;max-width:100%;margin:0;padding:0;overflow-x:hidden;overscroll-behavior-x:none;background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+body.fun-preloading{overflow:hidden}
+body.fun-preloading .fun-root{visibility:hidden;pointer-events:none}
+.fun-root{width:100%;max-width:100%;margin:0;padding:18px 14px 26px;display:flex;flex-direction:column;gap:14px}
+.card{width:100%;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.fun-loading{position:fixed;inset:0;z-index:13000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:24px;text-align:center;background:var(--bg)}
+body.fun-preloading .fun-loading{display:flex}
+.fun-loading-spinner{width:38px;height:38px;border-radius:50%;border:3px solid #d8d2c5;border-top-color:var(--accent);animation:fun-spin .9s linear infinite}
+.fun-loading-text{margin:0;font-size:13px;line-height:1.45;color:var(--soft)}
+@keyframes fun-spin{to{transform:rotate(360deg)}}
+.fun-head h1{margin:8px 0 0;font-size:30px;line-height:1.1}
+.fun-head p{margin:8px 0 0;font-size:14px;color:var(--soft);line-height:1.5}
+.fun-back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.card h2{margin:0 0 10px;font-size:19px;line-height:1.2}
+.gallery-track{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none}
+.gallery-track::-webkit-scrollbar{display:none}
+.gallery-item{scroll-snap-align:center;flex:0 0 100%;height:clamp(240px,72vh,680px);display:flex;align-items:center;justify-content:center;border:0;border-radius:14px;overflow:hidden;background:transparent;padding:0;cursor:pointer}
+.gallery-item img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block;background:transparent}
+.status{margin:0;font-size:13px;line-height:1.45;color:var(--soft)}
+.field{margin-top:12px}
+.label{display:block;margin-bottom:6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.input{width:100%;border:1px solid #d6d0c2;border-radius:10px;padding:11px 12px;font-size:15px;line-height:1.4;background:#fff;outline:none}
+.input:focus{border-color:#8d8577}
+.cheer-textarea{min-height:108px;resize:none}
+.meta{display:flex;justify-content:flex-end;margin-top:6px;font-size:12px;color:#9a9385}
+.error{min-height:1.2em;margin:10px 0 0;font-size:13px;color:#b23a2e}
+.ok{min-height:1.2em;margin:6px 0 0;font-size:13px;color:#2f6b37}
+.btn{width:100%;margin-top:10px;border:0;border-radius:10px;padding:12px 14px;background:var(--accent);color:#fff;font-size:14px;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:default}
+.feed-list{display:grid;gap:9px}
+.feed-item{border:1px solid var(--line);border-radius:11px;background:#fff;padding:10px}
+.feed-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.feed-nick{font-size:14px;font-weight:700}
+.feed-time{font-size:11px;color:#9a9385;white-space:nowrap}
+.feed-msg{margin:6px 0 0;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word;color:#454038}
+.sentinel{width:100%;height:1px}
+.gallery-modal{position:fixed;inset:0;background:rgba(12,16,24,.84);display:none;align-items:center;justify-content:center;padding:5vw;z-index:12000}
+.gallery-modal.open{display:flex}
+.gallery-modal-card{position:relative;width:100%;max-width:100%;height:100%;max-height:100%;display:flex;align-items:center;justify-content:center}
+.gallery-modal-card img{width:100%;height:100%;object-fit:contain}
+.gallery-modal-close{position:absolute;top:10px;right:10px;transform:none;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:#1f2228;font-size:30px;line-height:1;cursor:pointer}
+</style>
+</head>
+<body class="fun-preloading">
+<div class="fun-loading" id="funLoading" aria-live="polite" aria-busy="true">
+  <div class="fun-loading-spinner" aria-hidden="true"></div>
+  <p class="fun-loading-text" id="funLoadingText">갤러리 사진을 준비하는 중입니다...</p>
+</div>
+<main class="fun-root">
+  <header class="card fun-head">
+    <a class="fun-back" id="backToInvite" href="/">← 초대장으로 돌아가기</a>
+    <p><b>더 즐기기</b><p>
+    <p>대석과 다인의 사진을 둘러보고 축하 메세지도 남겨주세요.</p>
+  </header>
+
+  <section class="card">
+    <h2>Gallery</h2>
+    <div class="gallery-track" id="galleryTrack"></div>
+    <p class="status" id="galleryStatus">사진을 불러오는 중입니다...</p>
+  </section>
+
+  <section class="card">
+    <h2>축하 전하기</h2>
+    <div class="field">
+      <label class="label" for="cheerNick">닉네임</label>
+      <input class="input" id="cheerNick" maxlength="40" autocomplete="off"/>
+    </div>
+    <div class="field">
+      <label class="label" for="cheerMessage">축하 메시지</label>
+      <textarea class="input cheer-textarea" id="cheerMessage" maxlength="150" placeholder="축하 메시지를 남겨주세요."></textarea>
+      <div class="meta"><span id="cheerCount">0/150</span></div>
+    </div>
+    <p class="error" id="cheerErr"></p>
+    <p class="ok" id="cheerOk"></p>
+    <button class="btn" id="cheerSubmitBtn" type="button">축하 메시지 보내기</button>
+  </section>
+
+  <section class="card" id="cheerFeed" aria-live="polite">
+    <h2>지금까지 남겨진 메시지</h2>
+    <div class="feed-list" id="cheerFeedList"></div>
+    <p class="status" id="cheerFeedStatus">메시지를 불러오는 중입니다...</p>
+    <div class="sentinel" id="cheerFeedSentinel" aria-hidden="true"></div>
+  </section>
+</main>
+
+<div class="gallery-modal" id="galleryModal" role="dialog" aria-modal="true" aria-label="갤러리 사진 확대 보기">
+  <div class="gallery-modal-card">
+    <button class="gallery-modal-close" id="galleryModalClose" type="button" aria-label="닫기">&times;</button>
+    <img id="galleryModalImage" alt="확대된 갤러리 사진"/>
+  </div>
+</div>
+
+<script>
+(function(){
+  var NICKNAME_POOL=[
+    "따봉하는 민주","발표하는 민준","달리는 성희","잠자는 수현","술잔 든 준두","침착맨 보는 종효",
+    "파라파라 추는 도영","뮤지컬하는 흥기","집중하는 재혁","노래하는 미연","케잌 먹는 혜원","소금빵 먹는 근서",
+    "야구 보는 도영","책 읽는 지성","짜증내는 재현","활짝 웃는 연정","명상하는 영지","매수하는 정우","익절하는 성원",
+    "기타 치는 진용","크로스핏하는 다현","축구보는 종호","요가하는 주현","비행기 타는 유림","사진 찍는 다윤"
+  ];
+  var cheerSubmitting=false;
+  var cheerFeedCursor=null;
+  var cheerFeedHasMore=true;
+  var cheerFeedLoading=false;
+  var cheerFeedObserver=null;
+  var galleryLoaded=false;
+  var galleryLoading=false;
+  var galleryPhotoCache=[];
+
+  function isLoopbackHost(host){
+    return host==="localhost"||host==="127.0.0.1"||host==="0.0.0.0";
+  }
+  function resolveApiBase(){
+    var injected=(window.__INVITE_API_BASE||"").trim();
+    if(injected)return injected.replace(/\/$/,"");
+    var host=(window.location.hostname||"").trim();
+    if(!host)return "";
+    return window.location.protocol+"//"+host+":4000";
+  }
+  function buildApiUrl(path){
+    var base=resolveApiBase();
+    return base?base+path:path;
+  }
+  function getInviteName(){
+    return (window.__INVITE_SOURCE_NAME||"").trim();
+  }
+  function getInviteToken(){
+    var token=(window.__INVITE_SOURCE_TOKEN||"").trim();
+    if(token)return token;
+    var name=getInviteName();
+    return name?("invited@"+name):"";
+  }
+  function setupBackLink(){
+    var back=document.getElementById("backToInvite");
+    if(!back)return;
+    var token=getInviteToken();
+    back.href=token?("/"+encodeURIComponent(token)):"/";
+  }
+  function shuffleArray(list){
+    var next=(Array.isArray(list)?list.slice():[]);
+    for(var i=next.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var tmp=next[i];
+      next[i]=next[j];
+      next[j]=tmp;
+    }
+    return next;
+  }
+  function tailChars(value,count){
+    var chars=Array.from((value||"").trim());
+    if(!chars.length)return "";
+    var size=Math.max(1,count||1);
+    return chars.slice(-size).join("");
+  }
+  function pickRandomNickname(){
+    if(!NICKNAME_POOL.length)return "";
+    return NICKNAME_POOL[Math.floor(Math.random()*NICKNAME_POOL.length)];
+  }
+  function pickNicknameByName(name){
+    if(!NICKNAME_POOL.length)return "";
+    var nameTail=tailChars(name,2);
+    if(nameTail){
+      var matched=NICKNAME_POOL.filter(function(candidate){return tailChars(candidate,2)===nameTail;});
+      if(matched.length)return matched[Math.floor(Math.random()*matched.length)];
+    }
+    return pickRandomNickname();
+  }
+  function setCheerDefaultNickname(force){
+    var nick=document.getElementById("cheerNick");
+    if(!nick)return;
+    if(force||!nick.value.trim()){
+      nick.value=pickNicknameByName(getInviteName());
+    }
+  }
+  function updateCheerCounter(){
+    var msg=document.getElementById("cheerMessage");
+    var count=document.getElementById("cheerCount");
+    if(!msg||!count)return;
+    count.textContent=String((msg.value||"").length)+"/150";
+  }
+  function setCheerFeedback(err,ok){
+    var errEl=document.getElementById("cheerErr");
+    var okEl=document.getElementById("cheerOk");
+    if(errEl)errEl.textContent=err||"";
+    if(okEl)okEl.textContent=ok||"";
+  }
+  function setGalleryStatus(text){
+    var status=document.getElementById("galleryStatus");
+    if(status)status.textContent=text||"";
+  }
+  function setFunLoading(active,message){
+    if(document.body){
+      if(active){
+        document.body.classList.add("fun-preloading");
+      }else{
+        document.body.classList.remove("fun-preloading");
+      }
+    }
+    var loadingText=document.getElementById("funLoadingText");
+    if(loadingText&&message){
+      loadingText.textContent=message;
+    }
+  }
+  function preloadImageAsset(src){
+    return new Promise(function(resolve){
+      if(!src){
+        resolve(false);
+        return;
+      }
+      var settled=false;
+      var img=new Image();
+      var timeoutId=window.setTimeout(function(){
+        settle(false);
+      },20000);
+      function settle(ok){
+        if(settled)return;
+        settled=true;
+        window.clearTimeout(timeoutId);
+        resolve(ok);
+      }
+      img.onload=function(){settle(true);};
+      img.onerror=function(){settle(false);};
+      img.src=src;
+      if(img.complete){
+        settle(true);
+      }
+    });
+  }
+  async function preloadGalleryPhotos(photos){
+    var total=photos.length;
+    if(!total)return;
+    var loaded=0;
+    setFunLoading(true,"갤러리 사진을 준비하는 중입니다... ("+loaded+"/"+total+")");
+    await Promise.all(photos.map(function(src){
+      return preloadImageAsset(src).then(function(){
+        loaded+=1;
+        setFunLoading(true,"갤러리 사진을 준비하는 중입니다... ("+loaded+"/"+total+")");
+      });
+    }));
+  }
+  async function fetchGalleryPhotos(){
+    var response=await fetch(buildApiUrl("/gallery/photos"),{cache:"no-store"});
+    if(!response.ok)throw new Error("gallery load failed");
+    var payload=await response.json();
+    return Array.isArray(payload&&payload.photos)?shuffleArray(payload.photos):[];
+  }
+  async function bootFunWithPreload(){
+    setFunLoading(true,"갤러리 사진을 불러오는 중입니다...");
+    try{
+      var photos=await fetchGalleryPhotos();
+      galleryPhotoCache=photos;
+      await preloadGalleryPhotos(galleryPhotoCache);
+      renderGalleryPhotos(galleryPhotoCache);
+      galleryLoaded=true;
+    }catch(_){
+      setGalleryStatus("갤러리 사진을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+    }finally{
+      setFunLoading(false);
+      void loadCheerMessages(true);
+      initCheerFeedObserver();
+    }
+  }
+  function openGalleryModal(src){
+    var modal=document.getElementById("galleryModal");
+    var image=document.getElementById("galleryModalImage");
+    if(!modal||!image||!src)return;
+    image.src=src;
+    modal.classList.add("open");
+  }
+  function closeGalleryModal(){
+    var modal=document.getElementById("galleryModal");
+    var image=document.getElementById("galleryModalImage");
+    if(modal)modal.classList.remove("open");
+    if(image)image.removeAttribute("src");
+  }
+  function renderGalleryPhotos(photos){
+    var track=document.getElementById("galleryTrack");
+    if(!track)return;
+    track.innerHTML="";
+    if(!photos.length){
+      setGalleryStatus("등록된 갤러리 사진이 없습니다.");
+      return;
+    }
+    photos.forEach(function(src,idx){
+      var btn=document.createElement("button");
+      btn.type="button";
+      btn.className="gallery-item";
+      btn.setAttribute("aria-label","사진 "+(idx+1)+" 확대 보기");
+      var img=document.createElement("img");
+      img.src=src;
+      img.alt="갤러리 사진 "+(idx+1);
+      img.loading="lazy";
+      btn.appendChild(img);
+      btn.addEventListener("click",function(){openGalleryModal(src);});
+      track.appendChild(btn);
+    });
+    setGalleryStatus("좌우 스와이프: 다른 사진보기 | 터치: 크게 보기");
+  }
+  async function loadGalleryPhotos(){
+    if(galleryLoaded){
+      renderGalleryPhotos(galleryPhotoCache);
+      return;
+    }
+    if(galleryLoaded||galleryLoading)return;
+    galleryLoading=true;
+    setGalleryStatus("사진을 불러오는 중입니다...");
+    try{
+      galleryPhotoCache=await fetchGalleryPhotos();
+      renderGalleryPhotos(galleryPhotoCache);
+      galleryLoaded=true;
+    }catch(_){
+      setGalleryStatus("갤러리 사진을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+    }finally{
+      galleryLoading=false;
+    }
+  }
+  function formatCheerTimestamp(value){
+    if(!value)return "";
+    try{
+      var date=new Date(value);
+      if(Number.isNaN(date.getTime()))return "";
+      return date.toLocaleString("ko-KR",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+    }catch(_){
+      return "";
+    }
+  }
+  function createCheerFeedItem(item){
+    var article=document.createElement("article");
+    article.className="feed-item";
+    var head=document.createElement("div");
+    head.className="feed-head";
+    var nick=document.createElement("span");
+    nick.className="feed-nick";
+    nick.textContent=(item&&item.nickname)||"익명";
+    var time=document.createElement("span");
+    time.className="feed-time";
+    time.textContent=formatCheerTimestamp(item&&item.createdAt);
+    head.appendChild(nick);
+    head.appendChild(time);
+    var msg=document.createElement("p");
+    msg.className="feed-msg";
+    msg.textContent=(item&&item.message)||"";
+    article.appendChild(head);
+    article.appendChild(msg);
+    return article;
+  }
+  function setCheerFeedStatus(message){
+    var status=document.getElementById("cheerFeedStatus");
+    if(status)status.textContent=message||"";
+  }
+  function prependCheerMessage(item){
+    var list=document.getElementById("cheerFeedList");
+    if(!list||!item)return;
+    list.insertBefore(createCheerFeedItem(item),list.firstChild||null);
+  }
+  async function loadCheerMessages(reset){
+    if(cheerFeedLoading)return;
+    if(!reset&&!cheerFeedHasMore)return;
+    var list=document.getElementById("cheerFeedList");
+    if(!list)return;
+    if(reset){
+      cheerFeedCursor=null;
+      cheerFeedHasMore=true;
+      list.innerHTML="";
+    }
+    cheerFeedLoading=true;
+    setCheerFeedStatus("메시지를 불러오는 중입니다...");
+    try{
+      var query=["limit=12"];
+      if(!reset&&cheerFeedCursor)query.push("cursor="+encodeURIComponent(String(cheerFeedCursor)));
+      var response=await fetch(buildApiUrl("/guest-messages?"+query.join("&")),{
+        cache:"no-store"
+      });
+      if(!response.ok)throw new Error("guest messages load failed");
+      var payload=await response.json();
+      var items=Array.isArray(payload&&payload.items)?payload.items:[];
+      if(reset)list.innerHTML="";
+      items.forEach(function(item){list.appendChild(createCheerFeedItem(item));});
+      cheerFeedHasMore=!!(payload&&payload.hasMore);
+      cheerFeedCursor=payload&&payload.nextCursor?payload.nextCursor:null;
+      if(!items.length&&reset){
+        setCheerFeedStatus("아직 남겨진 메시지가 없습니다. 첫 메시지를 남겨주세요.");
+      }else if(cheerFeedHasMore){
+        setCheerFeedStatus("아래로 스크롤하면 더 볼 수 있어요.");
+      }else{
+        setCheerFeedStatus("모든 메시지를 불러왔습니다.");
+      }
+    }catch(_){
+      setCheerFeedStatus("메시지를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+    }finally{
+      cheerFeedLoading=false;
+    }
+  }
+  function initCheerFeedObserver(){
+    var sentinel=document.getElementById("cheerFeedSentinel");
+    if(!sentinel||!window.IntersectionObserver)return;
+    cheerFeedObserver=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting)void loadCheerMessages(false);
+      });
+    },{
+      root:null,
+      rootMargin:"0px 0px 260px 0px",
+      threshold:0
+    });
+    cheerFeedObserver.observe(sentinel);
+  }
+  async function submitCheerMessage(){
+    if(cheerSubmitting)return;
+    var nick=document.getElementById("cheerNick");
+    var msg=document.getElementById("cheerMessage");
+    var submitBtn=document.getElementById("cheerSubmitBtn");
+    if(!nick||!msg||!submitBtn)return;
+    var nickname=nick.value.trim();
+    var message=msg.value.trim();
+    setCheerFeedback("","");
+    if(!nickname){
+      setCheerFeedback("닉네임을 입력해 주세요.","");
+      nick.focus();
+      return;
+    }
+    if(!message){
+      setCheerFeedback("축하 메시지를 입력해 주세요.","");
+      msg.focus();
+      return;
+    }
+    if(message.length>150){
+      setCheerFeedback("메시지는 150자 이내로 입력해 주세요.","");
+      msg.focus();
+      return;
+    }
+    cheerSubmitting=true;
+    submitBtn.disabled=true;
+    try{
+      var response=await fetch(buildApiUrl("/guest-messages"),{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          nickname:nickname,
+          message:message,
+          inviteName:getInviteName()||undefined
+        })
+      });
+      if(!response.ok){
+        var body=await response.text();
+        setCheerFeedback(body||"메시지 저장에 실패했습니다. 잠시 후 다시 시도해 주세요.","");
+        return;
+      }
+      var saved=await response.json();
+      msg.value="";
+      updateCheerCounter();
+      prependCheerMessage(saved);
+      setCheerFeedback("",nickname+"님의 축하 메시지가 저장되었습니다. 고맙습니다!");
+    }catch(_){
+      setCheerFeedback("메시지 저장 중 오류가 발생했습니다.","");
+    }finally{
+      cheerSubmitting=false;
+      submitBtn.disabled=false;
+    }
+  }
+
+  setupBackLink();
+  setCheerDefaultNickname(true);
+  updateCheerCounter();
+  var messageInput=document.getElementById("cheerMessage");
+  if(messageInput)messageInput.addEventListener("input",updateCheerCounter,{passive:true});
+  var submitBtn=document.getElementById("cheerSubmitBtn");
+  if(submitBtn)submitBtn.addEventListener("click",function(){void submitCheerMessage();});
+  var modal=document.getElementById("galleryModal");
+  if(modal){
+    modal.addEventListener("click",function(evt){
+      if(evt.target===modal)closeGalleryModal();
+    });
+  }
+  var closeBtn=document.getElementById("galleryModalClose");
+  if(closeBtn)closeBtn.addEventListener("click",closeGalleryModal);
+  document.addEventListener("keydown",function(evt){
+    if(evt.key==="Escape")closeGalleryModal();
+  });
+  void bootFunWithPreload();
+})();
+</script>
+</body>
+</html>

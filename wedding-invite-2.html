@@ -936,7 +936,7 @@ var NICKNAME_POOL=[
   "따봉하는 민주","발표하는 민준","달리는 성희","잠자는 수현","술잔 든 준두","침착맨 보는 종효",
   "파라파라 추는 도영","뮤지컬하는 흥기","집중하는 재혁","노래하는 미연","케잌 먹는 혜원","소금빵 먹는 근서",
   "야구 보는 도영","책 읽는 지성","짜증내는 재현","활짝 웃는 연정","명상하는 영지","매수하는 정우", "익절하는 성원",
-  "기타 치는 진용","크로스핏하는 다현","축구보는 종호","요가하는 주현","비행기 타는 유림","사진 찍는 다윤"
+  "기타 치는 진용","크로스핏하는 다현","축구보는 종호","요가하는 주현","비행기 타는 유림","사진 찍는 다윤", "산책하는 아현"
 ];
 function getInviteApiBase(){
   var runtimeBase=(window.__INVITE_API_BASE||"").trim();
@@ -1085,6 +1085,16 @@ function setCheerFeedback(err,ok){
   if(errEl)errEl.textContent=err||"";
   if(okEl)okEl.textContent=ok||"";
 }
+function shuffleArray(list){
+  var next=(Array.isArray(list)?list.slice():[]);
+  for(var i=next.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=next[i];
+    next[i]=next[j];
+    next[j]=tmp;
+  }
+  return next;
+}
 function formatCheerTimestamp(value){
   if(!value)return "";
   try{
@@ -1214,7 +1224,7 @@ async function loadGalleryPhotos(){
     var response=await fetch(buildInviteApiUrl("/gallery/photos"),{cache:"no-store"});
     if(!response.ok)throw new Error("gallery load failed");
     var payload=await response.json();
-    var photos=Array.isArray(payload&&payload.photos)?payload.photos:[];
+    var photos=Array.isArray(payload&&payload.photos)?shuffleArray(payload.photos):[];
     renderGalleryPhotos(photos);
     galleryLoaded=true;
   }catch(_){
@@ -1227,16 +1237,14 @@ async function loadGalleryPhotos(){
   }
 }
 function openGalleryExperience(){
-  var block=document.getElementById("rsvp2");
-  var extra=document.getElementById("ipExtra");
-  if(!block)return;
-  block.classList.add("explore");
-  if(extra)extra.scrollTo({top:0,left:0,behavior:"auto"});
-  setCheerDefaultNickname(false);
-  updateCheerCounter();
-  setCheerFeedback("","");
-  void loadGalleryPhotos();
-  void loadCheerMessages(true);
+  var inviteName=getInviteSourceName();
+  var query=inviteName?("?invite="+encodeURIComponent("invited@"+inviteName)):"";
+  var targetUrl="/fun"+query;
+  if(window.top&&window.top!==window){
+    window.top.location.href=targetUrl;
+    return;
+  }
+  window.location.href=targetUrl;
 }
 function backToSentView(){
   var block=document.getElementById("rsvp2");
