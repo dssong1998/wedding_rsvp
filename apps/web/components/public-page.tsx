@@ -60,7 +60,7 @@ const COPY: Record<
 
 const ACCOUNTS = [
   { side: "신랑측", bank: "우리은행", number: "1002-133-822329", holder: "송대석" },
-  { side: "신부측", bank: "우리은행", number: "3333-33-333333", holder: "김다인" }
+  { side: "신부측", bank: "농협은행", number: "356-1188-2152-73", holder: "김다인" }
 ];
 
 const PUBLIC_PHOTOS = ["/assets/images/wedding_public_poster.jpeg"];

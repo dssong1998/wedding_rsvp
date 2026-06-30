@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>송대석 &amp; 김다인 · 결혼 청첩장</title>
+<title>송대석 &amp; 김다인 · 청첩장</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Special+Elite&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -139,8 +139,8 @@ body.invite-preloading .invite-loading{
 .tl-dot .pt{width:2.6cqh;height:2.6cqh;border-radius:50%;background:#fff;border:1.6px solid var(--az);transition:all .3s var(--ease)}
 .tl-dot.active .pt{background:var(--cobalt);border-color:var(--cobalt);transform:scale(1.3)}
 .tl-dot.active .t{color:var(--cobalt);font-weight:700}
-.tl-detail{margin-top:2.2cqh;text-align:center;min-height:1em}
-.tl-detail .stamp-time{font-family:var(--disp);font-style:italic;font-size:5cqh;color:var(--cobalt)}
+.tl-detail{padding-left:18.5px;margin-top:2.2cqh;text-align:center;min-height:1em}
+.tl-detail .stamp-time{font-family:var(--disp);font-style:italic;font-size:3.4cqh;color:var(--cobalt)}
 .tl-detail .stamp-ev{font-family:var(--kor);font-weight:700;font-size:3.4cqh;margin-left:1cqh}
 
 /* ===== PORTRAIT INPUT (cqw based) ===== */
@@ -180,7 +180,7 @@ body.invite-preloading .invite-loading{
 /* ============ B&W TICKET (2·3 페이지) ============ */
 :root{--cond:"Anton",sans-serif}
 .tkt-panel{background:var(--surface);align-items:center;justify-content:center;padding:4.6cqh}
-.tkt{position:relative;width:100%;height:90%;display:flex;background:#fff;color:#0b0b0b;overflow:hidden}
+.tkt{position:relative;margin-left: 20px;width:100%;height:90%;display:flex;background:#fff;color:#0b0b0b;overflow:hidden}
 .tkt-photo{flex:0 0 44%;overflow:hidden;border-right:2px dashed #1f4a86}
 .tkt-photo img{width:100%;height:100%;object-fit:cover;filter:saturate(1.06)}
 .tkt-body{flex:1;min-width:0;display:flex;flex-direction:column;padding:5cqh 4.4cqh 4cqh}
@@ -200,8 +200,8 @@ body.invite-preloading .invite-loading{
 .tkt .tl-dot.active .pt{background:#1f4a86;border-color:#1f4a86;transform:scale(1.3)}
 .tkt .tl-dot.active .t{color:#1f4a86;font-weight:700}
 .tkt .tl-detail{margin-top:2cqh;text-align:center}
-.tkt .tl-detail .stamp-time{font-family:var(--cond);font-style:normal;color:#1f4a86;font-size:5.8cqh}
-.tkt .tl-detail .stamp-ev{font-family:var(--kor);font-weight:700;color:#0b0b0b;font-size:3.8cqh;margin-left:1cqh}
+.tkt .tl-detail .stamp-time{font-family:var(--kor);font-style:normal;color:#1f4a86;font-size:3.4cqh}
+.tkt .tl-detail .stamp-ev{font-family:var(--kor);font-weight:500;color:#0b0b0b;font-size:3.4cqh;margin-left:1cqh}
 
 /* ===== ticket v2 (minimal + exhibition) ===== */
 .tkt-body.ex{justify-content:flex-start;padding:5cqh 5cqh}
@@ -210,8 +210,8 @@ body.invite-preloading .invite-loading{
 .ex-row{display:flex;align-items:baseline;gap:1.8cqh;margin-bottom:2cqh}
 .ex-num{font-family:var(--cond);font-size:4.8cqh;color:#a9c0e0;line-height:1}
 .ex .tkt-sec{margin:0}
-.ex-place{font-family:"Helvetica Neue",Helvetica,Arial,var(--kor),sans-serif;font-weight:700;font-size:7.2cqh;line-height:1;letter-spacing:.01em}
-.ex-meta{font-family:"Special Elite","Gowun Dodum",sans-serif;font-size:3.4cqh;color:#3a3a3a;margin-top:1.4cqh;letter-spacing:.02em}
+.ex-place{margin-left:18.5px;font-family:"Helvetica Neue",Helvetica,Arial,var(--kor),sans-serif;font-weight:500;font-size:3.4cqh;line-height:1;letter-spacing:.01em}
+.ex-meta{margin-left:18.5px;font-family:"Special Elite","Gowun Dodum",sans-serif;font-size:3.4cqh;color:#3a3a3a;margin-top:1.4cqh;letter-spacing:.02em}
 .ex .tkt-dress{font-family:var(--cond);font-size:5.4cqh;letter-spacing:.06em;margin-top:.4cqh}
 .ex .ex-sec:nth-child(2){justify-content:flex-start;align-items:stretch}
 .ex .ex-sec:nth-child(2) .ex-row{justify-content:flex-start;align-self:flex-start;width:100%}
@@ -283,7 +283,7 @@ body{background:#ffffff}
 .rl-left{flex:0 0 100%;height: 100%;display:flex;flex-direction:column;justify-content:center;padding:7cqh 5cqh;border-left: 1.7px dashed #d9d4c6}
 .rl-card .title{font-family:var(--kor);font-size:8cqh;line-height:1;color:var(--tink)}
 .rl-card .title small{display:block;font-size:2.6cqh;letter-spacing:.2em;color:#8a8578;margin-top:1.2cqh}
-.rsvp-land .np-notice{font-family:var(--kor);font-size:2.9cqh;line-height:1.6;color:var(--tink);margin:2.8cqh 0 0}
+.rsvp-land .np-notice{font-family:var(--kor);font-size:2.6cqh;line-height:1.6;color:var(--tink);margin:2.8cqh 0 0}
 .rsvp-land .np-notice .k{font-weight:700}
 .rsvp-land .field{margin-top:2.4cqh}
 .rsvp-land .field:first-child{margin-top:0}
@@ -332,8 +332,8 @@ body{background:#ffffff}
 .tkt-body{padding:5cqh 17cqh 4cqh 5cqh}
 .tkt-body.ex{padding:5cqh 17cqh 5cqh 5cqh}
 /* ===== RSVP intro : 좌측만 티켓, 우측 절취 ===== */
-.rsvp-land .rl-card{flex:0 0 46%; height:90%;align-self: center;border-radius:0;box-shadow:0 13px 28px -14px rgba(16,24,14,.62),0 -7px 22px -14px rgba(16,24,14,.46);border-right:2.5px dashed #cdc6b2;overflow:hidden}
-.rsvp-land .rl-left{flex:1;border-right:0;justify-content:center;padding:12cqh 6cqh 12cqh 16cqh}
+.rsvp-land .rl-card{flex:0 0 32%; height:90%;align-self: center;border-radius:0;box-shadow:0 13px 28px -14px rgba(16,24,14,.62),0 -7px 22px -14px rgba(16,24,14,.46);border-right:2.5px dashed #cdc6b2;overflow:hidden}
+.rsvp-land .rl-left{flex:1;border-right:0;justify-content:space-around;padding:12cqh 6cqh 12cqh 8cqh}
 .rl-go{margin-top:3.4cqh;align-self:flex-start;font-family:var(--type);letter-spacing:.08em;font-size:2.6cqh;text-transform:uppercase;background:var(--tink);color:#fff;border:0;padding:1.7cqh 3.4cqh;border-radius:2px;cursor:pointer;display:inline-flex;gap:.5em;align-items:center}
 .rl-go .ar{animation:slideX 1.1s var(--ease) infinite}
 /* ===== 세로 참석정보 카드 ===== */
@@ -374,18 +374,302 @@ body{background:#ffffff}
 }
 .ip-sent h3{font-family:var(--kor);font-weight:700;font-size:7cqw;color:var(--cream);margin:0}
 .ip-sent p{font-family:var(--kor);font-size:4cqw;line-height:1.6;color:var(--cream);margin:0}
-.ip-sent .recap{font-family:var(--type);font-size:3.4cqw;color:#e7e799;line-height:1.9}
-.ip-sent .recap b{color:var(--cream)}
-.ip-sent .btn.ghost{
-  color:#fff6dc;
-  border-color:rgba(255,246,220,.92);
+#sentMsg{white-space:pre-line}
+.ip-sent .recap{
+  width:100%;
+  display:grid;
+  gap:2.2cqw;
+  font-family:var(--type);
+  font-size:3.2cqw;
+  color:#e7e799;
+  line-height:1.55;
+}
+.ip-sent .recap-main{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:nowrap;
+  gap:1.4cqw;
+}
+.ip-sent .recap-item{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.8cqw;
+  padding:1.45cqw 1.9cqw;
+  border-radius:999px;
+  border:1px solid rgba(255,246,220,.34);
   background:rgba(255,246,220,.08);
+  white-space:nowrap;
+}
+.ip-sent .recap-ship{
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  gap:.9cqw;
+  flex-wrap:wrap;
+  text-align:center;
+  color:var(--cream);
+  font-size:2.9cqw;
+}
+.ip-sent .recap b{color:var(--cream)}
+.ip-sent-actions{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:2.2cqw;
+  flex-wrap:wrap;
+}
+.ip-sent .btn.ghost{
+  color:#ffffff;
+  border-color:rgba(255,255,255,.92);
+  background:rgba(255,255,255,.1);
 }
 .ip-sent .btn.ghost:hover{
-  background:rgba(255,246,220,.18);
+  background:rgba(255,255,255,.22);
 }
 .ip-sent .btn.ghost:active{
-  background:rgba(255,246,220,.26);
+  background:rgba(255,255,255,.3);
+}
+.ip-sent .btn.more{
+  color:#ffffff;
+  border-color:#ffffff;
+  background:rgba(255,255,255,.14);
+}
+.ip-sent .btn.more:hover{
+  background:rgba(255,255,255,.24);
+}
+#rsvp2.done.explore .ip-sent{display:none}
+.ip-extra{
+  display:none;
+  flex:1;
+  width:100%;
+  min-height:100%;
+  background:#fff;
+  border-radius:3.5cqw;
+  box-shadow:0 18px 42px -12px rgba(16,24,14,.6);
+  padding:8cqw 6.5cqw 7cqw;
+  overflow-y:auto;
+  gap:6cqw;
+  flex-direction:column;
+}
+#rsvp2.done.explore .ip-extra{display:flex}
+.ip-extra-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:2.6cqw;
+}
+.ip-extra-title{
+  margin:0;
+  font-family:var(--kor);
+  font-size:6.2cqw;
+  line-height:1.12;
+  color:var(--tink);
+}
+.ip-extra-sub{
+  margin:.9cqw 0 0;
+  font-family:var(--kor);
+  font-size:3.25cqw;
+  line-height:1.45;
+  color:#7e796c;
+}
+.ip-extra-back{
+  font-family:var(--type);
+  letter-spacing:.08em;
+  font-size:2.8cqw;
+  text-transform:uppercase;
+  background:transparent;
+  color:var(--tink);
+  border:1.5px solid #cfc7b7;
+  border-radius:999px;
+  padding:1.5cqw 3cqw;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.gallery-section{display:grid;gap:2.7cqw}
+.gallery-track{
+  display:flex;
+  gap:2.8cqw;
+  overflow-x:auto;
+  padding:0 1cqw 1.4cqw;
+  scrollbar-width:none;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+.gallery-track::-webkit-scrollbar{display:none}
+.gallery-item{
+  scroll-snap-align:center;
+  flex:0 0 70cqw;
+  aspect-ratio:4/5;
+  border-radius:3cqw;
+  border:0;
+  overflow:hidden;
+  background:#d6d3cb;
+  box-shadow:0 10px 28px -18px rgba(0,0,0,.5);
+  padding:0;
+  cursor:pointer;
+}
+.gallery-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.gallery-empty{
+  margin:0;
+  font-family:var(--kor);
+  font-size:3.4cqw;
+  line-height:1.6;
+  color:#7f7a6e;
+}
+.cheer-section{
+  border-top:1px dashed #d7d1c3;
+  padding-top:5cqw;
+  display:grid;
+  gap:2.3cqw;
+}
+.cheer-title{
+  margin:0;
+  font-family:var(--kor);
+  font-weight:700;
+  font-size:5.4cqw;
+  color:var(--tink);
+}
+.cheer-note{
+  margin:0;
+  font-family:var(--kor);
+  font-size:3.3cqw;
+  line-height:1.55;
+  color:#7f7a6f;
+}
+.cheer-textarea{
+  min-height:30cqw;
+  resize:none;
+  line-height:1.5;
+}
+.cheer-meta{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:1.2cqw;
+  font-family:var(--type);
+  font-size:2.6cqw;
+  color:#a39e91;
+}
+.cheer-ok{
+  min-height:1.2em;
+  font-family:var(--kor);
+  font-size:3.2cqw;
+  color:#3f6d3a;
+}
+.cheer-feed{
+  border-top:1px dashed #d7d1c3;
+  padding-top:4.6cqw;
+  display:grid;
+  gap:2.2cqw;
+}
+.cheer-feed-title{
+  margin:0;
+  font-family:var(--kor);
+  font-weight:700;
+  font-size:4.8cqw;
+  color:var(--tink);
+}
+.cheer-feed-list{
+  display:grid;
+  gap:2cqw;
+}
+.cheer-feed-item{
+  border:1px solid #e3ddd0;
+  border-radius:2.3cqw;
+  background:#fdfbf6;
+  padding:2.6cqw 2.8cqw;
+  display:grid;
+  gap:1.1cqw;
+}
+.cheer-feed-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:2cqw;
+}
+.cheer-feed-nick{
+  font-family:var(--kor);
+  font-weight:700;
+  font-size:3.4cqw;
+  color:#2f2d28;
+}
+.cheer-feed-time{
+  font-family:var(--type);
+  font-size:2.4cqw;
+  color:#938e82;
+  white-space:nowrap;
+}
+.cheer-feed-msg{
+  margin:0;
+  font-family:var(--kor);
+  font-size:3.25cqw;
+  line-height:1.55;
+  color:#494338;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+.cheer-feed-status{
+  min-height:1.2em;
+  margin:0;
+  font-family:var(--kor);
+  font-size:3cqw;
+  color:#8b8578;
+}
+.cheer-feed-sentinel{
+  width:100%;
+  height:1px;
+}
+.gallery-modal{
+  position:fixed;
+  inset:0;
+  z-index:12000;
+  background:rgba(12,16,24,.82);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:5vw;
+}
+.gallery-modal.open{display:flex}
+.gallery-modal-card{
+  position:relative;
+  width:90vw;
+  height:90vh;
+  max-width:90vw;
+  max-height:90vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.gallery-modal-card img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.gallery-modal-close{
+  position:absolute;
+  top:0;
+  right:0;
+  transform:translate(32%,-32%);
+  width:12vw;
+  height:12vw;
+  max-width:52px;
+  max-height:52px;
+  min-width:38px;
+  min-height:38px;
+  border-radius:50%;
+  border:0;
+  font-size:8vw;
+  line-height:1;
+  color:#1b1d22;
+  background:#fff;
+  cursor:pointer;
 }
 .info-port .pp-back{top:5cqw;left:6cqw;color:var(--cream)}
 
@@ -431,7 +715,7 @@ body{background:#ffffff}
 .pc-front::after,.pc-paper::after{content:"";position:absolute;inset:4.1cqh;border:1px solid #f0ebe0;pointer-events:none}
 .pc-paper{display:flex;align-items:center;justify-content:left;padding:7.6cqh 12.2cqh;z-index:1;opacity:0;transform:rotateX(90deg);transition:transform 1.35s cubic-bezier(.22,1,.36,1),opacity .62s ease}
 .pc-paper-sheet{width:100%;max-width:100%;height:100%;display:flex;flex-direction:column;justify-content:center}
-.pc-paper-letter{margin:0;font-family:var(--kor);font-size:3.8cqh;line-height:1.6;color:#2f2d28;text-align:left}
+.pc-paper-letter{margin:0;font-family:var(--kor);font-size:4.5cqh;line-height:1.6;color:#2f2d28;text-align:left}
 .pc-paper-letter span{display:block;margin-bottom:.52em;white-space:nowrap}
 .pc-paper-letter span:last-child{margin-bottom:0}
 .pc-paper-sign{align-self:flex-end;margin-top:1.4cqh;font-family:var(--kor);font-size:2.7cqh;letter-spacing:.02em;color:#756f63;line-height:1}
@@ -447,6 +731,11 @@ body{background:#ffffff}
 .pc-div .dia{font-size:2.2cqh;line-height:1}
 .es-postcard .pc-couple{font-family:"Nanum Myeongjo",var(--kor),serif!important;font-weight:700;font-size:7.6cqh;color:#23211d;letter-spacing:.03em;z-index:1}
 .es-postcard .pc-couple i{font-style:italic;font-family:Georgia,"Times New Roman",serif!important;color:#bd9356;font-weight:400;margin:0 .14em}
+/* section 2 typography override */
+.tkt-panel,
+.tkt-panel *{
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif!important;
+}
 </style>
 </head>
 <body class="invite-preloading">
@@ -467,7 +756,7 @@ body{background:#ffffff}
             </div>
             <div class="pc-paper" aria-hidden="true">
               <div class="pc-paper-sheet">
-                <p class="pc-paper-letter"><span>사랑은 삶에서 끊임없이 고민해야하는 주제임에도,</span><span>더이상 그것을 고민하지 않고 있음을 깨달았을 때.</span><span>그제야 비로소 사랑이 무엇인지 이해할 수 있었습니다.</span><span>그래서 이 사랑의 출처인 사람들과 함께</span><span>아름다움을 이야기 해 보려 합니다.</span><span>8월 22일 여름의 정원에서.</span></p>
+                <p class="pc-paper-letter"><span>사랑은 살아가는 동안 끊임없이 고민해야 하는 주제임에도</span><span>더이상 그것이 고민의 대상이 아님을 깨달았을 때,</span><span>그제야 비로소 사랑을 이해할 수 있었습니다.</span><span>지금의 나를 만들어 준 당신들과 함께</span><span>사랑의 아름다움에 대해 이야기 해보려 합니다.</span><span>8월 22일 여름의 정원에서.</span></p>
                 <div class="pc-paper-sign">다인과 대석 드림</div>
               </div>
             </div>
@@ -498,7 +787,7 @@ body{background:#ffffff}
                 <button class="tl-dot" onclick="selectTl(this)" onmouseenter="hoverTl(this)" data-time="19:00" data-ev="애프터 파티"><span class="t">19:00</span><span class="pt"></span></button>
                 <button class="tl-dot" onclick="selectTl(this)" onmouseenter="hoverTl(this)" data-time="21:00" data-ev="웨딩파티 종료"><span class="t">21:00</span><span class="pt"></span></button>
               </div>
-              <div class="tl-detail"><span class="stamp-time" id="tlTime">17:00</span><span class="stamp-ev" id="tlEv">웰컴 드링크</span></div>
+              <div class="tl-detail"><span class="stamp-time" id="tlTime">17:00</span><span class="stamp-ev" id="tlEv">| 웰컴 드링크</span></div>
             </div>
           </div>
           <div class="tk-stub"><div class="vlabel">All-Day Pass</div><div class="vlabel sub">보넬리 가든</div><div class="vbars"></div></div>
@@ -533,15 +822,15 @@ body{background:#ffffff}
             <div class="field">
               <label class="label">결혼식 참석 <span class="time">17:00 – 19:00</span> <span class="req">*</span></label>
               <div class="choices">
-                <div class="choice" id="w-yes" onclick="pick('attend','yes',this)"><span class="mk">♥</span><span class="lb">참석합니다</span></div>
-                <div class="choice" id="w-no" onclick="pick('attend','no',this)"><span class="mk">✦</span><span class="lb">어려워요</span></div>
+                <div class="choice" id="w-yes" onclick="pick('attend','yes',this)"><span class="mk">♥</span><span class="lb">참석</span></div>
+                <div class="choice" id="w-no" onclick="pick('attend','no',this)"><span class="mk">✦</span><span class="lb">불참</span></div>
               </div>
             </div>
             <div class="field">
               <label class="label">애프터파티 <span class="time">19:00 – 21:00</span> <span class="req">*</span></label>
               <div class="choices">
-                <div class="choice" id="a-yes" onclick="pick('after','yes',this)"><span class="mk">♥</span><span class="lb">함께해요</span></div>
-                <div class="choice" id="a-no" onclick="pick('after','no',this)"><span class="mk">✦</span><span class="lb">어려워요</span></div>
+                <div class="choice" id="a-yes" onclick="pick('after','yes',this)"><span class="mk">♥</span><span class="lb">참석</span></div>
+                <div class="choice" id="a-no" onclick="pick('after','no',this)"><span class="mk">✦</span><span class="lb">불참</span></div>
               </div>
             </div>
             <div class="field" id="count-field">
@@ -562,14 +851,57 @@ body{background:#ffffff}
           </div>
         </div>
         <div class="ip-sent">
-          <svg class="postmark" viewBox="0 0 116 116" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="none" stroke="currentColor"><circle cx="58" cy="58" r="44" stroke-width="2" opacity=".8"/><circle cx="58" cy="58" r="37" stroke-width="1" opacity=".6"/></g><g fill="currentColor" text-anchor="middle"><text x="58" y="56" font-size="14" letter-spacing="1">22 AUG</text><text x="58" y="72" font-size="9" letter-spacing="3">2026</text></g></svg>
-          <h3>회신, 잘 받았어요</h3>
+          <h3>회신 잘 받았어요</h3>
           <p id="sentMsg"></p>
           <div class="recap" id="sentRecap"></div>
-          <button class="btn ghost" type="button" onclick="resetAll()">처음부터 다시 보기</button>
+          <div class="ip-sent-actions">
+            <button class="btn ghost more" type="button" onclick="openGalleryExperience()">더 즐기기</button>
+            <button class="btn ghost" type="button" onclick="resetAll()">처음부터 다시 보기</button>
+          </div>
+        </div>
+        <div class="ip-extra" id="ipExtra">
+          <div class="ip-extra-head">
+            <div>
+              <h3 class="ip-extra-title">Gallery</h3>
+              <p class="ip-extra-sub">가로로 넘기며 사진을 보고, 터치하면 크게 볼 수 있어요.</p>
+            </div>
+            <button class="ip-extra-back" type="button" onclick="backToSentView()">회신 화면</button>
+          </div>
+          <section class="gallery-section">
+            <div class="gallery-track" id="galleryTrack"></div>
+            <p class="gallery-empty" id="galleryEmpty">갤러리 사진을 불러오는 중입니다...</p>
+          </section>
+          <section class="cheer-section">
+            <h4 class="cheer-title">축하 전하기</h4>
+            <p class="cheer-note">닉네임과 150자 이내 메시지로 자유롭게 마음을 남겨주세요.</p>
+            <div class="field">
+              <label class="label" for="cheerNick">닉네임</label>
+              <input class="input" id="cheerNick" maxlength="40" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label class="label" for="cheerMessage">축하 메시지</label>
+              <textarea class="input cheer-textarea" id="cheerMessage" maxlength="150" placeholder="축하 메시지를 남겨주세요."></textarea>
+              <div class="cheer-meta"><span id="cheerCount">0/150</span></div>
+            </div>
+            <div class="err" id="cheerErr"></div>
+            <div class="cheer-ok" id="cheerOk"></div>
+            <button class="btn block" id="cheerSubmitBtn" type="button" onclick="submitCheerMessage()">축하 메시지 보내기</button>
+          </section>
+          <section class="cheer-feed" id="cheerFeed" aria-live="polite">
+            <h5 class="cheer-feed-title">지금까지 남겨진 메시지</h5>
+            <div class="cheer-feed-list" id="cheerFeedList"></div>
+            <p class="cheer-feed-status" id="cheerFeedStatus">메시지를 불러오는 중입니다...</p>
+            <div class="cheer-feed-sentinel" id="cheerFeedSentinel" aria-hidden="true"></div>
+          </section>
         </div>
         </div>
       </section>
+  </div>
+  <div class="gallery-modal" id="galleryModal" role="dialog" aria-modal="true" aria-label="갤러리 사진 확대 보기">
+    <div class="gallery-modal-card">
+      <button class="gallery-modal-close" type="button" onclick="closeGalleryModal()" aria-label="닫기">&times;</button>
+      <img id="galleryModalImage" alt="확대된 갤러리 사진" />
+    </div>
   </div>
 
 <script>
@@ -591,6 +923,423 @@ var stableGlassUiH=0;
 var stableSectionVh=0;
 var inviteBooted=false;
 var INVITE_IMAGE_ASSETS=["/assets/images/wedding_poster.jpeg","/assets/images/wedding_ticket_image.jpeg"];
+var galleryLoaded=false;
+var galleryLoading=false;
+var cheerSubmitting=false;
+var cheerFeedCursor=null;
+var cheerFeedHasMore=true;
+var cheerFeedLoading=false;
+var cheerFeedObserver=null;
+var postcodeScriptLoading=null;
+var postcodePopupOpen=false;
+var NICKNAME_POOL=[
+  "따봉하는 민주","발표하는 민준","달리는 성희","잠자는 수현","술잔 든 준두","침착맨 보는 종효",
+  "파라파라 추는 도영","뮤지컬하는 흥기","집중하는 재혁","노래하는 미연","케잌 먹는 혜원","소금빵 먹는 근서",
+  "야구 보는 도영","책 읽는 지성","짜증내는 재현","활짝 웃는 연정","명상하는 영지","매수하는 정우", "익절하는 성원",
+  "기타 치는 진용","크로스핏하는 다현","축구보는 종호","요가하는 주현","비행기 타는 유림","사진 찍는 다윤"
+];
+function getInviteApiBase(){
+  var runtimeBase=(window.__INVITE_API_BASE||"").trim();
+  if(runtimeBase)return runtimeBase.replace(/\/$/,"");
+  if(window.location){
+    var host=(window.location.hostname||"").trim();
+    if(host&&(window.location.port==="3000"||window.location.port===""||window.location.port==="80"||window.location.port==="443")){
+      return window.location.protocol+"//"+host+":4000";
+    }
+  }
+  return "";
+}
+function buildInviteApiUrl(path){
+  var base=getInviteApiBase();
+  return base?base+path:path;
+}
+function getInviteSourceName(){
+  var runtimeName=(window.__INVITE_SOURCE_NAME||"").trim();
+  return runtimeName||getInvitedNameFromPath();
+}
+function loadKakaoPostcodeScript(){
+  if(window.daum&&window.daum.Postcode){
+    return Promise.resolve();
+  }
+  if(postcodeScriptLoading){
+    return postcodeScriptLoading;
+  }
+  postcodeScriptLoading=new Promise(function(resolve,reject){
+    var existing=document.querySelector("script[data-kakao-postcode='true']");
+    if(existing){
+      existing.addEventListener("load",function(){resolve();},{once:true});
+      existing.addEventListener("error",function(){reject(new Error("load failed"));},{once:true});
+      return;
+    }
+    var script=document.createElement("script");
+    script.src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.async=true;
+    script.dataset.kakaoPostcode="true";
+    script.onload=function(){resolve();};
+    script.onerror=function(){reject(new Error("load failed"));};
+    document.head.appendChild(script);
+  });
+  return postcodeScriptLoading;
+}
+function setupKakaoAddressLookup(){
+  var zipInput=document.getElementById("aZip");
+  var roadInput=document.getElementById("aRoad");
+  if(!zipInput||!roadInput)return;
+  zipInput.setAttribute("readonly","readonly");
+  roadInput.setAttribute("readonly","readonly");
+  roadInput.setAttribute("autocomplete","off");
+  zipInput.style.cursor="pointer";
+  roadInput.style.cursor="pointer";
+  var openAddressSearch=async function(){
+    if(postcodePopupOpen)return;
+    var subErr=document.getElementById("subErr");
+    if(subErr)subErr.textContent="";
+    try{
+      await loadKakaoPostcodeScript();
+      postcodePopupOpen=true;
+      new window.daum.Postcode({
+        oncomplete:function(data){
+          var extras=[];
+          if(data.bname&&/[동로가]$/.test(data.bname))extras.push(data.bname);
+          if(data.buildingName&&data.apartment==="Y")extras.push(data.buildingName);
+          var extraText=extras.length?" ("+extras.join(", ")+")":"";
+          var roadAddress=data.roadAddress||data.jibunAddress||"";
+          zipInput.value=data.zonecode||"";
+          roadInput.value=roadAddress+(data.roadAddress?extraText:"");
+          var detailInput=document.getElementById("aDetail");
+          if(detailInput)detailInput.focus();
+          postcodePopupOpen=false;
+        },
+        onclose:function(){
+          postcodePopupOpen=false;
+        }
+      }).open();
+    }catch(_){
+      postcodePopupOpen=false;
+      if(subErr)subErr.textContent="카카오 주소 검색 API를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
+    }
+  };
+  var keyOpenHandler=function(event){
+    if(event.key==="Enter"||event.key===" "){
+      event.preventDefault();
+      void openAddressSearch();
+    }
+  };
+  zipInput.addEventListener("click",function(){void openAddressSearch();});
+  roadInput.addEventListener("click",function(){void openAddressSearch();});
+  zipInput.addEventListener("keydown",keyOpenHandler);
+  roadInput.addEventListener("keydown",keyOpenHandler);
+}
+function pickRandomNickname(){
+  if(!NICKNAME_POOL.length)return "";
+  var idx=Math.floor(Math.random()*NICKNAME_POOL.length);
+  return NICKNAME_POOL[idx];
+}
+function tailChars(value,count){
+  var chars=Array.from((value||"").trim());
+  if(!chars.length)return "";
+  var size=Math.max(1,count||1);
+  return chars.slice(-size).join("");
+}
+function resolveAcquiredName(){
+  if(state&&typeof state.name==="string"&&state.name.trim()){
+    return state.name.trim();
+  }
+  var nameInput=document.getElementById("gname");
+  if(nameInput&&nameInput.value&&nameInput.value.trim()){
+    return nameInput.value.trim();
+  }
+  return getInviteSourceName();
+}
+function pickNicknameByAcquiredName(name){
+  if(!NICKNAME_POOL.length)return "";
+  var nameTail=tailChars(name,2);
+  if(nameTail){
+    var matched=NICKNAME_POOL.filter(function(candidate){
+      return tailChars(candidate,2)===nameTail;
+    });
+    if(matched.length){
+      var matchedIdx=Math.floor(Math.random()*matched.length);
+      return matched[matchedIdx];
+    }
+  }
+  return pickRandomNickname();
+}
+function setCheerDefaultNickname(force){
+  var nick=document.getElementById("cheerNick");
+  if(!nick)return;
+  if(force||!nick.value.trim()){
+    nick.value=pickNicknameByAcquiredName(resolveAcquiredName());
+  }
+}
+function updateCheerCounter(){
+  var msg=document.getElementById("cheerMessage");
+  var count=document.getElementById("cheerCount");
+  if(!msg||!count)return;
+  var len=(msg.value||"").length;
+  count.textContent=len+"/150";
+}
+function setCheerFeedback(err,ok){
+  var errEl=document.getElementById("cheerErr");
+  var okEl=document.getElementById("cheerOk");
+  if(errEl)errEl.textContent=err||"";
+  if(okEl)okEl.textContent=ok||"";
+}
+function formatCheerTimestamp(value){
+  if(!value)return "";
+  try{
+    var date=new Date(value);
+    if(Number.isNaN(date.getTime()))return "";
+    return date.toLocaleString("ko-KR",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+  }catch(_){
+    return "";
+  }
+}
+function createCheerFeedItem(item){
+  var article=document.createElement("article");
+  article.className="cheer-feed-item";
+  var head=document.createElement("div");
+  head.className="cheer-feed-head";
+  var nick=document.createElement("span");
+  nick.className="cheer-feed-nick";
+  nick.textContent=(item&&item.nickname)||"익명";
+  var time=document.createElement("span");
+  time.className="cheer-feed-time";
+  time.textContent=formatCheerTimestamp(item&&item.createdAt);
+  head.appendChild(nick);
+  head.appendChild(time);
+  var msg=document.createElement("p");
+  msg.className="cheer-feed-msg";
+  msg.textContent=(item&&item.message)||"";
+  article.appendChild(head);
+  article.appendChild(msg);
+  return article;
+}
+function setCheerFeedStatus(message){
+  var status=document.getElementById("cheerFeedStatus");
+  if(status)status.textContent=message||"";
+}
+async function loadCheerMessages(reset){
+  if(cheerFeedLoading)return;
+  if(!reset&&!cheerFeedHasMore)return;
+  var list=document.getElementById("cheerFeedList");
+  if(!list)return;
+  if(reset){
+    cheerFeedCursor=null;
+    cheerFeedHasMore=true;
+    list.innerHTML="";
+  }
+  cheerFeedLoading=true;
+  setCheerFeedStatus("메시지를 불러오는 중입니다...");
+  try{
+    var query=["limit=12"];
+    if(!reset&&cheerFeedCursor)query.push("cursor="+encodeURIComponent(String(cheerFeedCursor)));
+    var response=await fetch(buildInviteApiUrl("/guest-messages?"+query.join("&")),{
+      cache:"no-store"
+    });
+    if(!response.ok)throw new Error("guest messages load failed");
+    var payload=await response.json();
+    var items=Array.isArray(payload&&payload.items)?payload.items:[];
+    if(reset)list.innerHTML="";
+    items.forEach(function(item){
+      list.appendChild(createCheerFeedItem(item));
+    });
+    cheerFeedHasMore=!!(payload&&payload.hasMore);
+    cheerFeedCursor=payload&&payload.nextCursor?payload.nextCursor:null;
+    if(!items.length&&reset){
+      setCheerFeedStatus("아직 남겨진 메시지가 없습니다. 첫 메시지를 남겨주세요.");
+    }else if(cheerFeedHasMore){
+      setCheerFeedStatus("아래로 스크롤하면 더 볼 수 있어요.");
+    }else{
+      setCheerFeedStatus("모든 메시지를 불러왔습니다.");
+    }
+  }catch(_){
+    setCheerFeedStatus("메시지를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+  }finally{
+    cheerFeedLoading=false;
+  }
+}
+function prependCheerMessage(item){
+  var list=document.getElementById("cheerFeedList");
+  if(!list||!item)return;
+  list.insertBefore(createCheerFeedItem(item),list.firstChild||null);
+}
+function openGalleryModal(src){
+  var modal=document.getElementById("galleryModal");
+  var image=document.getElementById("galleryModalImage");
+  if(!modal||!image||!src)return;
+  image.src=src;
+  modal.classList.add("open");
+}
+function closeGalleryModal(){
+  var modal=document.getElementById("galleryModal");
+  var image=document.getElementById("galleryModalImage");
+  if(modal)modal.classList.remove("open");
+  if(image)image.removeAttribute("src");
+}
+function renderGalleryPhotos(photos){
+  var track=document.getElementById("galleryTrack");
+  var empty=document.getElementById("galleryEmpty");
+  if(!track||!empty)return;
+  track.innerHTML="";
+  if(!photos.length){
+    empty.textContent="등록된 갤러리 사진이 아직 없습니다.";
+    empty.style.display="block";
+    return;
+  }
+  empty.style.display="none";
+  photos.forEach(function(src,idx){
+    var btn=document.createElement("button");
+    btn.type="button";
+    btn.className="gallery-item";
+    btn.setAttribute("aria-label","사진 "+(idx+1)+" 확대 보기");
+    var img=document.createElement("img");
+    img.src=src;
+    img.alt="갤러리 사진 "+(idx+1);
+    img.loading="lazy";
+    btn.appendChild(img);
+    btn.addEventListener("click",function(){openGalleryModal(src);});
+    track.appendChild(btn);
+  });
+}
+async function loadGalleryPhotos(){
+  if(galleryLoaded||galleryLoading)return;
+  galleryLoading=true;
+  var empty=document.getElementById("galleryEmpty");
+  if(empty){
+    empty.style.display="block";
+    empty.textContent="갤러리 사진을 불러오는 중입니다...";
+  }
+  try{
+    var response=await fetch(buildInviteApiUrl("/gallery/photos"),{cache:"no-store"});
+    if(!response.ok)throw new Error("gallery load failed");
+    var payload=await response.json();
+    var photos=Array.isArray(payload&&payload.photos)?payload.photos:[];
+    renderGalleryPhotos(photos);
+    galleryLoaded=true;
+  }catch(_){
+    if(empty){
+      empty.style.display="block";
+      empty.textContent="갤러리 사진을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
+    }
+  }finally{
+    galleryLoading=false;
+  }
+}
+function openGalleryExperience(){
+  var block=document.getElementById("rsvp2");
+  var extra=document.getElementById("ipExtra");
+  if(!block)return;
+  block.classList.add("explore");
+  if(extra)extra.scrollTo({top:0,left:0,behavior:"auto"});
+  setCheerDefaultNickname(false);
+  updateCheerCounter();
+  setCheerFeedback("","");
+  void loadGalleryPhotos();
+  void loadCheerMessages(true);
+}
+function backToSentView(){
+  var block=document.getElementById("rsvp2");
+  if(!block)return;
+  block.classList.remove("explore");
+}
+async function submitCheerMessage(){
+  if(cheerSubmitting)return;
+  var nick=document.getElementById("cheerNick");
+  var msg=document.getElementById("cheerMessage");
+  var submitBtn=document.getElementById("cheerSubmitBtn");
+  if(!nick||!msg||!submitBtn)return;
+  var nickname=nick.value.trim();
+  var message=msg.value.trim();
+  setCheerFeedback("","");
+  if(!nickname){
+    setCheerFeedback("닉네임을 입력해 주세요.","");
+    nick.focus();
+    return;
+  }
+  if(!message){
+    setCheerFeedback("축하 메시지를 입력해 주세요.","");
+    msg.focus();
+    return;
+  }
+  if(message.length>150){
+    setCheerFeedback("메시지는 150자 이내로 입력해 주세요.","");
+    msg.focus();
+    return;
+  }
+  cheerSubmitting=true;
+  submitBtn.disabled=true;
+  try{
+    var response=await fetch(buildInviteApiUrl("/guest-messages"),{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        nickname:nickname,
+        message:message,
+        inviteName:getInviteSourceName()||undefined
+      })
+    });
+    if(!response.ok){
+      var body=await response.text();
+      setCheerFeedback(body||"메시지 저장에 실패했습니다. 잠시 후 다시 시도해 주세요.","");
+      return;
+    }
+    var saved=await response.json();
+    msg.value="";
+    updateCheerCounter();
+    prependCheerMessage(saved);
+    setCheerFeedback("",nickname+"님의 축하 메시지가 저장되었습니다. 고맙습니다!");
+  }catch(_){
+    setCheerFeedback("메시지 저장 중 오류가 발생했습니다.","");
+  }finally{
+    cheerSubmitting=false;
+    submitBtn.disabled=false;
+  }
+}
+function resetCheerForm(){
+  var nick=document.getElementById("cheerNick");
+  var msg=document.getElementById("cheerMessage");
+  if(nick)nick.value="";
+  if(msg)msg.value="";
+  setCheerDefaultNickname(true);
+  updateCheerCounter();
+  setCheerFeedback("","");
+}
+window.openGalleryExperience=openGalleryExperience;
+window.backToSentView=backToSentView;
+window.submitCheerMessage=submitCheerMessage;
+window.closeGalleryModal=closeGalleryModal;
+window.resetCheerForm=resetCheerForm;
+function initExtraSections(){
+  var msg=document.getElementById("cheerMessage");
+  if(msg){
+    msg.addEventListener("input",updateCheerCounter,{passive:true});
+  }
+  var modal=document.getElementById("galleryModal");
+  if(modal){
+    modal.addEventListener("click",function(evt){
+      if(evt.target===modal)closeGalleryModal();
+    });
+  }
+  document.addEventListener("keydown",function(evt){
+    if(evt.key==="Escape")closeGalleryModal();
+  });
+  var sentinel=document.getElementById("cheerFeedSentinel");
+  var root=document.getElementById("ipExtra");
+  if(sentinel&&root&&window.IntersectionObserver){
+    cheerFeedObserver=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting)void loadCheerMessages(false);
+      });
+    },{
+      root:root,
+      rootMargin:"0px 0px 260px 0px",
+      threshold:0
+    });
+    cheerFeedObserver.observe(sentinel);
+  }
+  resetCheerForm();
+}
 function preloadImageAsset(src){
   return new Promise(function(resolve){
     var target=(src||"").trim();
@@ -639,8 +1388,18 @@ function startInviteApp(){
   inviteBooted=true;
   syncDeviceSize();
   setReplyMode(false);
+  initExtraSections();
+  setupKakaoAddressLookup();
   primeStartPosition();
-  setGuestNameMessage(getInvitedNameFromPath());
+  var invitedName=getInviteSourceName();
+  setGuestNameMessage(invitedName);
+  var nameField=document.getElementById("gname");
+  if(nameField&&invitedName&&!nameField.value){
+    nameField.value=invitedName;
+  }
+  if(invitedName){
+    void identifyGuest();
+  }
   var c=lpanels()[0];
   if(c)c.classList.add("seen");
   onArrive(0);
@@ -818,8 +1577,9 @@ let mainScrollTop=0;
 var pageAnimating=false;
 var pageAnimTimer=null;
 var autoAdvanceTimer=null;
+var autoAdvanceDueAt=0;
 var autoReplyEntered=false;
-var AUTO_ADVANCE_GAP=5000;
+var AUTO_ADVANCE_GAP=7500;
 function lpanels(){
   return Array.prototype.slice.call(deckLand.querySelectorAll(".panel")).filter(function(p){
     return p.offsetParent!==null;
@@ -828,27 +1588,42 @@ function lpanels(){
 function clearAutoAdvanceTimer(){
   clearTimeout(autoAdvanceTimer);
   autoAdvanceTimer=null;
+  autoAdvanceDueAt=0;
 }
-function scheduleAutoAdvance(){
+function runAutoAdvanceTick(){
+  autoAdvanceTimer=null;
+  autoAdvanceDueAt=0;
+  if(!screenEl||screenEl.classList.contains("reply-mode"))return;
+  unlockStartLock();
+  var active=lpanels();
+  if(!active.length)return;
+  var lastIdx=active.length-1;
+  var nowIdx=Math.max(0,Math.min(nearestPanelIndex(getPageScrollTop()),lastIdx));
+  if(nowIdx>=lastIdx){
+    if(!autoReplyEntered)enterReply();
+    return;
+  }
+  snapToPanelIndex(nowIdx+1,"smooth");
+}
+function scheduleAutoAdvance(delayMs){
   clearAutoAdvanceTimer();
   if(!screenEl||screenEl.classList.contains("reply-mode"))return;
   var ps=lpanels();
   if(!ps.length)return;
-  var last=ps.length-1;
-  var base=Math.max(0,Math.min(curIdx,last));
-  autoAdvanceTimer=setTimeout(function(){
-    if(!screenEl||screenEl.classList.contains("reply-mode"))return;
-    unlockStartLock();
-    var active=lpanels();
-    if(!active.length)return;
-    var lastIdx=active.length-1;
-    var nowIdx=Math.max(0,Math.min(nearestPanelIndex(getPageScrollTop()),lastIdx));
-    if(nowIdx>=lastIdx){
-      if(!autoReplyEntered)enterReply();
-      return;
-    }
-    snapToPanelIndex(nowIdx+1,"smooth");
-  },AUTO_ADVANCE_GAP);
+  var wait=Math.max(0,typeof delayMs==="number"?delayMs:AUTO_ADVANCE_GAP);
+  autoAdvanceDueAt=Date.now()+wait;
+  autoAdvanceTimer=setTimeout(runAutoAdvanceTick,wait);
+}
+function deferAutoAdvance(extraMs){
+  if(!extraMs||extraMs<=0)return;
+  if(!screenEl||screenEl.classList.contains("reply-mode"))return;
+  var ps=lpanels();
+  if(!ps.length)return;
+  var now=Date.now();
+  var baseDue=autoAdvanceDueAt>now?autoAdvanceDueAt:(now+AUTO_ADVANCE_GAP);
+  autoAdvanceDueAt=baseDue+extraMs;
+  clearTimeout(autoAdvanceTimer);
+  autoAdvanceTimer=setTimeout(runAutoAdvanceTick,Math.max(0,autoAdvanceDueAt-now));
 }
 function startPageAnimation(ms){
   pageAnimating=true;
@@ -1099,7 +1874,22 @@ let tlSel={time:"17:00",ev:"웰컴 드링크"};
 function setTl(a,b){document.getElementById("tlTime").textContent=a;document.getElementById("tlEv").textContent=b;}
 function hoverTl(el){setTl(el.dataset.time,el.dataset.ev);}
 function restoreTl(){setTl(tlSel.time,tlSel.ev);}
-function selectTl(el){tlSel={time:el.dataset.time,ev:el.dataset.ev};document.querySelectorAll("#timeline .tl-dot").forEach(d=>d.classList.remove("active"));el.classList.add("active");setTl(tlSel.time,tlSel.ev);}
+function selectTl(el){
+  var nextTime=el.dataset.time||"";
+  var nextEv=el.dataset.ev||"";
+  var changed=tlSel.time!==nextTime||tlSel.ev!==nextEv;
+  tlSel={time:nextTime,ev:nextEv};
+  document.querySelectorAll("#timeline .tl-dot").forEach(d=>d.classList.remove("active"));
+  el.classList.add("active");
+  setTl(tlSel.time,tlSel.ev);
+  if(changed){
+    var panel=el.closest?el.closest(".panel"):null;
+    var panelIdx=panel?lpanels().indexOf(panel):-1;
+    if(panelIdx===1){
+      deferAutoAdvance(2000);
+    }
+  }
+}
 
 /* ===== rsvp ===== */
 function setGuestNameMessage(name){
@@ -1107,6 +1897,22 @@ function setGuestNameMessage(name){
   if(!guestNameEl)return;
   var normalizedName=(name||"").trim();
   guestNameEl.textContent=normalizedName?normalizedName+" 님":"";
+}
+function escapeRecapText(value){
+  return String(value||"").replace(/[&<>"']/g,function(ch){
+    return({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]||ch);
+  });
+}
+function renderSentRecap(name,wedding,after,shipping){
+  var recapEl=document.getElementById("sentRecap");
+  if(!recapEl)return;
+  recapEl.innerHTML=
+    "<div class='recap-main'>"+
+      "<div class='recap-item'><b>성함</b><span>"+escapeRecapText(name)+"</span></div>"+
+      "<div class='recap-item'><b>결혼식</b><span>"+escapeRecapText(wedding)+"</span></div>"+
+      "<div class='recap-item'><b>애프터</b><span>"+escapeRecapText(after)+"</span></div>"+
+    "</div>"+
+    "<div class='recap-ship'><b>발송</b><span>"+escapeRecapText(shipping)+"</span></div>";
 }
 function getInvitedNameFromPath(){
   try{
@@ -1117,46 +1923,130 @@ function getInvitedNameFromPath(){
     return "";
   }
 }
-function identifyGuest(){
+async function identifyGuest(){
   const err=document.getElementById("idErr");
-  const name=document.getElementById("gname").value.trim();
+  const nameInput=document.getElementById("gname");
+  const name=nameInput&&nameInput.value?nameInput.value.trim():"";
   err.textContent="";
   if(!name){err.textContent="성함을 적어주세요.";return;}
-  state.name=name;state.seats=0;state.attend=null;state.after=null
-  setGuestNameMessage(name);
-  document.getElementById("seats").innerHTML="<b>"+name+"</b>님, <b class='n'>"+state.seats+"</b>석이 준비되어 있어요.";
+  var apiBase=getInviteApiBase();
+  if(!apiBase){err.textContent="서버 연결 정보를 찾지 못했습니다. 페이지를 새로고침해 주세요.";return;}
+  var resolvedName=name;
+  var resolvedSeats=0;
+  try{
+    var response=await fetch(apiBase+"/guests/lookup?name="+encodeURIComponent(name),{cache:"no-store"});
+    var payload=await response.json();
+    if(!response.ok||!payload||payload.status!=="ok"){
+      err.textContent="초대 명단에서 성함을 찾을 수 없습니다.";
+      return;
+    }
+    resolvedName=(payload.name||name).trim()||name;
+    resolvedSeats=Math.max(1,Number(payload.seats)||1);
+  }catch(_){
+    err.textContent="하객 확인 중 오류가 발생했습니다.";
+    return;
+  }
+  state.name=resolvedName;state.seats=resolvedSeats;state.attend=null;state.after=null
+  setGuestNameMessage(resolvedName);
+  if(nameInput)nameInput.value=resolvedName;
+  document.getElementById("seats").innerHTML="<b>"+resolvedName+"</b>님, <b class='n'>"+state.seats+"</b>석이 준비되어 있어요.";
   document.getElementById("count").max=state.seats;document.getElementById("count").value=1;
-  document.getElementById("aName").value=name;
+  document.getElementById("aName").value=resolvedName;
   ["w-yes","w-no","a-yes","a-no"].forEach(id=>document.getElementById(id).classList.remove("sel"));
   const b=document.getElementById("rsvp2");b.classList.add("identified");
   setTimeout(function(){var s=document.getElementById("seats");if(s)s.scrollIntoView({behavior:"smooth",block:"nearest"});},340);
+  await prefillExistingRsvp(resolvedName);
+}
+async function prefillExistingRsvp(name){
+  var apiBase=getInviteApiBase();
+  if(!apiBase)return;
+  try{
+    var response=await fetch(apiBase+"/rsvp/me?name="+encodeURIComponent(name),{cache:"no-store"});
+    if(!response.ok)return;
+    var payload=await response.json();
+    if(!payload||!payload.rsvp)return;
+    var rsvp=payload.rsvp;
+    if(typeof rsvp.weddingAttend==="boolean"){
+      var weddingBtn=document.getElementById(rsvp.weddingAttend?"w-yes":"w-no");
+      if(weddingBtn)pick("attend",rsvp.weddingAttend?"yes":"no",weddingBtn);
+    }
+    if(typeof rsvp.afterAttend==="boolean"){
+      var afterBtn=document.getElementById(rsvp.afterAttend?"a-yes":"a-no");
+      if(afterBtn)pick("after",rsvp.afterAttend?"yes":"no",afterBtn);
+    }
+    var countInput=document.getElementById("count");
+    if(countInput)countInput.value=String(Math.max(1,rsvp.headcount||1));
+    var zipInput=document.getElementById("aZip");
+    if(zipInput)zipInput.value=rsvp.addrZip||"";
+    var roadInput=document.getElementById("aRoad");
+    if(roadInput)roadInput.value=rsvp.addrRoad||"";
+    var detailInput=document.getElementById("aDetail");
+    if(detailInput)detailInput.value=rsvp.addrDetail||"";
+  }catch(_){}
 }
 function pick(g,v,el){state[g]=v;const pr=g==="attend"?["w-yes","w-no"]:["a-yes","a-no"];pr.forEach(id=>document.getElementById(id).classList.remove("sel"));el.classList.add("sel");document.getElementById("count-field").style.display=(g==="attend"&&v==="no")?"none":"";}
-function submitRsvp(){
+async function submitRsvp(){
   const err=document.getElementById("subErr");err.textContent="";
+  if(!state.name){err.textContent="먼저 하객 확인을 진행해 주세요.";return;}
   if(!state.attend){err.textContent="결혼식 참석 여부를 선택해 주세요.";return;}
   if(!state.after){err.textContent="애프터파티 참석 여부를 선택해 주세요.";return;}
+  var apiBase=getInviteApiBase();
+  if(!apiBase){err.textContent="서버 연결 정보를 찾지 못했습니다. 페이지를 새로고침해 주세요.";return;}
   const road=document.getElementById("aRoad").value.trim();
   if(!road){err.textContent="실물 청첩장을 받으실 주소를 적어주세요.";document.getElementById("aRoad").focus();return;}
   const count=document.getElementById("count").value,zip=document.getElementById("aZip").value.trim();
   const detail=document.getElementById("aDetail").value.trim(),phone=document.getElementById("aPhone").value.trim();
-  const msg=state.attend==="yes"?state.name+"님, 8월 22일에 꼭 뵐게요. 실물 청첩장을 곧 우편으로 보내드릴게요.":state.name+"님, 마음 전해주셔서 고마워요. 준비한 청첩장은 우편으로 보내드릴게요.";
+  var parsedCount=parseInt(count,10);
+  if(!Number.isFinite(parsedCount)||parsedCount<1)parsedCount=1;
+  var weddingAttend=state.attend==="yes";
+  if(weddingAttend&&parsedCount>state.seats){
+    err.textContent="참석 인원이 확보 좌석을 초과했습니다.";
+    return;
+  }
+  var payload={
+    name:state.name,
+    weddingAttend:weddingAttend,
+    afterAttend:state.after==="yes",
+    headcount:weddingAttend?parsedCount:1,
+    addrRoad:road,
+    addrZip:zip||undefined,
+    addrDetail:detail||undefined
+  };
+  var saved=null;
+  try{
+    var response=await fetch(apiBase+"/rsvp",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    });
+    if(!response.ok){
+      var body=await response.text();
+      err.textContent=body||"회신 저장에 실패했습니다.";
+      return;
+    }
+    saved=await response.json();
+  }catch(_){
+    err.textContent="회신 저장 중 오류가 발생했습니다.";
+    return;
+  }
+  const msg=weddingAttend?state.name+"님,\n실물 청첩장은 우편으로 보내드릴게요.":state.name+"님, 결혼식 이후에 꼭 찾아뵙겠습니다. 감사합니다.";
   document.getElementById("sentMsg").textContent=msg;
-  let recap="성함 — "+state.name+"\n결혼식 — "+(state.attend==="yes"?"참석":"불참");
-  if(state.attend==="yes")recap+=" ("+count+"명)";
-  recap+="\n애프터 — "+(state.after==="yes"?"참석":"불참");
-  recap+="\n발송 — "+(zip?("["+zip+"] "):"")+road+(detail?(" "+detail):"");
-  document.getElementById("sentRecap").innerHTML=recap.split("\n").map(l=>{const[k,v]=l.split(" — ");return "<div><b>"+k+"</b> · "+v+"</div>";}).join("");
+  var weddingLabel=weddingAttend?"참석 ("+((saved&&saved.headcount)||parsedCount)+"명)":"불참";
+  var afterLabel=state.after==="yes"?"참석":"불참";
+  var shippingLabel=(zip?("["+zip+"] "):"")+road+(detail?(" "+detail):"");
+  renderSentRecap(state.name,weddingLabel,afterLabel,shippingLabel);
   console.log("RSVP",{...state,count,zip,road,detail,phone});
+  document.getElementById("rsvp2").classList.remove("explore");
   document.getElementById("rsvp2").classList.add("done");
   document.getElementById("rsvp2").scrollIntoView({behavior:"smooth",inline:"start",block:"nearest"});
 }
 function resetAll(){
   const b=document.getElementById("rsvp2");
-  b.classList.remove("done","identified");
+  b.classList.remove("done","identified","explore");
   ["gname","count","aName","aPhone","aZip","aRoad","aDetail"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("idErr").textContent="";document.getElementById("subErr").textContent="";
   state.attend=null;state.after=null;
+  resetCheerForm();
   backToCard();
 }
 

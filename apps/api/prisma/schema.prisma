@@ -32,3 +32,14 @@ model Rsvp {
   updatedAt     DateTime @updatedAt
   createdAt     DateTime @default(now())
 }
+
+model GuestMessage {
+  id         Int      @id @default(autoincrement())
+  nickname   String
+  message    String
+  inviteName String?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([inviteName])
+}

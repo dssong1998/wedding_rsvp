@@ -183,6 +183,8 @@ ${frameLessStyle}
 (function() {
   const invitedName = ${JSON.stringify(inviteName)};
   const apiBase = ${JSON.stringify(clientApiBase)};
+  window.__INVITE_API_BASE = apiBase;
+  window.__INVITE_SOURCE_NAME = invitedName;
   const state = { name: "", seats: 1, attend: null, after: null };
   let postcodeScriptLoading = null;
   let postcodePopupOpen = false;
@@ -304,6 +306,32 @@ ${frameLessStyle}
     if (!guestName) return;
     const normalizedName = (name || "").trim();
     guestName.textContent = normalizedName ? normalizedName + " 님을 모십니다." : "";
+  }
+
+  function escapeRecapText(value) {
+    return String(value ?? "").replace(/[&<>"']/g, function(char) {
+      return (
+        {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "\"": "&quot;",
+          "'": "&#39;"
+        }[char] || char
+      );
+    });
+  }
+
+  function renderSentRecap(name, wedding, after, shipping) {
+    const recap = g("sentRecap");
+    if (!recap) return;
+    recap.innerHTML =
+      "<div class='recap-main'>" +
+      "<div class='recap-item'><b>성함</b><span>" + escapeRecapText(name) + "</span></div>" +
+      "<div class='recap-item'><b>결혼식</b><span>" + escapeRecapText(wedding) + "</span></div>" +
+      "<div class='recap-item'><b>애프터</b><span>" + escapeRecapText(after) + "</span></div>" +
+      "</div>" +
+      "<div class='recap-ship'><b>발송</b><span>" + escapeRecapText(shipping) + "</span></div>";
   }
 
   async function prefillExisting(name) {
@@ -431,25 +459,17 @@ ${frameLessStyle}
         : state.name + "님, 마음 전해주셔서 고마워요. 준비한 청첩장은 우편으로 보내드릴게요.";
 
       if (g("sentMsg")) g("sentMsg").textContent = msg;
-
-      let recap = "성함 — " + state.name + "\\n결혼식 — " + (weddingAttend ? "참석" : "불참");
-      if (weddingAttend) recap += " (" + saved.headcount + "명)";
-      recap += "\\n애프터 — " + (state.after === "yes" ? "참석" : "불참");
-      recap += "\\n발송 — " + [zip ? "[" + zip + "]" : "", road, detail].filter(Boolean).join(" ");
-      recap += "\\n현재 누적 참석 — " + saved.totalAttendees + "명";
-
-      if (g("sentRecap")) {
-        g("sentRecap").innerHTML = recap.split("\\n").map(function(line) {
-          const pair = line.split(" — ");
-          const key = pair[0] || "";
-          const value = pair[1] || "";
-          return "<div><b>" + key + "</b> · " + value + "</div>";
-        }).join("");
-      }
+      const weddingLabel = weddingAttend ? "참석 (" + saved.headcount + "명)" : "불참";
+      const afterLabel = state.after === "yes" ? "참석" : "불참";
+      const shippingLabel = [zip ? "[" + zip + "]" : "", road, detail].filter(Boolean).join(" ");
+      renderSentRecap(state.name, weddingLabel, afterLabel, shippingLabel);
 
       const block = g("rsvp2");
-      if (block) block.classList.add("done");
-      if (block) block.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+      if (block) {
+        block.classList.remove("explore");
+        block.classList.add("done");
+        block.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+      }
     } catch (_) {
       setError("subErr", "회신 저장 중 오류가 발생했습니다.");
     }
@@ -457,7 +477,7 @@ ${frameLessStyle}
 
   window.resetAll = function() {
     const block = g("rsvp2");
-    if (block) block.classList.remove("done", "identified");
+    if (block) block.classList.remove("done", "identified", "explore");
     ["gname", "last4", "count", "aName", "aPhone", "aZip", "aRoad", "aDetail"].forEach(function(id) {
       const el = g(id);
       if (el) el.value = "";
@@ -469,6 +489,9 @@ ${frameLessStyle}
     state.attend = null;
     state.after = null;
     setGuestNameMessage(invitedName);
+    if (typeof window.resetCheerForm === "function") {
+      window.resetCheerForm();
+    }
     const last4Field = g("last4-field");
     if (last4Field) last4Field.style.display = "none";
     if (window.backToCard) window.backToCard();
