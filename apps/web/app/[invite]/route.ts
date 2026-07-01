@@ -18,6 +18,29 @@ function isLoopbackHost(hostname: string): boolean {
   return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "0.0.0.0";
 }
 
+function isIpv4Address(hostname: string): boolean {
+  const parts = hostname.split(".");
+  if (parts.length !== 4) return false;
+  return parts.every((segment) => {
+    if (!/^\d{1,3}$/.test(segment)) return false;
+    const value = Number.parseInt(segment, 10);
+    return value >= 0 && value <= 255;
+  });
+}
+
+function isPrivateNetworkHost(hostname: string): boolean {
+  const normalized = hostname.toLowerCase();
+  if (isLoopbackHost(normalized)) return true;
+  if (!isIpv4Address(normalized)) return false;
+  const [first, second] = normalized.split(".").map((segment) => Number.parseInt(segment, 10));
+  return (
+    first === 10 ||
+    first === 127 ||
+    (first === 192 && second === 168) ||
+    (first === 172 && second >= 16 && second <= 31)
+  );
+}
+
 function extractRequestHostname(request: NextRequest): string {
   const rawHost = (request.headers.get("x-forwarded-host") ?? request.headers.get("host") ?? "")
     .split(",")[0]
@@ -42,7 +65,7 @@ function resolveServerApiBase(): string {
 
 function resolveClientApiOriginByHost(request: NextRequest, hostname: string): string {
   const normalized = hostname.toLowerCase();
-  if (isLoopbackHost(normalized)) {
+  if (isPrivateNetworkHost(normalized)) {
     return `${request.nextUrl.protocol}//${normalized}:${DEFAULT_API_PORT}`;
   }
   const baseHost = normalized.startsWith("www.") ? normalized.slice(4) : normalized;
@@ -59,7 +82,10 @@ function resolveClientApiBase(request: NextRequest): string {
 
   try {
     const parsed = new URL(CLIENT_API_BASE);
-    if (isLoopbackHost(parsed.hostname) && !isLoopbackHost(requestHostname)) {
+    if (
+      isPrivateNetworkHost(parsed.hostname) &&
+      parsed.hostname.toLowerCase() !== requestHostname.toLowerCase()
+    ) {
       return resolveClientApiOriginByHost(request, requestHostname);
     }
     return CLIENT_API_BASE;

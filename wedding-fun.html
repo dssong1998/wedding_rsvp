@@ -127,15 +127,29 @@ body.fun-preloading .fun-loading{display:flex}
   var galleryLoading=false;
   var galleryPhotoCache=[];
 
-  function isLoopbackHost(host){
-    return host==="localhost"||host==="127.0.0.1"||host==="0.0.0.0";
+  function isPrivateNetworkHost(host){
+    if(!host)return false;
+    var normalized=(host+"").trim().toLowerCase();
+    if(!normalized)return false;
+    if(normalized==="localhost"||normalized==="127.0.0.1"||normalized==="0.0.0.0")return true;
+    var parts=normalized.split(".");
+    if(parts.length!==4)return false;
+    var nums=[];
+    for(var i=0;i<parts.length;i++){
+      if(!/^\d{1,3}$/.test(parts[i]))return false;
+      var value=parseInt(parts[i],10);
+      if(value<0||value>255)return false;
+      nums.push(value);
+    }
+    var first=nums[0],second=nums[1];
+    return first===10||first===127||(first===192&&second===168)||(first===172&&second>=16&&second<=31);
   }
   function resolveApiBase(){
     var injected=(window.__INVITE_API_BASE||"").trim();
     if(injected)return injected.replace(/\/$/,"");
     var host=(window.location.hostname||"").trim().toLowerCase();
     if(!host)return "";
-    if(isLoopbackHost(host)){
+    if(isPrivateNetworkHost(host)){
       return window.location.protocol+"//"+host+":4000";
     }
     if(host.indexOf("www.")===0){

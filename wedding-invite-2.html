@@ -96,6 +96,13 @@ body.invite-preloading .invite-loading{
 .screen{position:relative;width:100%;height:auto;min-height:var(--section-vh);border-radius:0;overflow:visible;background:var(--bg);scrollbar-width:none}
 .screen:not(.reply-mode){touch-action:none}
 .screen.reply-mode{touch-action:auto}
+body.legacy-ios-scroll{
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:auto;
+}
+body.legacy-ios-scroll .screen:not(.reply-mode){
+  touch-action:pan-y;
+}
 .panel{
   position:relative;
   flex:0 0 auto;
@@ -701,6 +708,7 @@ body{background:#ffffff}
 /* ===== 1페이지: 엽서 스테이지 (숲→엽서) ===== */
 .envelope-stage{padding:0;position:relative;overflow:hidden;background:transparent}
 .envelope-stage:not(.opened){touch-action:none}
+body.legacy-ios-scroll .envelope-stage:not(.opened){touch-action:pan-y}
 /* L1 엽서 (숲 배경 위) */
 .es-postcard{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;padding:6cqh 14cqh}
 .pc-card{flex:1;height:84cqh;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border:1px solid rgba(255,255,255,.5);box-shadow:0 20px 48px -12px rgba(16,24,14,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3cqh;text-align:center}
@@ -911,11 +919,19 @@ body{background:#ffffff}
 <script>
 
 const state={name:"",seats:2,attend:null,after:null};
-const UA=(navigator.userAgent||"").toUpperCase();
+const RAW_UA=(navigator.userAgent||"");
+const UA=RAW_UA.toUpperCase();
 const isKakaoWebView=UA.indexOf("KAKAOTALK")>-1;
+const isIOSDevice=/iPad|iPhone|iPod/i.test(RAW_UA)||(/Macintosh/i.test(RAW_UA)&&(navigator.maxTouchPoints||0)>1);
+const iosVersionMatch=RAW_UA.match(/OS\s+(\d+)[._]/i);
+const iosMajorVersion=isIOSDevice&&iosVersionMatch?parseInt(iosVersionMatch[1],10):0;
+const useLegacyIOSScrollFallback=!!(isIOSDevice&&iosMajorVersion>0&&iosMajorVersion<=18);
 const screenEl=document.querySelector(".screen");
 const deckLand=screenEl;
 if("scrollRestoration" in history)history.scrollRestoration="manual";
+if(useLegacyIOSScrollFallback&&document.body){
+  document.body.classList.add("legacy-ios-scroll");
+}
 var kakaoOrientationKey="";
 var viewportResnapTimer=null;
 var targetPanelIndex=0;
@@ -942,13 +958,30 @@ var NICKNAME_POOL=[
   "야구 보는 도영","책 읽는 지성","짜증내는 재현","활짝 웃는 연정","명상하는 영지","매수하는 정우", "익절하는 성원",
   "기타 치는 진용","크로스핏하는 다현","축구보는 종호","요가하는 주현","비행기 타는 유림","사진 찍는 다윤", "산책하는 아현"
 ];
+function isPrivateNetworkHost(host){
+  if(!host)return false;
+  var normalized=(host+"").trim().toLowerCase();
+  if(!normalized)return false;
+  if(normalized==="localhost"||normalized==="127.0.0.1"||normalized==="0.0.0.0")return true;
+  var parts=normalized.split(".");
+  if(parts.length!==4)return false;
+  var nums=[];
+  for(var i=0;i<parts.length;i++){
+    if(!/^\d{1,3}$/.test(parts[i]))return false;
+    var value=parseInt(parts[i],10);
+    if(value<0||value>255)return false;
+    nums.push(value);
+  }
+  var first=nums[0],second=nums[1];
+  return first===10||first===127||(first===192&&second===168)||(first===172&&second>=16&&second<=31);
+}
 function getInviteApiBase(){
   var runtimeBase=(window.__INVITE_API_BASE||"").trim();
   if(runtimeBase)return runtimeBase.replace(/\/$/,"");
   if(window.location){
     var host=(window.location.hostname||"").trim().toLowerCase();
     if(host){
-      if(host==="localhost"||host==="127.0.0.1"||host==="0.0.0.0"){
+      if(isPrivateNetworkHost(host)){
         return window.location.protocol+"//"+host+":4000";
       }
       if(host.indexOf("www.")===0){
@@ -1593,7 +1626,7 @@ const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.ta
 document.querySelectorAll("[data-panel]").forEach(p=>io.observe(p));
 
 let curIdx=0;
-let startLocked=true;
+let startLocked=!useLegacyIOSScrollFallback;
 let mainScrollTop=0;
 var pageAnimating=false;
 var pageAnimTimer=null;
@@ -1815,6 +1848,7 @@ function moveSectionBy(delta){
   snapToPanelIndex(next,"smooth");
 }
 window.addEventListener("wheel",function(e){
+  if(useLegacyIOSScrollFallback)return;
   if(!canHandleSectionGesture(e.target))return;
   unlockStartLock();
   e.preventDefault();
@@ -1840,6 +1874,7 @@ window.addEventListener("wheel",function(e){
 },{passive:false});
 var touchGesture=null;
 window.addEventListener("touchstart",function(e){
+  if(useLegacyIOSScrollFallback){touchGesture=null;return;}
   if(!canHandleSectionGesture(e.target)){touchGesture=null;return;}
   unlockStartLock();
   var t=e.changedTouches&&e.changedTouches[0];
@@ -1847,6 +1882,7 @@ window.addEventListener("touchstart",function(e){
   touchGesture={x:t.clientX,y:t.clientY};
 },{passive:true});
 window.addEventListener("touchmove",function(e){
+  if(useLegacyIOSScrollFallback)return;
   if(!touchGesture||!canHandleSectionGesture(e.target))return;
   var t=e.changedTouches&&e.changedTouches[0];
   if(!t)return;
