@@ -88,7 +88,12 @@ body.desktop-invite-preloading .desktop-invite-loading{
   box-shadow:0 50px 90px -34px rgba(0,0,0,.5),inset 0 0 0 2px #2a2722;
   transition:width .35s var(--ease),aspect-ratio .35s var(--ease),border-radius .35s var(--ease);
 }
-.device.land{width:min(95vw,calc((100dvh - 32px)*19.5/9));aspect-ratio:19.5/9;border-radius:42px}
+.device.land{
+  width:100%;
+  max-width:calc(100vw - 32px);
+  aspect-ratio:19.5/9;
+  border-radius:42px
+}
 .device.port{width:min(86vw,calc((100dvh - 32px)*9/19.5));aspect-ratio:9/19.5;border-radius:46px}
 .screen{
   position:relative;
