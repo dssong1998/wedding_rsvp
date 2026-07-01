@@ -13,12 +13,20 @@
   --ease:cubic-bezier(.22,1,.36,1);
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%}
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
 body{
   background:#e9e9ec;
   display:flex;
   align-items:center;
   justify-content:center;
+  width:100vw;
+  height:100dvh;
+  overflow:hidden;
   font-family:"Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
 }
 body.desktop-invite-preloading{
@@ -64,20 +72,24 @@ body.desktop-invite-preloading .desktop-invite-loading{
 }
 
 .mock-wrap{
+  position:relative;
+  width:100vw;
+  height:100dvh;
   display:flex;
-  flex-direction:column;
   align-items:center;
-  gap:14px;
+  justify-content:center;
+  padding:16px;
+  overflow:hidden;
 }
 .device{
   position:relative;
   background:#17150f;
   padding:10px;
   box-shadow:0 50px 90px -34px rgba(0,0,0,.5),inset 0 0 0 2px #2a2722;
-  transition:width .4s var(--ease),aspect-ratio .4s var(--ease),border-radius .4s var(--ease);
+  transition:width .35s var(--ease),aspect-ratio .35s var(--ease),border-radius .35s var(--ease);
 }
-.device.land{width:min(96vw,calc(95vh*19.5/9));aspect-ratio:19.5/9;border-radius:42px}
-.device.port{width:min(86vw,calc(95vh*9/19.5));aspect-ratio:9/19.5;border-radius:46px}
+.device.land{width:min(95vw,calc((100dvh - 32px)*19.5/9));aspect-ratio:19.5/9;border-radius:42px}
+.device.port{width:min(86vw,calc((100dvh - 32px)*9/19.5));aspect-ratio:9/19.5;border-radius:46px}
 .screen{
   position:relative;
   width:100%;
@@ -88,11 +100,21 @@ body.desktop-invite-preloading .desktop-invite-loading{
 }
 .device.port .screen{border-radius:36px}
 .screen iframe{
+  position:absolute;
+  left:50%;
+  top:50%;
   width:100%;
   height:100%;
   border:0;
   display:block;
   background:#fff;
+  transform:translate(-50%,-50%);
+  transform-origin:center center;
+}
+.device.land .screen iframe{
+  width:46.153846%;
+  height:216.666667%;
+  transform:translate(-50%,-50%) rotate(-90deg);
 }
 .speaker{position:absolute;background:#000;opacity:.5;z-index:9;border-radius:4px}
 .cam{position:absolute;background:#0b0b0b;width:7px;height:7px;border-radius:50%;box-shadow:inset 0 0 0 1px #333;z-index:9}
@@ -101,10 +123,15 @@ body.desktop-invite-preloading .desktop-invite-loading{
 .device.port .speaker{top:9px;left:50%;transform:translateX(-50%);height:5px;width:20%}
 .device.port .cam{top:9px;left:calc(50% + 16%)}
 .hint{
+  position:fixed;
+  left:50%;
+  bottom:10px;
+  transform:translateX(-50%);
   color:#5f5a4f;
   font-size:12px;
   letter-spacing:.06em;
   text-transform:uppercase;
+  pointer-events:none;
 }
 </style>
 </head>
@@ -129,9 +156,50 @@ body.desktop-invite-preloading .desktop-invite-loading{
   var path=location.pathname||"";
   var isInvitePath=/^\/invited(?:@|%40)/i.test(path);
   var frame=document.getElementById("inviteFrame");
+  var device=document.getElementById("device");
   var frameReady=false;
   var frameLoadFallbackTimer=null;
   var failSafeTimer=null;
+  var frameModeWatcher=null;
+  var activeMockMode="land";
+  function postMockModeToFrame(mode){
+    if(!frame||!frame.contentWindow)return;
+    try{
+      frame.contentWindow.postMessage({type:"desktop-mock-mode",mode:mode},"*");
+    }catch(_){}
+  }
+  function setMockMode(mode,forceNotify){
+    if(!device)return;
+    var next=(mode==="port")?"port":"land";
+    var changed=next!==activeMockMode;
+    if(changed){
+      activeMockMode=next;
+      device.classList.toggle("port",next==="port");
+      device.classList.toggle("land",next!=="port");
+    }
+    if(changed||forceNotify){
+      postMockModeToFrame(next);
+    }
+  }
+  function readFrameReplyMode(){
+    if(!frame||!frame.contentWindow)return null;
+    try{
+      var doc=frame.contentDocument||frame.contentWindow.document;
+      if(!doc)return null;
+      var screen=doc.querySelector(".screen");
+      if(!screen)return null;
+      return screen.classList.contains("reply-mode")?"port":"land";
+    }catch(_){
+      return null;
+    }
+  }
+  function watchFrameMode(){
+    if(frameModeWatcher)clearInterval(frameModeWatcher);
+    frameModeWatcher=setInterval(function(){
+      var mode=readFrameReplyMode();
+      if(mode)setMockMode(mode);
+    },160);
+  }
   function finishDesktopLoading(){
     if(frameReady)return;
     frameReady=true;
@@ -148,8 +216,19 @@ body.desktop-invite-preloading .desktop-invite-loading{
   function onInviteReadyMessage(event){
     if(!frame||event.source!==frame.contentWindow)return;
     var data=event.data;
-    if(data&&typeof data==="object"&&data.type==="invite-ready"){
+    if(!data||typeof data!=="object")return;
+    if(data.type==="desktop-mock-mode-sync-request"){
+      postMockModeToFrame(activeMockMode);
+      return;
+    }
+    if(data.type==="invite-ready"){
       finishDesktopLoading();
+      var mode=readFrameReplyMode();
+      if(mode){
+        setMockMode(mode,true);
+      }else{
+        postMockModeToFrame(activeMockMode);
+      }
     }
   }
   window.addEventListener("message",onInviteReadyMessage);
@@ -173,21 +252,19 @@ body.desktop-invite-preloading .desktop-invite-loading{
     frame.addEventListener("load",function(){
       clearTimeout(frameLoadFallbackTimer);
       frameLoadFallbackTimer=setTimeout(finishDesktopLoading,3200);
+      setMockMode("land",true);
+      watchFrameMode();
     });
     frame.src=buildEmbedTarget();
   }else{
     finishDesktopLoading();
   }
   failSafeTimer=setTimeout(finishDesktopLoading,12000);
-  var device=document.getElementById("device");
-  if(!device)return;
-  function syncOrientation(){
-    var portrait=window.innerHeight>window.innerWidth;
-    device.classList.toggle("port",portrait);
-    device.classList.toggle("land",!portrait);
-  }
-  window.addEventListener("resize",syncOrientation,{passive:true});
-  syncOrientation();
+  setMockMode("land");
+  window.addEventListener("beforeunload",function(){
+    if(frameModeWatcher)clearInterval(frameModeWatcher);
+    frameModeWatcher=null;
+  });
 })();
 </script>
 </body>
