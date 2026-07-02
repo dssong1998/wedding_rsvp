@@ -357,6 +357,8 @@ body{background:#ffffff}
   transform:none;
   transform-origin:center center;
   container-type:size;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 #rsvp2 .ip-card,#rsvp2 .ip-sent{position:relative;inset:auto}
 .ip-card{flex:1;position:relative;background:#fff;border-radius:3.5cqw;box-shadow:0 18px 42px -12px rgba(16,24,14,.6);padding:13cqw 7cqw 8cqw;overflow-y:auto;scrollbar-width:none}
@@ -872,10 +874,7 @@ body.legacy-ios-scroll .envelope-stage:not(.opened){touch-action:pan-y}
             </div>
             <div class="addr-head">실물 청첩장 받으실 주소</div>
             <p class="addr-sub">회신해 주신 분께 우편으로 보내드려요.</p>
-            <div class="grid2">
-              <div class="field"><label class="label" for="aName">받는 분</label><input class="input" id="aName" autocomplete="name"/></div>
-              <div class="field"><label class="label" for="aPhone">연락처</label><input class="input" id="aPhone" inputmode="tel" placeholder="010-0000-0000"/></div>
-            </div>
+            <div class="field"><label class="label" for="aName">받는 분</label><input class="input" id="aName" autocomplete="name"/></div>
             <div class="field"><label class="label" for="aZip">우편번호</label><input class="input" id="aZip" inputmode="numeric" placeholder="00000"/></div>
             <div class="field"><label class="label" for="aRoad">주소 <span class="req">*</span></label><input class="input" id="aRoad" placeholder="도로명 또는 지번 주소"/></div>
             <div class="field"><label class="label" for="aDetail">상세주소</label><input class="input" id="aDetail" placeholder="동/호수"/></div>
@@ -2065,34 +2064,6 @@ async function identifyGuest(){
     if(!s)return;
     scrollReplyToElement(s);
   },340);
-  await prefillExistingRsvp(resolvedName);
-}
-async function prefillExistingRsvp(name){
-  var apiBase=getInviteApiBase();
-  if(!apiBase)return;
-  try{
-    var response=await fetch(apiBase+"/rsvp/me?name="+encodeURIComponent(name),{cache:"no-store"});
-    if(!response.ok)return;
-    var payload=await response.json();
-    if(!payload||!payload.rsvp)return;
-    var rsvp=payload.rsvp;
-    if(typeof rsvp.weddingAttend==="boolean"){
-      var weddingBtn=document.getElementById(rsvp.weddingAttend?"w-yes":"w-no");
-      if(weddingBtn)pick("attend",rsvp.weddingAttend?"yes":"no",weddingBtn);
-    }
-    if(typeof rsvp.afterAttend==="boolean"){
-      var afterBtn=document.getElementById(rsvp.afterAttend?"a-yes":"a-no");
-      if(afterBtn)pick("after",rsvp.afterAttend?"yes":"no",afterBtn);
-    }
-    var countInput=document.getElementById("count");
-    if(countInput)countInput.value=String(Math.max(1,rsvp.headcount||1));
-    var zipInput=document.getElementById("aZip");
-    if(zipInput)zipInput.value=rsvp.addrZip||"";
-    var roadInput=document.getElementById("aRoad");
-    if(roadInput)roadInput.value=rsvp.addrRoad||"";
-    var detailInput=document.getElementById("aDetail");
-    if(detailInput)detailInput.value=rsvp.addrDetail||"";
-  }catch(_){}
 }
 function pick(g,v,el){state[g]=v;const pr=g==="attend"?["w-yes","w-no"]:["a-yes","a-no"];pr.forEach(id=>document.getElementById(id).classList.remove("sel"));el.classList.add("sel");document.getElementById("count-field").style.display=(g==="attend"&&v==="no")?"none":"";}
 async function submitRsvp(){
@@ -2105,7 +2076,7 @@ async function submitRsvp(){
   const road=document.getElementById("aRoad").value.trim();
   if(!road){err.textContent="실물 청첩장을 받으실 주소를 적어주세요.";document.getElementById("aRoad").focus();return;}
   const count=document.getElementById("count").value,zip=document.getElementById("aZip").value.trim();
-  const detail=document.getElementById("aDetail").value.trim(),phone=document.getElementById("aPhone").value.trim();
+  const detail=document.getElementById("aDetail").value.trim();
   var parsedCount=parseInt(count,10);
   if(!Number.isFinite(parsedCount)||parsedCount<1)parsedCount=1;
   var weddingAttend=state.attend==="yes";
@@ -2145,7 +2116,7 @@ async function submitRsvp(){
   var afterLabel=state.after==="yes"?"참석":"불참";
   var shippingLabel=(zip?("["+zip+"] "):"")+road+(detail?(" "+detail):"");
   renderSentRecap(state.name,weddingLabel,afterLabel,shippingLabel);
-  console.log("RSVP",{...state,count,zip,road,detail,phone});
+  console.log("RSVP",{...state,count,zip,road,detail});
   document.getElementById("rsvp2").classList.remove("explore");
   document.getElementById("rsvp2").classList.add("done");
   document.getElementById("rsvp2").scrollIntoView({behavior:"smooth",inline:"start",block:"nearest"});
@@ -2153,7 +2124,7 @@ async function submitRsvp(){
 function resetAll(){
   const b=document.getElementById("rsvp2");
   b.classList.remove("done","identified","explore");
-  ["gname","count","aName","aPhone","aZip","aRoad","aDetail"].forEach(id=>document.getElementById(id).value="");
+  ["gname","count","aName","aZip","aRoad","aDetail"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("idErr").textContent="";document.getElementById("subErr").textContent="";
   state.attend=null;state.after=null;
   resetCheerForm();

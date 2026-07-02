@@ -369,29 +369,6 @@ ${frameLessStyle}
       "<div class='recap-ship'><b>발송</b><span>" + escapeRecapText(shipping) + "</span></div>";
   }
 
-  async function prefillExisting(name) {
-    try {
-      const response = await fetch(apiBase + "/rsvp/me?name=" + encodeURIComponent(name));
-      if (!response.ok) return;
-      const payload = await response.json();
-      if (!payload || !payload.rsvp) return;
-      const rsvp = payload.rsvp;
-
-      if (typeof rsvp.weddingAttend === "boolean") {
-        const btn = g(rsvp.weddingAttend ? "w-yes" : "w-no");
-        setChoice("attend", rsvp.weddingAttend ? "yes" : "no", btn);
-      }
-      if (typeof rsvp.afterAttend === "boolean") {
-        const btn = g(rsvp.afterAttend ? "a-yes" : "a-no");
-        setChoice("after", rsvp.afterAttend ? "yes" : "no", btn);
-      }
-      if (g("count")) g("count").value = String(Math.max(1, rsvp.headcount || 1));
-      if (g("aZip")) g("aZip").value = rsvp.addrZip || "";
-      if (g("aRoad")) g("aRoad").value = rsvp.addrRoad || "";
-      if (g("aDetail")) g("aDetail").value = rsvp.addrDetail || "";
-    } catch (_) {}
-  }
-
   window.pick = function(group, value, element) {
     setChoice(group, value, element);
   };
@@ -432,7 +409,6 @@ ${frameLessStyle}
         const target = g("seats");
         if (target) target.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }, 300);
-      await prefillExisting(state.name);
     } catch (error) {
       setError("idErr", "하객 확인 중 오류가 발생했습니다.");
     }
@@ -513,7 +489,7 @@ ${frameLessStyle}
   window.resetAll = function() {
     const block = g("rsvp2");
     if (block) block.classList.remove("done", "identified", "explore");
-    ["gname", "last4", "count", "aName", "aPhone", "aZip", "aRoad", "aDetail"].forEach(function(id) {
+    ["gname", "last4", "count", "aName", "aZip", "aRoad", "aDetail"].forEach(function(id) {
       const el = g(id);
       if (el) el.value = "";
     });
