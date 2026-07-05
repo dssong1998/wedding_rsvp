@@ -1896,7 +1896,6 @@ function moveSectionBy(delta){
   snapToPanelIndex(next,"smooth");
 }
 window.addEventListener("wheel",function(e){
-  if(useLegacyIOSScrollFallback)return;
   if(!canHandleSectionGesture(e.target))return;
   unlockStartLock();
   e.preventDefault();
@@ -1922,7 +1921,6 @@ window.addEventListener("wheel",function(e){
 },{passive:false});
 var touchGesture=null;
 window.addEventListener("touchstart",function(e){
-  if(useLegacyIOSScrollFallback){touchGesture=null;return;}
   if(!canHandleSectionGesture(e.target)){touchGesture=null;return;}
   unlockStartLock();
   var t=e.changedTouches&&e.changedTouches[0];
@@ -1930,13 +1928,13 @@ window.addEventListener("touchstart",function(e){
   touchGesture={x:t.clientX,y:t.clientY};
 },{passive:true});
 window.addEventListener("touchmove",function(e){
-  if(useLegacyIOSScrollFallback)return;
   if(!touchGesture||!canHandleSectionGesture(e.target))return;
   var t=e.changedTouches&&e.changedTouches[0];
   if(!t)return;
   var dx=t.clientX-touchGesture.x;
   var dy=t.clientY-touchGesture.y;
-  if(Math.abs(dx)<28&&Math.abs(dy)<28)return;
+  var gestureThreshold=useLegacyIOSScrollFallback?10:28;
+  if(Math.abs(dx)<gestureThreshold&&Math.abs(dy)<gestureThreshold)return;
   e.preventDefault();
   if(pageAnimating){
     touchGesture=null;
