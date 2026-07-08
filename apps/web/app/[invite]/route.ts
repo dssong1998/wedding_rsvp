@@ -3,6 +3,7 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
+const PUBLIC_ROOT_URL = "https://dae-da.com/";
 
 const CLIENT_API_BASE =
   process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") ??
@@ -536,19 +537,13 @@ export async function GET(
   const { invite } = await context.params;
   const inviteName = decodeInviteName(invite);
   if (!inviteName) {
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = "/";
-    redirectUrl.search = "";
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(PUBLIC_ROOT_URL);
   }
 
   const serverApiBase = resolveServerApiBase();
   const isInvited = await lookupGuest(serverApiBase, inviteName);
   if (!isInvited) {
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = "/";
-    redirectUrl.search = "";
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(PUBLIC_ROOT_URL);
   }
 
   const desktopTemplate = shouldUseDesktopTemplate(request);

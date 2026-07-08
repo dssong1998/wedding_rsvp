@@ -3,6 +3,7 @@ import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
+const PUBLIC_ROOT_URL = "https://dae-da.com/";
 
 const CLIENT_API_BASE =
   process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") ??
@@ -165,13 +166,13 @@ export async function GET(request: NextRequest) {
   const source = request.nextUrl.searchParams.get("invite") ?? request.nextUrl.searchParams.get("name");
   const inviteName = decodeInviteName(source);
   if (!inviteName) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(PUBLIC_ROOT_URL);
   }
 
   const serverApiBase = resolveServerApiBase();
   const guestExists = await lookupGuest(serverApiBase, inviteName);
   if (!guestExists) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(PUBLIC_ROOT_URL);
   }
 
   const template = await loadFunTemplate();
