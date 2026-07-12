@@ -3,13 +3,19 @@ import session = require("express-session");
 import { ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
+import type { NestExpressApplication } from "@nestjs/platform-express";
 import helmet from "helmet";
 import { AppModule } from "./app.module";
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const config = app.get(ConfigService);
   const nodeEnv = config.get<string>("NODE_ENV") ?? "development";
+
+  if (nodeEnv === "production") {
+    // Required so secure session cookies are set correctly behind nginx reverse proxy.
+    app.set("trust proxy", 1);
+  }
 
   const allowedOrigins = (config.get<string>("CORS_ORIGIN") ??
     "https://dae-da.com,https://www.dae-da.com,http://localhost:3000,http://192.168.35.139:3000")
@@ -55,10 +61,11 @@ async function bootstrap(): Promise<void> {
       secret: config.get<string>("SESSION_SECRET") ?? "dev-secret-change-me",
       resave: false,
       saveUninitialized: false,
+      proxy: nodeEnv === "production",
       cookie: {
         httpOnly: true,
-        secure: config.get<string>("NODE_ENV") === "production",
-        sameSite: config.get<string>("NODE_ENV") === "production" ? "none" : "lax",
+        secure: nodeEnv === "production",
+        sameSite: nodeEnv === "production" ? "none" : "lax",
         maxAge: 1000 * 60 * 60 * 8
       }
     })

@@ -1,17 +1,27 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import type { Request } from "express";
 import { NotifyService } from "../notify/notify.service";
 import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class AdminService {
-  private readonly otpTtlMs = 5 * 60 * 1000;
+  private readonly otpTtlMinutes: number;
+  private readonly otpTtlMs: number;
   private readonly maxTries = 5;
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly notifyService: NotifyService
-  ) {}
+    private readonly notifyService: NotifyService,
+    private readonly config: ConfigService
+  ) {
+    const ttlMinutesValue = Number.parseInt(
+      this.config.get<string>("ADMIN_OTP_TTL_MINUTES") ?? "10",
+      10
+    );
+    this.otpTtlMinutes = Number.isFinite(ttlMinutesValue) && ttlMinutesValue > 0 ? ttlMinutesValue : 10;
+    this.otpTtlMs = this.otpTtlMinutes * 60 * 1000;
+  }
 
   async requestOtp(request: Request): Promise<{ ok: true }> {
     const code = String(Math.floor(Math.random() * 900000) + 100000);
@@ -21,7 +31,7 @@ export class AdminService {
     request.session.isAdmin = false;
 
     await this.notifyService.sendOtpNotification(
-      `관리자 OTP 코드: ${code} (유효 5분)`
+      `관리자 OTP 코드: ${code} (유효 ${this.otpTtlMinutes}분)`
     );
 
     return { ok: true };
@@ -32,7 +42,10 @@ export class AdminService {
     const expires = request.session.otpExpiresAt ?? 0;
     const tries = request.session.otpTries ?? 0;
 
-    if (!currentCode || Date.now() > expires) {
+    if (!currentCode) {
+      throw new UnauthorizedException("OTP 세션이 없습니다. OTP를 다시 요청해 주세요.");
+    }
+    if (Date.now() > expires) {
       throw new UnauthorizedException("OTP가 만료되었습니다.");
     }
     if (tries >= this.maxTries) {

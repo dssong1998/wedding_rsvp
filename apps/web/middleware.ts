@@ -41,6 +41,8 @@ export function middleware(request: NextRequest): NextResponse {
     isInvitePath || 
     pathname.startsWith("/_next") ||
     pathname.startsWith("/fun") ||
+    pathname.startsWith("/information") ||
+    pathname.startsWith("/notification") ||
     pathname.startsWith("/assets") ||
     pathname === "/favicon.ico"
   ) {
