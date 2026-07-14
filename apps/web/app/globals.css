@@ -239,6 +239,86 @@ a {
   background: #f5f9ff;
 }
 
+.admin-support-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.admin-support-list {
+  display: grid;
+  gap: 10px;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.admin-support-item {
+  border: 1px solid #d7e2f0;
+  border-radius: 10px;
+  background: #fbfdff;
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.admin-support-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  color: #657990;
+  font-size: 12px;
+}
+
+.admin-support-status {
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-weight: 600;
+}
+
+.admin-support-status.pending {
+  background: #fff5db;
+  color: #8b6400;
+}
+
+.admin-support-status.answered {
+  background: #e7f5eb;
+  color: #1f6f3f;
+}
+
+.admin-support-question,
+.admin-support-answer {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.admin-support-question {
+  color: #223851;
+  font-weight: 600;
+}
+
+.admin-support-answer {
+  color: #2e4f71;
+}
+
+.admin-support-reply-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.admin-support-reply-input {
+  flex: 1;
+  min-width: 220px;
+}
+
+.admin-support-empty {
+  margin: 0;
+  color: #6b7f97;
+  font-size: 14px;
+}
+
 .information-root {
   min-height: 100dvh;
   padding: 12px 14px 64px;
@@ -916,7 +996,7 @@ a {
 
 .thinking-featured-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 0.3fr) minmax(0, 1fr);
   gap: 14px;
 }
 
@@ -927,7 +1007,9 @@ a {
 
 .thinking-article-card {
   position: relative;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  height: 30vh;
   gap: 0;
   border: 1px solid #d4deec;
   border-radius: 18px;
@@ -953,12 +1035,14 @@ a {
 
 .thinking-article-media {
   width: 100%;
-  aspect-ratio: 7 / 5;
+  aspect-ratio: 16 / 3;
+  height: auto;
   background: #edf3fb;
+  z-index: 1;
 }
 
 .thinking-article-card.compact .thinking-article-media {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 4;
   height: auto;
   align-self: start;
 }
@@ -971,9 +1055,15 @@ a {
 }
 
 .thinking-article-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 14px 14px 16px;
   display: grid;
   gap: 10px;
+  width: 100%;
+  z-index: 2;
 }
 
 .thinking-article-meta {
@@ -989,7 +1079,7 @@ a {
 
 .thinking-article-body h3 {
   margin: 0;
-  color: #223651;
+  color: #fdfeff;
   font-size: clamp(17px, 2.4vw, 29px);
   line-height: 1.24;
 }
@@ -1000,13 +1090,13 @@ a {
 
 .thinking-article-body p {
   margin: 0;
-  color: #556a87;
+  color: #fdfeff;
   line-height: 1.6;
   font-size: 14px;
 }
 
 .thinking-article-link {
-  color: #1f65c7;
+  color: #fdfeff;
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
@@ -1022,7 +1112,7 @@ a {
   gap: 14px;
 }
 
-.thinking-section-panel {
+.thinking-chatbot {
   border: 1px solid #d4deec;
   border-radius: 20px;
   background: #ffffff;
@@ -1031,46 +1121,119 @@ a {
   gap: 14px;
 }
 
-.thinking-section-head h2 {
+.thinking-chatbot-head h2 {
   margin: 0;
   color: #253a55;
-  font-size: clamp(22px, 3vw, 34px);
+  font-size: clamp(22px, 3vw, 32px);
 }
 
-.thinking-section-head p {
+.thinking-chatbot-head p {
   margin: 8px 0 0;
   color: #5a6f8a;
   line-height: 1.65;
 }
 
-.thinking-section-head-outside {
-  padding: 0 2px;
+.thinking-chatbot-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.thinking-section-head-outside p {
-  max-width: 760px;
+.thinking-chatbot-chip {
+  border: 1px solid #c8d7ea;
+  border-radius: 999px;
+  background: #f7faff;
+  color: #2f4e73;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
 }
 
-.thinking-section-feed-panel {
-  padding-top: 14px;
+.thinking-chatbot-chip:hover {
+  border-color: #97b8e5;
+  background: #edf5ff;
+  transform: translateY(-1px);
 }
 
-.thinking-feed-list {
+.thinking-chatbot-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.thinking-chatbot-input {
+  width: 100%;
+  border: 1px solid #c9d8eb;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.thinking-chatbot-send {
+  border: 1px solid #2f5c9f;
+  background: #2f5c9f;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 10px 13px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.thinking-chatbot-send:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.thinking-chatbot-status {
+  margin: 0;
+  color: #67809f;
+  font-size: 12px;
+}
+
+.thinking-chatbot-stream {
+  border: 1px solid #d7e2f1;
+  border-radius: 14px;
+  background: #f9fbff;
+  padding: 10px;
   display: grid;
-  gap: 12px;
+  gap: 8px;
+  max-height: 340px;
+  overflow-y: auto;
 }
 
-.thinking-feed-list .thinking-article-card {
-  grid-template-columns: 1fr;
+.thinking-chatbot-message {
+  max-width: min(92%, 680px);
+  border-radius: 12px;
+  padding: 10px 12px;
+  line-height: 1.6;
+  font-size: 14px;
 }
 
-.thinking-feed-list .thinking-article-media {
-  aspect-ratio: 16 / 9;
-  height: auto;
+.thinking-chatbot-message.user {
+  justify-self: end;
+  background: #2f5c9f;
+  color: #ffffff;
 }
 
-.thinking-feed-list .thinking-article-body h3 {
-  font-size: clamp(18px, 2.3vw, 28px);
+.thinking-chatbot-message.bot {
+  justify-self: start;
+  background: #ffffff;
+  border: 1px solid #d1dff0;
+  color: #2f4f73;
+}
+
+.thinking-chatbot-message.system {
+  justify-self: center;
+  background: #eef4ff;
+  border: 1px dashed #b7cae8;
+  color: #45658d;
+  font-size: 13px;
 }
 
 @media (max-width: 760px) {
@@ -1091,9 +1254,18 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .thinking-section-panel {
+  .thinking-chatbot {
     border-radius: 16px;
     padding: 13px;
+  }
+
+  .thinking-chatbot-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .thinking-chatbot-send {
+    width: 100%;
   }
 }
 
@@ -1317,6 +1489,27 @@ a {
 .article-detail-block li {
   color: #476381;
   line-height: 1.64;
+}
+
+.article-detail-block-link-button {
+  margin-top: 14px;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2a73d9, #1f63c5);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  transition: filter 0.2s ease;
+}
+
+.article-detail-block-link-button:hover {
+  filter: brightness(1.04);
 }
 
 .article-detail-explore {

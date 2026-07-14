@@ -36,42 +36,46 @@ export function ThinkingDetailPage({
 
           <figure className="article-detail-cover">
             <img src={article.image} alt={article.title} loading="eager" />
-            <figcaption>{article.reading} 읽기</figcaption>
           </figure>
 
-          <div className="article-detail-meta">
-            <div className="article-detail-meta-row">
-              <span className="article-detail-meta-label">작성</span>
-              <span className="article-detail-meta-value">{article.author}</span>
-            </div>
-            <div className="article-detail-meta-row">
-              <span className="article-detail-meta-label">업데이트</span>
-              <span className="article-detail-meta-value">{article.publishedOn}</span>
-            </div>
-          </div>
-
-          <p className="article-detail-lede">{article.lead}</p>
+          {/* <p className="article-detail-lede">{article.lead}</p> */}
 
           <div className="article-detail-body">
-            {article.blocks.map((block) => (
-              <section key={block.heading} className="article-detail-block">
-                <h2>{block.heading}</h2>
+            {article.blocks.map((block) => {
+              const actionLink = block.linkButton;
+              const externalActionLink = actionLink ? isExternalLink(actionLink.href) : false;
 
-                {block.paragraphs.map((paragraph, index) => (
-                  <p key={`${block.heading}-paragraph-${index}`}>{paragraph}</p>
-                ))}
+              return (
+                <section key={block.heading} className="article-detail-block">
+                  <h2>{block.heading}</h2>
 
-                {block.quote ? <blockquote>{block.quote}</blockquote> : null}
+                  {block.paragraphs.map((paragraph, index) => (
+                    <p key={`${block.heading}-paragraph-${index}`}>{paragraph}</p>
+                  ))}
 
-                {block.bullets?.length ? (
-                  <ul>
-                    {block.bullets.map((bullet, index) => (
-                      <li key={`${block.heading}-bullet-${index}`}>{bullet}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </section>
-            ))}
+                  {block.quote ? <blockquote>{block.quote}</blockquote> : null}
+
+                  {block.bullets?.length ? (
+                    <ul>
+                      {block.bullets.map((bullet, index) => (
+                        <li key={`${block.heading}-bullet-${index}`}>{bullet}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+
+                  {actionLink ? (
+                    <a
+                      className="article-detail-block-link-button"
+                      href={actionLink.href}
+                      target={externalActionLink ? "_blank" : undefined}
+                      rel={externalActionLink ? "noreferrer" : undefined}
+                    >
+                      {actionLink.label}
+                    </a>
+                  ) : null}
+                </section>
+              );
+            })}
           </div>
         </article>
 

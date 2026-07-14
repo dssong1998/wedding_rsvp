@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import type { ArticleCardData, ArticleSectionData } from "./article-content";
+import { ThinkingChatbot } from "./thinking-chatbot";
 
 type ThinkingArticlePageProps = {
   currentPage: "information" | "notification";
@@ -41,17 +42,13 @@ function ArticleCard({
     <article className={cardClass} onClick={() => window.location.href = resolvedHref}>
       <div className="thinking-article-media">
         <img src={article.image} alt={article.title} loading="lazy" />
-      </div>
-      <div className="thinking-article-body">
-        <div className="thinking-article-meta">
-          <span>{article.tag}</span>
-          <span>{article.reading}</span>
+        <div className="thinking-article-body">
+          <h3>{article.title}</h3>
+          <p>{article.summary}</p>
+          <a className="thinking-article-link" href={resolvedHref}>
+            자세히 보기
+          </a>
         </div>
-        <h3>{article.title}</h3>
-        <p>{article.summary}</p>
-        <a className="thinking-article-link">
-          자세히 보기
-        </a>
       </div>
     </article>
   );
@@ -64,7 +61,7 @@ export function ThinkingArticlePage({
   description,
   featuredTitle,
   featuredArticles,
-  sections,
+  sections: _sections,
   showTopNavigation = true,
   bottomArrowNavigation
 }: ThinkingArticlePageProps): JSX.Element {
@@ -87,10 +84,6 @@ export function ThinkingArticlePage({
 
   const mainFeatured = featuredArticles[0];
   const secondaryFeatured = featuredArticles.slice(1);
-  const feedArticles = useMemo(() => {
-    return sections.flatMap((section) => section.articles);
-  }, [sections]);
-
   const resolveHref = (href: string): string => {
     if (!inviteValue || !href.startsWith("/")) {
       return href;
@@ -131,37 +124,24 @@ export function ThinkingArticlePage({
           </header>
         ) : null}
 
-        <section className="thinking-hero">
+        {/* <section className="thinking-hero">
           <p className="thinking-eyebrow">{eyebrow}</p>
           <h1 className="thinking-title">{title}</h1>
           <p className="thinking-description">{description}</p>
-        </section>
+        </section> */}
 
         <section className="thinking-featured">
-          <h2>{featuredTitle}</h2>
+          {/* <h2>{featuredTitle}</h2> */}
           <div className="thinking-featured-grid">
             {mainFeatured ? <ArticleCard article={mainFeatured} resolveHref={resolveHref} /> : null}
-            {/* <div className="thinking-featured-side"> */}
               {secondaryFeatured.map((article) => (
                 <ArticleCard key={article.id} article={article} resolveHref={resolveHref} />
               ))}
-            {/* </div> */}
           </div>
         </section>
 
         <section className="thinking-sections">
-          <section className="thinking-section-head thinking-section-head-outside" aria-label="피드 섹션 안내">
-            <h2>상세 정보</h2>
-            <p>필요한 정보를 바로 찾아서 확인하세요</p>
-          </section>
-
-          {/* <div className="thinking-section-panel thinking-section-feed-panel">
-            <div className="thinking-feed-list">
-              {feedArticles.map((article) => (
-                <ArticleCard key={article.id} article={article} resolveHref={resolveHref} />
-              ))}
-            </div>
-          </div> */}
+          <ThinkingChatbot inviteName={inviteValue} />
         </section>
 
         {bottomArrowNavigation ? (
