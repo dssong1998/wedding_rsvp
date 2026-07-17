@@ -68,7 +68,7 @@ body.fun-preloading .fun-loading{display:flex}
 </div>
 <main class="fun-root">
   <header class="card fun-head">
-    <a class="fun-back" id="backToInvite" href="/">← 초대장으로 돌아가기</a>
+    <a class="fun-back" id="backToInvite" href="/information">← 결혼식 정보 보기</a>
     <p><b>더 즐기기</b><p>
     <p>대석과 다인의 사진을 둘러보고 축하 메세지도 남겨주세요.</p>
   </header>
@@ -177,7 +177,7 @@ body.fun-preloading .fun-loading{display:flex}
     var back=document.getElementById("backToInvite");
     if(!back)return;
     var token=getInviteToken();
-    back.href=token?("/"+encodeURIComponent(token)):"/";
+    back.href=token?("/information?invite="+encodeURIComponent(token)):"/information";
   }
   function shuffleArray(list){
     var next=(Array.isArray(list)?list.slice():[]);

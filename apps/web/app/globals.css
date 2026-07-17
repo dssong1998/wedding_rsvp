@@ -6,7 +6,9 @@
   --accent: #2f4868;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -16,11 +18,7 @@ body {
   padding: 0;
   min-height: 100%;
   font-family:
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    "Apple SD Gothic Neo",
-    "Malgun Gothic",
+    'Helvetica Neue', Helvetica, Arial, 'Apple SD Gothic Neo', 'Malgun Gothic',
     sans-serif;
   background: var(--paper);
   color: var(--ink);
@@ -325,8 +323,16 @@ a {
   display: flex;
   justify-content: center;
   background:
-    radial-gradient(circle at 10% -10%, rgba(255, 255, 255, 0.2) 0%, transparent 46%),
-    radial-gradient(circle at 90% 110%, rgba(0, 0, 0, 0.08) 0%, transparent 48%),
+    radial-gradient(
+      circle at 10% -10%,
+      rgba(255, 255, 255, 0.2) 0%,
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 90% 110%,
+      rgba(0, 0, 0, 0.08) 0%,
+      transparent 48%
+    ),
     #bbb8b0;
 }
 
@@ -697,8 +703,7 @@ a {
   border: 1px solid #b8b0a3;
   border-radius: 12px;
   background:
-    linear-gradient(transparent 30px, rgba(76, 73, 68, 0.08) 31px),
-    #f4f0e6;
+    linear-gradient(transparent 30px, rgba(76, 73, 68, 0.08) 31px), #f4f0e6;
   background-size: 100% 31px;
   padding: 14px;
   display: grid;
@@ -709,8 +714,7 @@ a {
 
 .information-story-sheet.preview {
   background:
-    linear-gradient(transparent 28px, rgba(76, 73, 68, 0.06) 29px),
-    #ede7da;
+    linear-gradient(transparent 28px, rgba(76, 73, 68, 0.06) 29px), #ede7da;
   opacity: 0.9;
 }
 
@@ -879,14 +883,26 @@ a {
   padding: 16px 14px 80px;
   display: flex;
   justify-content: center;
+  overflow-x: clip;
   background:
-    radial-gradient(circle at 10% -8%, rgba(133, 190, 255, 0.22) 0%, transparent 46%),
-    radial-gradient(circle at 92% 8%, rgba(129, 217, 219, 0.18) 0%, transparent 40%),
+    radial-gradient(
+      circle at 10% -8%,
+      rgba(133, 190, 255, 0.22) 0%,
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 92% 8%,
+      rgba(129, 217, 219, 0.18) 0%,
+      transparent 40%
+    ),
     #f4f7fc;
 }
 
 .thinking-shell {
+  box-sizing: border-box;
   width: min(1280px, 100%);
+  max-width: 100%;
+  min-width: 0;
   display: grid;
   gap: 28px;
 }
@@ -998,6 +1014,7 @@ a {
   display: grid;
   grid-template-columns: minmax(0, 0.3fr) minmax(0, 1fr);
   gap: 14px;
+  min-width: 0;
 }
 
 .thinking-featured-side {
@@ -1009,7 +1026,7 @@ a {
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 30vh;
+  height: 30dvh;
   gap: 0;
   border: 1px solid #d4deec;
   border-radius: 18px;
@@ -1034,15 +1051,17 @@ a {
 }
 
 .thinking-article-media {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   width: 100%;
-  aspect-ratio: 16 / 3;
   height: auto;
   background: #edf3fb;
   z-index: 1;
 }
 
 .thinking-article-card.compact .thinking-article-media {
-  aspect-ratio: 16 / 4;
   height: auto;
   align-self: start;
 }
@@ -1052,18 +1071,19 @@ a {
   height: 100%;
   object-fit: cover;
   display: block;
+  z-index: 1;
 }
 
 .thinking-article-body {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
   padding: 14px 14px 16px;
-  display: grid;
-  gap: 10px;
-  width: 100%;
+  gap: 2px;
+  justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
   z-index: 2;
+  background-color: rgba(12, 16, 11, 0.53);
 }
 
 .thinking-article-meta {
@@ -1079,7 +1099,7 @@ a {
 
 .thinking-article-body h3 {
   margin: 0;
-  color: #fdfeff;
+  color: #efefef;
   font-size: clamp(17px, 2.4vw, 29px);
   line-height: 1.24;
 }
@@ -1090,13 +1110,13 @@ a {
 
 .thinking-article-body p {
   margin: 0;
-  color: #fdfeff;
+  color: #ffffff;
   line-height: 1.6;
   font-size: 14px;
 }
 
 .thinking-article-link {
-  color: #fdfeff;
+  color: #ffffff;
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
@@ -1110,6 +1130,7 @@ a {
 .thinking-sections {
   display: grid;
   gap: 14px;
+  min-width: 0;
 }
 
 .thinking-chatbot {
@@ -1119,6 +1140,8 @@ a {
   padding: 16px;
   display: grid;
   gap: 14px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .thinking-chatbot-head h2 {
@@ -1163,9 +1186,12 @@ a {
   display: flex;
   gap: 8px;
   align-items: center;
+  min-width: 0;
 }
 
 .thinking-chatbot-input {
+  flex: 1 1 auto;
+  min-width: 0;
   width: 100%;
   border: 1px solid #c9d8eb;
   border-radius: 10px;
@@ -1184,7 +1210,15 @@ a {
   cursor: pointer;
   white-space: nowrap;
 }
-
+.thinking-chatbot-message-text {
+  margin: 0 0 3px;
+  line-height: 1.6;
+  font-size: 11px;
+  text-wrap: pretty;
+  white-space: normal;
+  word-break: keep-all;
+  word-wrap: normal;
+}
 .thinking-chatbot-send:disabled {
   opacity: 0.7;
   cursor: default;
@@ -1328,8 +1362,16 @@ a {
   display: flex;
   justify-content: center;
   background:
-    radial-gradient(circle at 14% -10%, rgba(133, 190, 255, 0.22) 0%, transparent 46%),
-    radial-gradient(circle at 88% 4%, rgba(129, 217, 219, 0.2) 0%, transparent 38%),
+    radial-gradient(
+      circle at 14% -10%,
+      rgba(133, 190, 255, 0.22) 0%,
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 88% 4%,
+      rgba(129, 217, 219, 0.2) 0%,
+      transparent 38%
+    ),
     #f4f7fc;
 }
 
@@ -1645,4 +1687,292 @@ a {
   .article-detail-related-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.wedding-gift-root {
+  min-height: 100dvh;
+  padding: 16px 14px 88px;
+  display: flex;
+  justify-content: center;
+  overflow-x: clip;
+  background:
+    radial-gradient(
+      circle at 12% -10%,
+      rgba(133, 190, 255, 0.2) 0%,
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 90% 6%,
+      rgba(129, 217, 219, 0.16) 0%,
+      transparent 40%
+    ),
+    #f4f7fc;
+}
+
+.wedding-gift-shell {
+  box-sizing: border-box;
+  width: min(640px, 100%);
+  max-width: 100%;
+  min-width: 0;
+  display: grid;
+  gap: 22px;
+}
+
+.wedding-gift-back {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #cedaec;
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 9px 14px;
+  color: #355375;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.wedding-gift-hero {
+  display: grid;
+  gap: 8px;
+  padding: 4px 2px 0;
+}
+
+.wedding-gift-kicker {
+  margin: 0;
+  color: #6f86a5;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.wedding-gift-hero h1 {
+  margin: 0;
+  color: #1f3148;
+  font-size: clamp(28px, 6vw, 40px);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.wedding-gift-hero p {
+  margin: 0;
+  color: #506582;
+  line-height: 1.65;
+  font-size: 15px;
+}
+
+.wedding-gift-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+  padding: 0 2px;
+}
+
+.wedding-gift-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #5a7190;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.wedding-gift-brand-image {
+  display: block;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.wedding-gift-legend-item .wedding-gift-brand-image.kakao {
+  width: 28px;
+  height: 12px;
+}
+
+.wedding-gift-legend-item .wedding-gift-brand-image.toss {
+  width: 36px;
+  height: 18px;
+}
+
+.wedding-gift-legend-item .wedding-gift-copy-image {
+  width: 12px;
+  height: 12px;
+}
+
+.wedding-gift-group {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.wedding-gift-group h2 {
+  margin: 0;
+  padding: 0 2px;
+  color: #23364e;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.wedding-gift-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.wedding-gift-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid #d4deec;
+  border-radius: 18px;
+  background: #ffffff;
+  padding: 16px;
+  min-width: 0;
+}
+
+.wedding-gift-card-text {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.wedding-gift-card-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+
+.wedding-gift-card-head strong {
+  color: #1f3148;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.wedding-gift-card-head span {
+  color: #6f86a5;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.wedding-gift-account {
+  margin: 0;
+  color: #3d5674;
+  font-size: 13px;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.wedding-gift-account.pending {
+  color: #8a9bb3;
+}
+
+.wedding-gift-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.wedding-gift-action {
+  width: 45px;
+  height: 45px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform 0.16s ease,
+    background 0.16s ease,
+    border-color 0.16s ease,
+    opacity 0.16s ease;
+}
+
+.wedding-gift-action svg {
+  width: 20px;
+  height: 20px;
+}
+
+.wedding-gift-action .wedding-gift-copy-image {
+  width: 20px;
+  height: 20px;
+}
+
+.wedding-gift-action.kakao {
+  background: #ffffff;
+}
+
+.wedding-gift-action.kakao .wedding-gift-brand-image {
+  width: 34px;
+  height: auto;
+}
+
+.wedding-gift-action.toss {
+  background: #ffffff;
+}
+
+.wedding-gift-toss-motion {
+  width: 42px;
+  height: 42px;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.wedding-gift-action.copy {
+  background: #ffffff;
+}
+
+.wedding-gift-action:hover:not(.is-disabled):not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.wedding-gift-action.is-disabled,
+.wedding-gift-action:disabled {
+  opacity: 0.38;
+  cursor: default;
+  pointer-events: none;
+}
+
+.wedding-gift-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 50;
+  border-radius: 999px;
+  background: rgba(31, 49, 72, 0.92);
+  color: #ffffff;
+  padding: 11px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 12px 28px -16px rgba(20, 40, 70, 0.55);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .wedding-gift-root {
+    padding: 10px 12px 72px;
+  }
+
+  .wedding-gift-card {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .wedding-gift-action {
+    width: 40px;
+    height: 40px;
+  }
+
+  .wedding-gift-toss-motion {
+    width: 40px;
+    height: 40px;
+  }
+
 }

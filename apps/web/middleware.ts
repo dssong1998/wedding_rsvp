@@ -38,11 +38,12 @@ export function middleware(request: NextRequest): NextResponse {
   if (
     pathname === "/" ||
     isAdminPath ||
-    isInvitePath || 
+    isInvitePath ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/fun") ||
     pathname.startsWith("/information") ||
     pathname.startsWith("/notification") ||
+    pathname.startsWith("/wedding-gift") ||
     pathname.startsWith("/assets") ||
     pathname === "/favicon.ico"
   ) {

@@ -80,6 +80,16 @@ export default async function InformationArticleDetailPage({
 
   const resolvedArticle = {
     ...article,
+    blocks: article.blocks.map((block) => {
+      if (!block.linkButton) return block;
+      return {
+        ...block,
+        linkButton: {
+          ...block.linkButton,
+          href: withInviteQuery(block.linkButton.href, inviteValue)
+        }
+      };
+    }),
     exploreLinks: article.exploreLinks.map((link) => ({
       ...link,
       href: withInviteQuery(link.href, inviteValue)
