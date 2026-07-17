@@ -63,6 +63,52 @@
         border-radius: 16px;
         padding: 14px;
       }
+      .wedding-countdown {
+        padding: 17px 14px 15px;
+        text-align: center;
+      }
+      .wedding-countdown-eyebrow {
+        margin: 0 0 10px;
+        color: var(--soft);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .wedding-countdown-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 7px;
+      }
+      .wedding-countdown-unit {
+        min-width: 0;
+        padding: 10px 4px 8px;
+        border-radius: 11px;
+        background: #f1ede5;
+      }
+      .wedding-countdown-value {
+        display: block;
+        color: var(--accent);
+        font-size: clamp(22px, 7vw, 32px);
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+      }
+      .wedding-countdown-label {
+        display: block;
+        margin-top: 6px;
+        color: var(--soft);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .wedding-countdown-message {
+        margin: 10px 0 0;
+        color: #645d52;
+        font-size: 12px;
+        line-height: 1.4;
+      }
       .fun-loading {
         position: fixed;
         inset: 0;
@@ -229,7 +275,7 @@
       }
       .game-picker {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
       }
       .game-pick {
@@ -484,6 +530,231 @@
         line-height: 1.45;
         word-break: keep-all;
       }
+      .game-stage-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .wordle-help {
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: #fff;
+        color: var(--accent);
+        font-size: 15px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .wordle-board {
+        display: grid;
+        gap: 7px;
+        justify-content: center;
+        margin: 5px auto 18px;
+      }
+      .wordle-row {
+        display: grid;
+        grid-template-columns: repeat(var(--word-length), minmax(0, 40px));
+        gap: 5px;
+        justify-content: center;
+      }
+      .wordle-tile {
+        width: min(9vw, 40px);
+        max-width: 40px;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #d6d0c4;
+        border-radius: 5px;
+        background: #fff;
+        color: #2e2b25;
+        font-size: clamp(14px, 4.2vw, 20px);
+        font-weight: 800;
+        line-height: 1;
+      }
+      .wordle-tile.is-filled {
+        border-color: #999184;
+      }
+      .wordle-tile.is-reveal {
+        animation: wordle-flip 0.48s ease both;
+      }
+      .wordle-tile.is-correct {
+        border-color: #62865d;
+        background: #62865d;
+        color: #fff;
+      }
+      .wordle-tile.is-present {
+        border-color: #c4a451;
+        background: #c4a451;
+        color: #fff;
+      }
+      .wordle-tile.is-absent {
+        border-color: #8c8983;
+        background: #8c8983;
+        color: #fff;
+      }
+      @keyframes wordle-flip {
+        0% {
+          transform: rotateX(0);
+        }
+        48% {
+          transform: rotateX(90deg);
+        }
+        52% {
+          transform: rotateX(90deg);
+        }
+        100% {
+          transform: rotateX(0);
+        }
+      }
+      .wordle-form {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+      .wordle-input {
+        min-width: 0;
+        height: 44px;
+        border: 1px solid #d6d0c2;
+        border-radius: 10px;
+        padding: 0 12px;
+        background: #fff;
+        color: var(--ink);
+        font-family: inherit;
+        font-size: 18px;
+        text-align: center;
+        outline: none;
+      }
+      .wordle-input:focus {
+        border-color: var(--accent);
+      }
+      .wordle-submit {
+        min-width: 68px;
+        border: 0;
+        border-radius: 10px;
+        padding: 0 14px;
+        background: var(--accent);
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .wordle-submit:disabled,
+      .wordle-input:disabled {
+        opacity: 0.55;
+      }
+      .wordle-feedback {
+        min-height: 21px;
+        margin: 9px 0 0;
+        color: var(--soft);
+        font-size: 13px;
+        line-height: 1.5;
+        text-align: center;
+      }
+      .wordle-hint {
+        min-height: 21px;
+        margin: 2px 0 10px;
+        color: #946f35;
+        font-size: 12px;
+        line-height: 1.45;
+        text-align: center;
+        word-break: keep-all;
+      }
+      .wordle-result[hidden] {
+        display: none;
+      }
+      .wordle-result {
+        margin-top: 14px;
+        text-align: center;
+      }
+      .wordle-result strong {
+        display: block;
+        font-size: 20px;
+      }
+      .wordle-result p {
+        margin: 7px 0 0;
+        color: var(--soft);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .wordle-guide {
+        position: fixed;
+        inset: 0;
+        z-index: 12500;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(22, 21, 19, 0.62);
+      }
+      .wordle-guide.open {
+        display: flex;
+      }
+      .wordle-guide-card {
+        position: relative;
+        width: min(420px, 100%);
+        max-height: min(680px, calc(100dvh - 40px));
+        overflow-y: auto;
+        border-radius: 16px;
+        padding: 23px 20px 20px;
+        background: var(--card);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
+      }
+      .wordle-guide-card h2 {
+        margin: 0 42px 12px 0;
+        font-size: 21px;
+      }
+      .wordle-guide-card p,
+      .wordle-guide-card li {
+        color: #565046;
+        font-size: 13px;
+        line-height: 1.65;
+        word-break: keep-all;
+      }
+      .wordle-guide-card ol {
+        margin: 12px 0;
+        padding-left: 22px;
+      }
+      .wordle-guide-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 50%;
+        background: #eee9df;
+        color: #332f29;
+        font-size: 23px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .wordle-guide-example {
+        display: grid;
+        gap: 9px;
+        margin-top: 16px;
+      }
+      .wordle-guide-example > div {
+        display: grid;
+        grid-template-columns: 40px 1fr;
+        align-items: center;
+        gap: 10px;
+      }
+      .wordle-guide-example .wordle-tile {
+        width: 40px;
+        font-size: 20px;
+      }
+      .wordle-guide-example p {
+        margin: 0;
+      }
       .feed-list {
         display: grid;
         gap: 9px;
@@ -661,13 +932,41 @@
       </p>
     </div>
     <main class="fun-root">
-      <header class="card fun-head">
-        <a class="fun-back" id="backToInvite" href="/information"
-          >← 결혼식 정보 보기</a
-        >
-        <p><b>더 즐기기</b></p>
-        <p>대석과 다인의 사진을 둘러보고 미니게임도 즐겨보세요.</p>
-      </header>
+      <a class="fun-back" id="backToInvite" href="/information"
+        >← 결혼식 정보 보기</a
+      >
+      <section class="card wedding-countdown" aria-label="결혼식까지 남은 시간">
+        <p class="wedding-countdown-eyebrow">Countdown to our wedding</p>
+        <div class="wedding-countdown-grid">
+          <div class="wedding-countdown-unit">
+            <strong class="wedding-countdown-value" id="countdownDays"
+              >0</strong
+            >
+            <span class="wedding-countdown-label">Day</span>
+          </div>
+          <div class="wedding-countdown-unit">
+            <strong class="wedding-countdown-value" id="countdownHours"
+              >00</strong
+            >
+            <span class="wedding-countdown-label">Hour</span>
+          </div>
+          <div class="wedding-countdown-unit">
+            <strong class="wedding-countdown-value" id="countdownMinutes"
+              >00</strong
+            >
+            <span class="wedding-countdown-label">Minute</span>
+          </div>
+          <div class="wedding-countdown-unit">
+            <strong class="wedding-countdown-value" id="countdownSeconds"
+              >00</strong
+            >
+            <span class="wedding-countdown-label">Second</span>
+          </div>
+        </div>
+        <p class="wedding-countdown-message" id="countdownMessage">
+          2026년 8월 22일 오후 5시까지
+        </p>
+      </section>
 
       <section class="card">
         <h2>Gallery</h2>
@@ -695,6 +994,11 @@
             <span class="game-pick-icon" aria-hidden="true">⚖️</span>
             <span class="game-pick-name">결혼 밸런스</span>
             <span class="game-pick-desc">둘 중 하나만 고르기</span>
+          </button>
+          <button class="game-pick" type="button" data-game="wordle">
+            <span class="game-pick-icon" aria-hidden="true">🔤</span>
+            <span class="game-pick-name">웨딩 꼬들</span>
+            <span class="game-pick-desc">자모로 나누어 단어 맞히기</span>
           </button>
         </div>
 
@@ -776,6 +1080,48 @@
           </div>
           <div class="game-result" id="balanceResult" hidden></div>
         </div>
+
+        <div class="game-stage" id="wordleGame" hidden>
+          <div class="game-stage-head">
+            <h3>웨딩 꼬들</h3>
+            <div class="game-stage-actions">
+              <button
+                class="wordle-help"
+                id="wordleHelpButton"
+                type="button"
+                aria-label="웨딩 꼬들 설명서"
+              >
+                ?
+              </button>
+              <button class="game-back" type="button" data-game-close>
+                게임 목록으로
+              </button>
+            </div>
+          </div>
+          <div
+            class="wordle-board"
+            id="wordleBoard"
+            aria-label="웨딩 꼬들 추측 결과"
+          ></div>
+          <p class="wordle-hint" id="wordleHint"></p>
+          <form class="wordle-form" id="wordleForm">
+            <input
+              class="wordle-input"
+              id="wordleInput"
+              type="text"
+              inputmode="text"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              aria-label="추측할 단어"
+            />
+            <button class="wordle-submit" id="wordleSubmit" type="submit">
+              입력
+            </button>
+          </form>
+          <p class="wordle-feedback" id="wordleFeedback" aria-live="polite"></p>
+          <div class="wordle-result" id="wordleResult" hidden></div>
+        </div>
       </section>
 
       <section class="card">
@@ -813,6 +1159,51 @@
         <div class="sentinel" id="cheerFeedSentinel" aria-hidden="true"></div>
       </section>
     </main>
+
+    <div
+      class="wordle-guide"
+      id="wordleGuide"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="wordleGuideTitle"
+    >
+      <div class="wordle-guide-card">
+        <button
+          class="wordle-guide-close"
+          id="wordleGuideClose"
+          type="button"
+          aria-label="설명서 닫기"
+        >
+          &times;
+        </button>
+        <h2 id="wordleGuideTitle">웨딩 꼬들 하는 법</h2>
+        <p>
+          결혼과 사랑에 관련된 단어를 여섯 번 안에 맞혀보세요. 입력한 한글은
+          자음·모음으로 나뉘어 타일에 표시되고, 색으로 정답에 가까운 정도를
+          알려드립니다.
+        </p>
+        <ol>
+          <li>정답과 같은 자모 수의 한글 단어를 입력합니다.</li>
+          <li>예: “사랑”은 ㅅㅏㄹㅏㅇ, 다섯 칸입니다.</li>
+          <li>각 자모 타일의 색을 보고 다음 단어를 추측합니다.</li>
+          <li>세 번 틀리면 정답을 떠올릴 수 있는 힌트가 공개됩니다.</li>
+        </ol>
+        <div class="wordle-guide-example">
+          <div>
+            <span class="wordle-tile is-correct">ㅅ</span>
+            <p><b>초록색</b> — 자모와 위치가 모두 맞습니다.</p>
+          </div>
+          <div>
+            <span class="wordle-tile is-present">ㅏ</span>
+            <p><b>노란색</b> — 정답에 있지만 위치가 다릅니다.</p>
+          </div>
+          <div>
+            <span class="wordle-tile is-absent">ㅇ</span>
+            <p><b>회색</b> — 정답에 없는 자모입니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div
       class="gallery-modal"
@@ -890,6 +1281,9 @@
         var BALANCE_QUESTIONS = Array.isArray(FUN_GAMES.balanceQuestions)
           ? FUN_GAMES.balanceQuestions
           : [];
+        var WORDLE_WORDS = Array.isArray(FUN_GAMES.wordleWords)
+          ? FUN_GAMES.wordleWords
+          : [];
         var QUIZ_ROUND_SIZE =
           typeof FUN_GAMES.quizRoundSize === 'number' &&
           FUN_GAMES.quizRoundSize > 0
@@ -905,6 +1299,10 @@
         var memoryLocked = false;
         var balanceIndex = 0;
         var balanceSides = [];
+        var wordleAnswer = null;
+        var wordleAttempt = 0;
+        var wordleLocked = false;
+        var WORDLE_MAX_ATTEMPTS = 6;
 
         function isPrivateNetworkHost(host) {
           if (!host) return false;
@@ -966,10 +1364,42 @@
         function setupBackLink() {
           var back = document.getElementById('backToInvite');
           if (!back) return;
-          var token = getInviteToken();
-          back.href = token
-            ? '/information?invite=' + encodeURIComponent(token)
-            : '/information';
+          back.href = '/information';
+        }
+        function setupWeddingCountdown() {
+          var daysEl = document.getElementById('countdownDays');
+          var hoursEl = document.getElementById('countdownHours');
+          var minutesEl = document.getElementById('countdownMinutes');
+          var secondsEl = document.getElementById('countdownSeconds');
+          var messageEl = document.getElementById('countdownMessage');
+          if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
+
+          var weddingAt = new Date('2026-08-22T17:00:00+09:00').getTime();
+          var timerId = null;
+          function pad(value) {
+            return String(value).padStart(2, '0');
+          }
+          function updateCountdown() {
+            var remaining = Math.max(0, weddingAt - Date.now());
+            var totalSeconds = Math.floor(remaining / 1000);
+            var days = Math.floor(totalSeconds / 86400);
+            var hours = Math.floor((totalSeconds % 86400) / 3600);
+            var minutes = Math.floor((totalSeconds % 3600) / 60);
+            var seconds = totalSeconds % 60;
+
+            daysEl.textContent = String(days);
+            hoursEl.textContent = pad(hours);
+            minutesEl.textContent = pad(minutes);
+            secondsEl.textContent = pad(seconds);
+
+            if (remaining === 0) {
+              if (messageEl)
+                messageEl.textContent = '오늘, 대석과 다인이 결혼합니다!';
+              if (timerId) window.clearInterval(timerId);
+            }
+          }
+          updateCountdown();
+          timerId = window.setInterval(updateCountdown, 1000);
         }
         function shuffleArray(list) {
           var next = Array.isArray(list) ? list.slice() : [];
@@ -993,6 +1423,7 @@
           if (name === 'quiz') startQuiz();
           if (name === 'memory') startMemory();
           if (name === 'balance') startBalance();
+          if (name === 'wordle') startWordle();
         }
         function closeGame() {
           var picker = document.getElementById('gamePicker');
@@ -1259,6 +1690,300 @@
               .addEventListener('click', startBalance);
           }
         }
+        function normalizeWordleWord(value) {
+          return (value || '').normalize('NFC').replace(/\s+/g, '').trim();
+        }
+        var WORDLE_CHO = [
+          'ㄱ',
+          'ㄲ',
+          'ㄴ',
+          'ㄷ',
+          'ㄸ',
+          'ㄹ',
+          'ㅁ',
+          'ㅂ',
+          'ㅃ',
+          'ㅅ',
+          'ㅆ',
+          'ㅇ',
+          'ㅈ',
+          'ㅉ',
+          'ㅊ',
+          'ㅋ',
+          'ㅌ',
+          'ㅍ',
+          'ㅎ',
+        ];
+        var WORDLE_JUNG = [
+          'ㅏ',
+          'ㅐ',
+          'ㅑ',
+          'ㅒ',
+          'ㅓ',
+          'ㅔ',
+          'ㅕ',
+          'ㅖ',
+          'ㅗ',
+          'ㅘ',
+          'ㅙ',
+          'ㅚ',
+          'ㅛ',
+          'ㅜ',
+          'ㅝ',
+          'ㅞ',
+          'ㅟ',
+          'ㅠ',
+          'ㅡ',
+          'ㅢ',
+          'ㅣ',
+        ];
+        var WORDLE_JONG = [
+          '',
+          'ㄱ',
+          'ㄲ',
+          'ㄳ',
+          'ㄴ',
+          'ㄵ',
+          'ㄶ',
+          'ㄷ',
+          'ㄹ',
+          'ㄺ',
+          'ㄻ',
+          'ㄼ',
+          'ㄽ',
+          'ㄾ',
+          'ㄿ',
+          'ㅀ',
+          'ㅁ',
+          'ㅂ',
+          'ㅄ',
+          'ㅅ',
+          'ㅆ',
+          'ㅇ',
+          'ㅈ',
+          'ㅊ',
+          'ㅋ',
+          'ㅌ',
+          'ㅍ',
+          'ㅎ',
+        ];
+        function decomposeHangulToJamo(value) {
+          var jamos = [];
+          Array.from(normalizeWordleWord(value)).forEach(function (char) {
+            var code = char.charCodeAt(0);
+            if (code >= 0xac00 && code <= 0xd7a3) {
+              var syllable = code - 0xac00;
+              var cho = Math.floor(syllable / (21 * 28));
+              var jung = Math.floor((syllable % (21 * 28)) / 28);
+              var jong = syllable % 28;
+              jamos.push(WORDLE_CHO[cho], WORDLE_JUNG[jung]);
+              if (jong > 0) jamos.push(WORDLE_JONG[jong]);
+              return;
+            }
+            if (/[ㄱ-ㅎㅏ-ㅣ]/.test(char)) jamos.push(char);
+          });
+          return jamos;
+        }
+        function createWordleBoard(length) {
+          var board = document.getElementById('wordleBoard');
+          if (!board) return;
+          board.innerHTML = '';
+          board.style.setProperty('--word-length', String(length));
+          for (var rowIndex = 0; rowIndex < WORDLE_MAX_ATTEMPTS; rowIndex++) {
+            var row = document.createElement('div');
+            row.className = 'wordle-row';
+            row.dataset.wordleRow = String(rowIndex);
+            row.style.setProperty('--word-length', String(length));
+            for (var tileIndex = 0; tileIndex < length; tileIndex++) {
+              var tile = document.createElement('span');
+              tile.className = 'wordle-tile';
+              tile.dataset.wordleTile = String(tileIndex);
+              row.appendChild(tile);
+            }
+            board.appendChild(row);
+          }
+        }
+        function updateWordleInputPreview() {
+          if (!wordleAnswer || wordleLocked) return;
+          var input = document.getElementById('wordleInput');
+          var row = document.querySelector(
+            '[data-wordle-row="' + wordleAttempt + '"]',
+          );
+          if (!input || !row) return;
+          var jamos = decomposeHangulToJamo(input.value).slice(
+            0,
+            wordleAnswer.jamos.length,
+          );
+          row.querySelectorAll('.wordle-tile').forEach(function (tile, index) {
+            if (tile.classList.contains('is-reveal')) return;
+            tile.textContent = jamos[index] || '';
+            tile.classList.toggle('is-filled', Boolean(jamos[index]));
+          });
+        }
+        function setWordleFormDisabled(disabled) {
+          var input = document.getElementById('wordleInput');
+          var submit = document.getElementById('wordleSubmit');
+          if (input) input.disabled = disabled;
+          if (submit) submit.disabled = disabled;
+        }
+        function startWordle() {
+          var input = document.getElementById('wordleInput');
+          var feedback = document.getElementById('wordleFeedback');
+          var hint = document.getElementById('wordleHint');
+          var result = document.getElementById('wordleResult');
+          wordleAttempt = 0;
+          wordleLocked = false;
+          wordleAnswer = WORDLE_WORDS.length
+            ? WORDLE_WORDS[Math.floor(Math.random() * WORDLE_WORDS.length)]
+            : null;
+          if (result) {
+            result.hidden = true;
+            result.innerHTML = '';
+          }
+          if (feedback) feedback.textContent = '';
+          if (hint) hint.textContent = '';
+          if (!wordleAnswer) {
+            if (feedback)
+              feedback.textContent =
+                '웨딩 꼬들 단어가 아직 등록되지 않았습니다.';
+            setWordleFormDisabled(true);
+            return;
+          }
+          var answer = normalizeWordleWord(wordleAnswer.answer);
+          var jamos = decomposeHangulToJamo(answer);
+          wordleAnswer = {
+            answer: answer,
+            jamos: jamos,
+            hint: wordleAnswer.hint || '',
+          };
+          createWordleBoard(jamos.length);
+          if (input) {
+            input.value = '';
+            input.maxLength = Math.max(2, Math.ceil(jamos.length / 2) + 1);
+            input.placeholder = '자모 ' + jamos.length + '개 한글 단어';
+          }
+          setWordleFormDisabled(false);
+          if (input)
+            window.setTimeout(function () {
+              input.focus();
+            }, 0);
+        }
+        function evaluateWordleGuess(guessJamos, answerJamos) {
+          var states = guessJamos.map(function () {
+            return 'absent';
+          });
+          var remaining = {};
+          answerJamos.forEach(function (jamo, index) {
+            if (guessJamos[index] === jamo) {
+              states[index] = 'correct';
+            } else {
+              remaining[jamo] = (remaining[jamo] || 0) + 1;
+            }
+          });
+          guessJamos.forEach(function (jamo, index) {
+            if (states[index] === 'correct') return;
+            if (remaining[jamo] > 0) {
+              states[index] = 'present';
+              remaining[jamo] -= 1;
+            }
+          });
+          return states;
+        }
+        function submitWordleGuess() {
+          if (!wordleAnswer || wordleLocked) return;
+          var input = document.getElementById('wordleInput');
+          var feedback = document.getElementById('wordleFeedback');
+          var hint = document.getElementById('wordleHint');
+          if (!input) return;
+          var guess = normalizeWordleWord(input.value);
+          var answerJamos = wordleAnswer.jamos;
+          if (!/^[가-힣]+$/.test(guess)) {
+            if (feedback) feedback.textContent = '한글 단어를 입력해 주세요.';
+            input.focus();
+            return;
+          }
+          var guessJamos = decomposeHangulToJamo(guess);
+          if (guessJamos.length !== answerJamos.length) {
+            if (feedback)
+              feedback.textContent =
+                '자모 ' +
+                answerJamos.length +
+                '개에 맞는 단어를 입력해 주세요. (지금 ' +
+                guessJamos.length +
+                '개)';
+            input.focus();
+            return;
+          }
+          var states = evaluateWordleGuess(guessJamos, answerJamos);
+          var row = document.querySelector(
+            '[data-wordle-row="' + wordleAttempt + '"]',
+          );
+          if (!row) return;
+          wordleLocked = true;
+          setWordleFormDisabled(true);
+          if (feedback) feedback.textContent = '';
+          guessJamos.forEach(function (jamo, index) {
+            var tile = row.querySelector('[data-wordle-tile="' + index + '"]');
+            if (!tile) return;
+            tile.textContent = jamo;
+            tile.className =
+              'wordle-tile is-filled is-reveal is-' + states[index];
+            tile.style.animationDelay = index * 75 + 'ms';
+          });
+          var won = guessJamos.every(function (jamo, index) {
+            return jamo === answerJamos[index];
+          });
+          wordleAttempt += 1;
+          input.value = '';
+          if (hint && !won && wordleAttempt >= 3) {
+            hint.textContent = '힌트: ' + wordleAnswer.hint;
+          }
+          window.setTimeout(
+            function () {
+              if (won || wordleAttempt >= WORDLE_MAX_ATTEMPTS) {
+                finishWordle(won);
+                return;
+              }
+              wordleLocked = false;
+              setWordleFormDisabled(false);
+              input.focus();
+            },
+            answerJamos.length * 75 + 500,
+          );
+        }
+        function finishWordle(won) {
+          var result = document.getElementById('wordleResult');
+          var feedback = document.getElementById('wordleFeedback');
+          wordleLocked = true;
+          setWordleFormDisabled(true);
+          if (feedback)
+            feedback.textContent = won
+              ? wordleAttempt + '번 만에 맞혔어요!'
+              : '여섯 번의 기회를 모두 사용했어요.';
+          if (result) {
+            result.hidden = false;
+            result.innerHTML =
+              '<strong>' +
+              (won ? '정답입니다! 💍' : '정답은 ' + wordleAnswer.answer) +
+              '</strong><p>' +
+              (won
+                ? wordleAnswer.jamos.join(' · ') +
+                  '<br>웨딩 단어 감각이 완벽하시네요.'
+                : wordleAnswer.jamos.join(' · ') + '<br>' + wordleAnswer.hint) +
+              '</p><button class="btn" id="wordleRestart" type="button">새 단어 도전하기</button>';
+            document
+              .getElementById('wordleRestart')
+              .addEventListener('click', startWordle);
+          }
+        }
+        function openWordleGuide() {
+          var guide = document.getElementById('wordleGuide');
+          if (guide) guide.classList.add('open');
+        }
+        function closeWordleGuide() {
+          var guide = document.getElementById('wordleGuide');
+          if (guide) guide.classList.remove('open');
+        }
         function initGames() {
           document.querySelectorAll('[data-game]').forEach(function (button) {
             button.addEventListener('click', function () {
@@ -1283,6 +2008,26 @@
               button.addEventListener('click', function () {
                 answerBalance(Number(button.dataset.balanceAnswer));
               });
+            });
+          var wordleForm = document.getElementById('wordleForm');
+          if (wordleForm)
+            wordleForm.addEventListener('submit', function (event) {
+              event.preventDefault();
+              submitWordleGuess();
+            });
+          var wordleInput = document.getElementById('wordleInput');
+          if (wordleInput)
+            wordleInput.addEventListener('input', updateWordleInputPreview);
+          var wordleHelpButton = document.getElementById('wordleHelpButton');
+          if (wordleHelpButton)
+            wordleHelpButton.addEventListener('click', openWordleGuide);
+          var wordleGuideClose = document.getElementById('wordleGuideClose');
+          if (wordleGuideClose)
+            wordleGuideClose.addEventListener('click', closeWordleGuide);
+          var wordleGuide = document.getElementById('wordleGuide');
+          if (wordleGuide)
+            wordleGuide.addEventListener('click', function (event) {
+              if (event.target === wordleGuide) closeWordleGuide();
             });
         }
         function tailChars(value, count) {
@@ -1695,6 +2440,7 @@
           }
         }
 
+        setupWeddingCountdown();
         setupBackLink();
         initGames();
         setCheerDefaultNickname(true);
@@ -1758,7 +2504,10 @@
         var closeBtn = document.getElementById('galleryModalClose');
         if (closeBtn) closeBtn.addEventListener('click', closeGalleryModal);
         document.addEventListener('keydown', function (evt) {
-          if (evt.key === 'Escape') closeGalleryModal();
+          if (evt.key === 'Escape') {
+            closeWordleGuide();
+            closeGalleryModal();
+          }
           if (!modal || !modal.classList.contains('open')) return;
           if (evt.key === 'ArrowLeft') moveGalleryModal(-1);
           if (evt.key === 'ArrowRight') moveGalleryModal(1);

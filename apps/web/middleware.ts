@@ -35,12 +35,6 @@ export function middleware(request: NextRequest): NextResponse {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (pathname === "/notification" || pathname.startsWith("/notification/")) {
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = "/wedding-card";
-    return NextResponse.redirect(redirectUrl);
-  }
-
   if (
     pathname === "/" ||
     isAdminPath ||

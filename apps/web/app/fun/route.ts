@@ -4,14 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { getFunGamesData } from "../../data/fun-games-data";
 
 export const dynamic = "force-dynamic";
-const PUBLIC_ROOT_URL = "https://dae-da.com/";
 
 const CLIENT_API_BASE =
   process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") ??
   "";
-const SERVER_API_BASE =
-  process.env.API_BASE?.replace(/\/$/, "") ??
-  CLIENT_API_BASE;
 const DEFAULT_API_PORT = process.env.API_PORT ?? "4000";
 
 function isLoopbackHost(hostname: string): boolean {
@@ -54,11 +50,6 @@ function extractRequestHostname(request: NextRequest): string {
 
   const [hostOnly] = rawHost.split(":");
   return hostOnly || request.nextUrl.hostname;
-}
-
-function resolveServerApiBase(): string {
-  if (SERVER_API_BASE) return SERVER_API_BASE;
-  return `http://127.0.0.1:${DEFAULT_API_PORT}`;
 }
 
 function resolveClientApiOriginByHost(request: NextRequest, hostname: string): string {
@@ -113,19 +104,6 @@ function decodeInviteName(raw: string | null): string | null {
   return decodedRaw;
 }
 
-async function lookupGuest(apiBase: string, name: string): Promise<boolean> {
-  try {
-    const response = await fetch(`${apiBase}/guests/lookup?name=${encodeURIComponent(name)}`, {
-      cache: "no-store"
-    });
-    if (!response.ok) return false;
-    const payload = (await response.json()) as { status?: string };
-    return payload.status === "ok";
-  } catch {
-    return false;
-  }
-}
-
 async function loadFunTemplate(): Promise<string> {
   const candidates = [
     path.resolve(process.cwd(), "wedding-fun.html"),
@@ -146,8 +124,12 @@ async function loadFunTemplate(): Promise<string> {
   throw new Error("wedding-fun.html 파일을 찾을 수 없습니다.");
 }
 
-function injectRuntimeBridge(html: string, inviteName: string, clientApiBase: string): string {
-  const inviteToken = `invited@${inviteName}`;
+function injectRuntimeBridge(
+  html: string,
+  inviteName: string,
+  clientApiBase: string
+): string {
+  const inviteToken = inviteName ? `invited@${inviteName}` : "";
   const funGames = getFunGamesData();
   const bridge = `
 <script>
@@ -166,20 +148,17 @@ function injectRuntimeBridge(html: string, inviteName: string, clientApiBase: st
 }
 
 export async function GET(request: NextRequest) {
-  const source = request.nextUrl.searchParams.get("invite") ?? request.nextUrl.searchParams.get("name");
-  const inviteName = decodeInviteName(source);
-  if (!inviteName) {
-    return NextResponse.redirect(PUBLIC_ROOT_URL);
-  }
-
-  const serverApiBase = resolveServerApiBase();
-  const guestExists = await lookupGuest(serverApiBase, inviteName);
-  if (!guestExists) {
-    return NextResponse.redirect(PUBLIC_ROOT_URL);
-  }
+  const source =
+    request.nextUrl.searchParams.get("invite") ??
+    request.nextUrl.searchParams.get("name");
+  const inviteName = decodeInviteName(source) ?? "";
 
   const template = await loadFunTemplate();
-  const body = injectRuntimeBridge(template, inviteName, resolveClientApiBase(request));
+  const body = injectRuntimeBridge(
+    template,
+    inviteName,
+    resolveClientApiBase(request)
+  );
 
   return new NextResponse(body, {
     status: 200,

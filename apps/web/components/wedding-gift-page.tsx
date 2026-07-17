@@ -135,7 +135,6 @@ function GiftActionButtons({
 }
 
 export function WeddingGiftPage({ groups }: WeddingGiftPageProps): JSX.Element {
-  const [backHref, setBackHref] = useState('/information/guide');
   const [toast, setToast] = useState<string | null>(null);
   const [tossMotionSrc, setTossMotionSrc] = useState<string | null>(null);
   const [motionLoadError, setMotionLoadError] = useState(false);
@@ -170,13 +169,6 @@ export function WeddingGiftPage({ groups }: WeddingGiftPageProps): JSX.Element {
       controller.abort();
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, []);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const invite = params.get('invite') || params.get('name');
-    if (!invite) return;
-    setBackHref(`/information/guide?invite=${encodeURIComponent(invite)}`);
   }, []);
 
   useEffect(() => {

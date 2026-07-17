@@ -25,7 +25,7 @@ export function InformationPage(): JSX.Element {
       sections={INFORMATION_SECTIONS}
       showTopNavigation={false}
       bottomArrowNavigation={{
-        left: { href: '/fun?invite=invited%40하객', label: '즐길거리' },
+        left: { href: '/fun', label: '즐길거리' },
         right: { href: '/wedding-card', label: '모바일 청첩장' },
       }}
     />

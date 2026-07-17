@@ -13,4 +13,5 @@ deploy/certbot/www
 apps/api/prisma/dev.db
 apps/api/prisma/dev.db-journal
 apps/api/.env
+apps/web/.env
 apps/web/.env.local

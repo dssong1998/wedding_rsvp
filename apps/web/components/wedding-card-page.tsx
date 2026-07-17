@@ -199,7 +199,6 @@ export function WeddingCardPage({
   const [activeGalleryImage, setActiveGalleryImage] = useState(
     GALLERY_IMAGES[0],
   );
-  const [inviteQuery, setInviteQuery] = useState('');
   const [inviteName, setInviteName] = useState('');
   const [shareNotice, setShareNotice] = useState<string | null>(null);
   const [messages, setMessages] = useState<GuestMessage[]>([]);
@@ -228,8 +227,7 @@ export function WeddingCardPage({
     const params = new URLSearchParams(window.location.search);
     const invite = params.get('invite') ?? params.get('name');
     if (invite) {
-      setInviteQuery(`?invite=${encodeURIComponent(invite)}`);
-      setInviteName(invite);
+      setInviteName(invite.replace(/^invited@/i, ''));
     }
     const savedName = window.localStorage.getItem(GUEST_NAME_KEY)?.trim() ?? '';
     if (savedName) setGuestName(savedName);
@@ -573,17 +571,19 @@ export function WeddingCardPage({
           </section>
         )}
 
-        <section className='wedding-card-section wedding-card-gift'>
-          <SectionHeader>축하의 마음 전하기</SectionHeader>
-          <div className='wedding-card-section-body'>
-            <p>
-              따뜻한 축하와 마음에 깊이 감사드립니다.
-              <br />
-              보내주신 마음 오래도록 소중히 간직하겠습니다.
-            </p>
-            <a href='/wedding-gift'>축의금 보내기</a>
-          </div>
-        </section>
+        {!publicHome ? (
+          <section className='wedding-card-section wedding-card-gift'>
+            <SectionHeader>축하의 마음 전하기</SectionHeader>
+            <div className='wedding-card-section-body'>
+              <p>
+                따뜻한 축하와 마음에 깊이 감사드립니다.
+                <br />
+                보내주신 마음 오래도록 소중히 간직하겠습니다.
+              </p>
+              <a href='/wedding-gift'>축의금 보내기</a>
+            </div>
+          </section>
+        ) : null}
 
         <section
           className='wedding-card-section wedding-card-guestbook'
@@ -636,7 +636,7 @@ export function WeddingCardPage({
         <footer className='wedding-card-footer'>
           <p>송대석 ♡ 김다인</p>
           {!publicHome ? (
-            <a href={`/information${inviteQuery}`}>결혼식 정보 보기</a>
+            <a href='/information'>결혼식 정보 보기</a>
           ) : null}
         </footer>
       </article>

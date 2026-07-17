@@ -30,6 +30,13 @@ export type BalanceQuestion = {
   choices: [BalanceChoice, BalanceChoice];
 };
 
+export type WeddingWordleWord = {
+  /** 정답 한글 단어. 플레이 시 자모(초성·중성·종성)로 분절됩니다. */
+  answer: string;
+  /** 세 번째 오답부터 표시할 힌트 */
+  hint: string;
+};
+
 /**
  * O/X 퀴즈 문항 풀.
  * 아무리 많이 추가해도 게임 시작 시 이 중 랜덤 5문항만 노출됩니다.
@@ -138,10 +145,31 @@ export const BALANCE_QUESTIONS: BalanceQuestion[] = [
   },
 ];
 
+/**
+ * 웨딩 꼬들 정답 풀.
+ * 게임을 시작할 때 아래 단어 중 하나가 무작위로 선택됩니다.
+ * 입력한 한글은 자음·모음(자모)으로 분절되어 판정됩니다.
+ * 예: "사랑" → ㅅㅏㄹㅏㅇ (5칸)
+ */
+export const WEDDING_WORDLE_WORDS: WeddingWordleWord[] = [
+  { answer: '결혼', hint: '두 사람의 여정의 시작' },
+  { answer: '여름', hint: '두 사람이 만나고 결혼하는 계절' },
+  { answer: '사랑', hint: '사람에게 가장 중요한 것' },
+  { answer: '반지', hint: '서로의 손에 끼워주는 약속의 상징' },
+  { answer: '가족', hint: '두 사람이 만나 이루게 된 새로운 집단' },
+  { answer: '신랑', hint: '오늘 결혼식의 주인공' },
+  { answer: '신부', hint: '오늘 결혼식의 주인공' },
+  { answer: '행진', hint: '결혼식의 하이라이트' },
+  { answer: '뷔페', hint: '결혼식의 식사 제공 방식' },
+  { answer: '빵', hint: '신부가 사랑하는 것' },
+  { answer: '청혼', hint: '결혼을 하자고 말하는 것' },
+];
+
 export type FunGamesData = {
   quizQuestions: QuizQuestion[];
   quizRoundSize: number;
   balanceQuestions: BalanceQuestion[];
+  wordleWords: WeddingWordleWord[];
 };
 
 export function getFunGamesData(): FunGamesData {
@@ -149,5 +177,6 @@ export function getFunGamesData(): FunGamesData {
     quizQuestions: QUIZ_QUESTIONS,
     quizRoundSize: QUIZ_ROUND_SIZE,
     balanceQuestions: BALANCE_QUESTIONS,
+    wordleWords: WEDDING_WORDLE_WORDS,
   };
 }
