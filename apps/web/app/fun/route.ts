@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
+import { getFunGamesData } from "../../data/fun-games-data";
 
 export const dynamic = "force-dynamic";
 const PUBLIC_ROOT_URL = "https://dae-da.com/";
@@ -147,12 +148,14 @@ async function loadFunTemplate(): Promise<string> {
 
 function injectRuntimeBridge(html: string, inviteName: string, clientApiBase: string): string {
   const inviteToken = `invited@${inviteName}`;
+  const funGames = getFunGamesData();
   const bridge = `
 <script>
 (function() {
   window.__INVITE_SOURCE_NAME = ${JSON.stringify(inviteName)};
   window.__INVITE_SOURCE_TOKEN = ${JSON.stringify(inviteToken)};
   window.__INVITE_API_BASE = ${JSON.stringify(clientApiBase)};
+  window.__FUN_GAMES = ${JSON.stringify(funGames)};
 })();
 </script>`;
 

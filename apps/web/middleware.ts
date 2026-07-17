@@ -35,6 +35,12 @@ export function middleware(request: NextRequest): NextResponse {
     return NextResponse.redirect(redirectUrl);
   }
 
+  if (pathname === "/notification" || pathname.startsWith("/notification/")) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/wedding-card";
+    return NextResponse.redirect(redirectUrl);
+  }
+
   if (
     pathname === "/" ||
     isAdminPath ||
@@ -42,7 +48,7 @@ export function middleware(request: NextRequest): NextResponse {
     pathname.startsWith("/_next") ||
     pathname.startsWith("/fun") ||
     pathname.startsWith("/information") ||
-    pathname.startsWith("/notification") ||
+    pathname.startsWith("/wedding-card") ||
     pathname.startsWith("/wedding-gift") ||
     pathname.startsWith("/assets") ||
     pathname === "/favicon.ico"

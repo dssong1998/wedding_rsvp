@@ -149,7 +149,9 @@ export function WeddingGiftPage({ groups }: WeddingGiftPageProps): JSX.Element {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(`토스 모션을 불러오지 못했습니다: ${response.status}`);
+          throw new Error(
+            `토스 모션을 불러오지 못했습니다: ${response.status}`,
+          );
         }
         return response.blob();
       })
@@ -201,11 +203,6 @@ export function WeddingGiftPage({ groups }: WeddingGiftPageProps): JSX.Element {
   return (
     <main className='wedding-gift-root'>
       <div className='wedding-gift-shell'>
-        <a className='wedding-gift-back' href={backHref}>
-          <span aria-hidden>←</span>
-          <span>가이드로 돌아가기</span>
-        </a>
-
         <header className='wedding-gift-hero'>
           <p className='wedding-gift-kicker'>축의금</p>
           <h1>마음 전하기</h1>

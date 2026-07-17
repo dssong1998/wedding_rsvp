@@ -1974,5 +1974,1170 @@ a {
     width: 40px;
     height: 40px;
   }
+}
 
+.wedding-card-root {
+  min-height: 100dvh;
+  padding: 30px 18px;
+  background: #ededed;
+  color: #3e3b38;
+  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+}
+
+.wedding-card-sheet {
+  width: min(375px, 100%);
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.wedding-card-hero {
+  position: relative;
+  height: 557px;
+  overflow: hidden;
+  background: #dcd5ca;
+}
+
+.wedding-card-hero::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(26, 27, 22, 0.04) 30%,
+    rgba(23, 24, 21, 0.55)
+  );
+  content: '';
+}
+
+.wedding-card-hero > img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 48%;
+}
+
+.wedding-card-hero-copy {
+  position: absolute;
+  right: 24px;
+  bottom: 30px;
+  left: 24px;
+  z-index: 1;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+}
+
+.wedding-card-hero-copy p {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.wedding-card-hero-copy h1 {
+  margin: 9px 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+.wedding-card-hero-copy h1 span {
+  margin: 0 3px;
+  font-size: 17px;
+}
+
+.wedding-card-section {
+  background: #fff;
+}
+
+.wedding-card-section:nth-of-type(odd) {
+  background: #fbfaf8;
+}
+
+.wedding-card-section-header {
+  min-height: 110px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid #eeece7;
+  color: #9f9992;
+  text-align: center;
+}
+
+.wedding-card-section-header > span {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.wedding-card-section-header > strong {
+  margin-top: -2px;
+  color: #7e786f;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.wedding-card-section-header h2 {
+  margin: 16px 0 0;
+  color: #4b4844;
+  font-family: Georgia, 'Times New Roman', 'AppleMyungjo', serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.wedding-card-section-body {
+  padding: 32px 30px;
+}
+
+.wedding-card-greeting-copy {
+  margin: 0;
+  color: #65615c;
+  font-family: Georgia, 'Times New Roman', 'AppleMyungjo', serif;
+  font-size: 14px;
+  line-height: 2.08;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.wedding-card-family {
+  width: fit-content;
+  margin: 32px auto 0;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  color: #544741;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.wedding-card-family-parents {
+  padding-right: 5px;
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.wedding-card-family-parents div {
+  line-height: 20px;
+  white-space: pre;
+}
+
+.wedding-card-family-rel,
+.wedding-card-family-ord {
+  padding: 0 5px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.wedding-card-family-self {
+  padding-left: 2px;
+  font-weight: 700;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.wedding-card-contact-list {
+  display: grid;
+  gap: 13px;
+}
+
+.wedding-card-contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #ece9e5;
+}
+
+.wedding-card-contact-row:last-child {
+  border-bottom: 0;
+}
+
+.wedding-card-contact-row strong {
+  color: #56514c;
+  font-family: Georgia, 'Times New Roman', 'AppleMyungjo', serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.wedding-card-contact-row > div {
+  display: flex;
+  gap: 8px;
+}
+
+.wedding-card-contact-row a {
+  width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid #dcd7d0;
+  border-radius: 50%;
+  color: #8d867d;
+}
+
+.wedding-card-contact-row svg {
+  width: 16px;
+  height: 16px;
+}
+
+.wedding-card-calendar {
+  padding: 2px 2px 0;
+}
+
+.wedding-card-calendar > p {
+  margin: 0 0 22px;
+  color: #5e5a55;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 19px;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.wedding-card-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px 2px;
+  align-items: center;
+  color: #77716a;
+  font-size: 11px;
+  text-align: center;
+}
+
+.wedding-card-calendar-weekday {
+  margin-bottom: 5px;
+  color: #aaa39a;
+  font-size: 10px;
+}
+
+.wedding-card-calendar-weekday:first-child,
+.wedding-card-calendar-day:nth-child(7n + 1) {
+  color: #bc8b85;
+}
+
+.wedding-card-calendar-day {
+  width: 25px;
+  height: 25px;
+  display: inline-grid;
+  place-items: center;
+  justify-self: center;
+}
+
+.wedding-card-calendar-day.is-wedding {
+  border: 1px solid #91867a;
+  border-radius: 50%;
+  color: #514d48;
+  font-weight: 700;
+}
+
+.wedding-card-date-copy {
+  margin: 26px 0 0;
+  color: #78726b;
+  font-size: 12px;
+  text-align: center;
+}
+
+.wedding-card-gallery-section {
+  padding-bottom: 31px;
+}
+
+.wedding-card-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.wedding-card-gallery-image {
+  aspect-ratio: 1;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: #e4e1dc;
+  cursor: zoom-in;
+}
+
+.wedding-card-gallery-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.wedding-card-gallery-image:hover img {
+  transform: scale(1.05);
+}
+
+.wedding-card-venue {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 19px;
+  color: #777068;
+  text-align: center;
+}
+
+.wedding-card-venue strong {
+  color: #4e4943;
+  font-family: Georgia, 'Times New Roman', 'AppleMyungjo', serif;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.wedding-card-venue span {
+  font-size: 12px;
+}
+
+.wedding-card-map {
+  height: 212px;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid #e0ddd8;
+  border-radius: 6px;
+  background: #d7e1d4;
+}
+
+.wedding-card-map iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
+
+.wedding-card-map-links {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.wedding-card-map-links a {
+  flex: 1;
+  padding: 9px 0;
+  border: 1px solid #d8d2ca;
+  border-radius: 999px;
+  color: #6b6259;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.wedding-card-directions {
+  display: grid;
+  gap: 11px;
+  margin: 21px 0 0;
+}
+
+.wedding-card-directions div {
+  display: grid;
+  grid-template-columns: 53px 1fr;
+  gap: 9px;
+}
+
+.wedding-card-directions dt,
+.wedding-card-directions dd {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.wedding-card-directions dt {
+  color: #5f5952;
+}
+
+.wedding-card-directions dd {
+  color: #878078;
+  word-break: keep-all;
+}
+
+.wedding-card-gift .wedding-card-section-body {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.wedding-card-gift p {
+  margin: 0;
+  color: #78716a;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.wedding-card-gift a {
+  min-width: 160px;
+  padding: 12px 18px;
+  border: 1px solid #797169;
+  border-radius: 999px;
+  color: #514c46;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.wedding-card-footer {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 38px 24px;
+  background: #21242d;
+  color: #d4d1ce;
+}
+
+.wedding-card-footer p {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+}
+
+.wedding-card-footer a {
+  color: #c9c6c2;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.wedding-card-lightbox {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+}
+
+.wedding-card-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(13, 14, 15, 0.86);
+  cursor: zoom-out;
+}
+
+.wedding-card-lightbox-content {
+  max-width: min(920px, 100%);
+  max-height: calc(100dvh - 44px);
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  touch-action: none;
+  user-select: none;
+}
+
+.wedding-card-lightbox-content img {
+  max-width: 100%;
+  max-height: calc(100dvh - 44px);
+  display: block;
+  object-fit: contain;
+  animation: wedding-card-lightbox-photo-in 0.3s
+    cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+@keyframes wedding-card-lightbox-photo-in {
+  from {
+    opacity: 0.25;
+    transform: scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wedding-card-lightbox-content img {
+    animation: none;
+  }
+}
+
+.wedding-card-lightbox-nav {
+  width: 42px;
+  height: 42px;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  box-sizing: border-box;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(20, 20, 20, 0.52);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 200;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.wedding-card-lightbox-nav.is-previous {
+  left: 8px;
+}
+
+.wedding-card-lightbox-nav.is-next {
+  right: 8px;
+}
+
+.wedding-card-lightbox-close {
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  box-sizing: border-box;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  aspect-ratio: 1 / 1;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(20, 20, 20, 0.56);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .wedding-card-root {
+    padding: 0;
+    background: #fff;
+  }
+
+  .wedding-card-sheet {
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .wedding-card-hero {
+    height: min(148vw, 557px);
+  }
+}
+
+/* 원본 보자기카드 테마 3 / 색상 1의 활성 섹션 레이아웃 */
+.wedding-card-hero {
+  width: 100%;
+  height: 100dvh;
+  background: #e4e0d8;
+}
+
+.wedding-card-hero::after {
+  display: none;
+}
+
+.wedding-card-hero > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+}
+
+.wedding-card-hero .wedding-card-hero-photo {
+  width: 100%;
+  object-fit: cover;
+}
+
+.wedding-card-hero .wedding-card-hero-title {
+  object-fit: fill;
+  filter: brightness(0) saturate(100%) invert(92%) sepia(5%) saturate(140%)
+    hue-rotate(350deg) brightness(99%) contrast(91%)
+    drop-shadow(-1px -1px 0 rgba(255, 255, 255, 0.88))
+    drop-shadow(1px 2px 1px rgba(83, 89, 98, 0.42));
+}
+
+.wedding-card-hero-details {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+}
+
+.wedding-card-hero-names {
+  position: absolute;
+  top: 70%;
+  right: 40px;
+  left: 40px;
+  display: flex;
+  justify-content: space-between;
+  color: #2e2d2b;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.78);
+}
+
+.wedding-card-hero-meta {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  left: 20px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.55;
+  text-align: center;
+  text-shadow:
+    0 1px 5px rgba(0, 0, 0, 0.82),
+    0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.wedding-card-hero-meta p {
+  margin: 0;
+}
+
+.wedding-card-section-header {
+  min-height: 0;
+  display: block;
+  padding: 25px 0 27px;
+  border-bottom: 0;
+}
+
+.wedding-card-section-header > img {
+  width: 70px;
+  height: 70px;
+  display: block;
+  margin: 0 auto 31px;
+  object-fit: contain;
+}
+
+.wedding-card-section-header h2 {
+  margin: 0;
+  color: #544741;
+  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.wedding-card-section-body {
+  padding: 0;
+}
+
+.wedding-card-greeting,
+.wedding-card-contact,
+.wedding-card-location,
+.wedding-card-private-notice {
+  padding: 25px 35px 55px;
+}
+
+.wedding-card-greeting-copy {
+  margin-bottom: 30px;
+  color: #544741;
+  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.wedding-card-family {
+  margin-top: 0;
+  color: #544741;
+  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  font-size: 14px;
+}
+
+.wedding-card-contact-list {
+  gap: 0;
+  margin: 0 18px;
+}
+
+.wedding-card-contact-row {
+  padding: 6px 0;
+  border-bottom: 0;
+}
+
+.wedding-card-contact-row strong {
+  width: 65%;
+  color: #544741;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.wedding-card-contact-row > div {
+  gap: 12px;
+}
+
+.wedding-card-contact-row a {
+  width: 35px;
+  height: 35px;
+  border: 0;
+  border-radius: 50%;
+}
+
+.wedding-card-contact-row:first-child a {
+  background: #c5d3ec;
+}
+
+.wedding-card-contact-row:nth-child(2) a {
+  background: #fec4c5;
+}
+
+.wedding-card-contact-row a img {
+  width: 18px;
+  height: 18px;
+  display: block;
+  object-fit: contain;
+}
+
+.wedding-card-contact-row a:last-child img {
+  width: 16px;
+  height: 18px;
+}
+
+.wedding-card-gallery-section {
+  padding: 25px 0 55px;
+}
+
+.wedding-card-gallery-section .wedding-card-section-header {
+  margin: 0 35px;
+}
+
+.wedding-card-gallery {
+  display: block;
+  padding: 0 35px;
+}
+
+.wedding-card-gallery-main {
+  width: 100%;
+  height: 292px;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.wedding-card-gallery-main img {
+  max-width: 100%;
+  max-height: 292px;
+  display: block;
+  object-fit: contain;
+  transform: none;
+}
+
+.wedding-card-gallery-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  overflow-x: auto;
+  padding-bottom: 3px;
+  scrollbar-width: none;
+}
+
+.wedding-card-gallery-thumbnails::-webkit-scrollbar {
+  display: none;
+}
+
+.wedding-card-gallery-thumbnails button {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: #f4f1ed;
+  cursor: pointer;
+}
+
+.wedding-card-gallery-thumbnails img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.wedding-card-gallery-thumbnails button.is-selected {
+  opacity: 0.3;
+}
+
+.wedding-card-location {
+  background: #fefbf2;
+}
+
+.wedding-card-private-notice {
+  background: #fefbf2;
+  text-align: center;
+}
+
+.wedding-card-private-notice .wedding-card-section-body {
+  padding: 0;
+}
+
+.wedding-card-private-notice p {
+  margin: 0;
+  color: #544741;
+  font-size: 14px;
+  line-height: 26px;
+  word-break: keep-all;
+}
+
+.wedding-card-private-notice p + p {
+  margin-top: 22px;
+}
+
+.wedding-card-venue {
+  margin-bottom: 20px;
+  color: #544741;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.wedding-card-venue strong {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.wedding-card-venue span {
+  font-size: inherit;
+}
+
+.wedding-card-map {
+  height: 400px;
+}
+
+.wedding-card-directions {
+  gap: 30px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.wedding-card-directions div {
+  display: block;
+}
+
+.wedding-card-directions dt,
+.wedding-card-directions dd {
+  color: #544741;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.wedding-card-directions dt {
+  font-size: 15px;
+}
+
+.wedding-card-gift {
+  padding: 25px 35px 55px;
+  text-align: center;
+}
+
+.wedding-card-gift .wedding-card-section-body {
+  padding: 0;
+}
+
+.wedding-card-gift p {
+  margin: 0 0 26px;
+  color: #544741;
+  font-size: 14px;
+  line-height: 24px;
+  word-break: keep-all;
+}
+
+.wedding-card-gift a {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #998675;
+  border-radius: 22px;
+  background: transparent;
+  color: #544741;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.wedding-card-guestbook {
+  padding: 25px 0 55px;
+}
+
+.wedding-card-root.has-composer .wedding-card-guestbook {
+  padding-bottom: 170px;
+}
+
+.wedding-card-guestbook .wedding-card-section-header {
+  margin: 0 35px 30px;
+  padding-bottom: 0;
+}
+
+.wedding-card-guestbook .wedding-card-section-body {
+  padding: 0 35px;
+}
+
+.wedding-card-guestbook-empty {
+  margin: 0;
+  color: #8a8178;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.wedding-card-message-list {
+  display: grid;
+  gap: 16px;
+}
+
+.wedding-card-message {
+  overflow: hidden;
+  border: 1px solid #998675;
+  border-radius: 8px;
+}
+
+.wedding-card-message-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 12px 0;
+  color: #544741;
+}
+
+.wedding-card-message-head strong {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.wedding-card-message-head time {
+  font-size: 13px;
+}
+
+.wedding-card-message p {
+  margin: 12px 12px 15px;
+  color: #544741;
+  font-size: 15px;
+  line-height: 24px;
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+.wedding-card-reply {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  z-index: 20;
+  width: min(375px, 100%);
+  padding: 20px 15px 30px;
+  border-radius: 10px 10px 0 0;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08);
+  transform: translate(-50%, 110%);
+  transition: transform 0.45s ease;
+  pointer-events: none;
+}
+
+.wedding-card-reply.is-visible {
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+.wedding-card-reply-row {
+  display: grid;
+  gap: 10px;
+}
+
+.wedding-card-reply-input {
+  width: 100%;
+  min-height: 40px;
+  max-height: 120px;
+  padding: 11px 13px;
+  border: 1px solid #ececec;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  resize: none;
+}
+
+.wedding-card-reply-input.has-heart {
+  padding-left: 27px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='13' viewBox='0 0 12 13'%3E%3Cpath fill='%23c9a0a4' d='M6 12.2C4.2 10.7 0 7.3 0 3.9 0 1.8 1.6.3 3.5.3c1.1 0 2.1.5 2.5 1.3C6.4.8 7.4.3 8.5.3 10.4.3 12 1.8 12 3.9c0 3.4-4.2 6.8-6 8.3z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 13px 12px;
+  background-size: 12px 13px;
+}
+
+.wedding-card-reply-submit {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 5px;
+  background: #f3efe8;
+  color: #333;
+  font-family: inherit;
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.wedding-card-reply-submit:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.wedding-card-reply-name-form {
+  display: grid;
+  gap: 11px;
+}
+
+.wedding-card-reply-name-form p {
+  margin: 0 0 4px;
+  color: #544741;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.wedding-card-reply-name-form input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ececec;
+  border-radius: 6px;
+  background: #f8f8f8;
+  color: #333;
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.wedding-card-reply-name-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.wedding-card-reply-name-actions button {
+  padding: 12px;
+  border: 1px solid #666;
+  border-radius: 20px;
+  background: #fff;
+  color: #333;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.wedding-card-reply-name-actions button[type='submit'] {
+  border-color: transparent;
+  border-radius: 5px;
+  background: #f3efe8;
+}
+
+.wedding-card-reply-feedback {
+  margin: 10px 0 0;
+  color: #7a6f66;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .wedding-card-reply {
+    width: 100%;
+    left: 0;
+    transform: translateY(110%);
+  }
+
+  .wedding-card-reply.is-visible {
+    transform: translateY(0);
+  }
+}
+
+.wedding-card-share {
+  padding: 25px 35px 55px;
+  background: #fefbf2;
+}
+
+.wedding-card-share .wedding-card-section-body {
+  padding: 0;
+}
+
+.wedding-card-share-buttons {
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.wedding-card-share-buttons button {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: 0;
+  border-radius: 30px;
+  background: #3c1e1e;
+  color: #fff;
+  padding: 0 10px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.wedding-card-share-buttons img {
+  width: 16px;
+  height: 16px;
+  display: block;
+  object-fit: contain;
+}
+
+.wedding-card-thanks {
+  margin: 30px 0 0;
+  color: #524741;
+  font-size: 13px;
+  font-style: italic;
+  text-align: center;
+}
+
+.wedding-card-thanks span {
+  display: block;
+  margin-top: 8px;
+  color: #524741;
+  font-size: 15px;
+}
+
+.wedding-card-footer {
+  padding: 50px 30px 20px;
+}
+
+.wedding-card-footer a {
+  display: none;
+}
+
+.wedding-card-share-notice {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 101;
+  padding: 11px 16px;
+  border-radius: 999px;
+  background: rgba(33, 36, 45, 0.92);
+  color: #fff;
+  font-size: 12px;
+  transform: translateX(-50%);
 }
