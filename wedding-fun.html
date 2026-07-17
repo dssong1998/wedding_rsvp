@@ -1186,7 +1186,7 @@
           <li>정답과 같은 자모 수의 한글 단어를 입력합니다.</li>
           <li>예: “사랑”은 ㅅㅏㄹㅏㅇ, 다섯 칸입니다.</li>
           <li>각 자모 타일의 색을 보고 다음 단어를 추측합니다.</li>
-          <li>세 번 틀리면 정답을 떠올릴 수 있는 힌트가 공개됩니다.</li>
+          <li>네 번 틀리면 정답을 떠올릴 수 있는 힌트가 공개됩니다.</li>
         </ol>
         <div class="wordle-guide-example">
           <div>
@@ -1289,6 +1289,11 @@
           FUN_GAMES.quizRoundSize > 0
             ? FUN_GAMES.quizRoundSize
             : 5;
+        var BALANCE_ROUND_SIZE =
+          typeof FUN_GAMES.balanceRoundSize === 'number' &&
+          FUN_GAMES.balanceRoundSize > 0
+            ? FUN_GAMES.balanceRoundSize
+            : 5;
         var quizIndex = 0;
         var quizScore = 0;
         var quizLocked = false;
@@ -1299,6 +1304,7 @@
         var memoryLocked = false;
         var balanceIndex = 0;
         var balanceSides = [];
+        var balanceRound = [];
         var wordleAnswer = null;
         var wordleAttempt = 0;
         var wordleLocked = false;
@@ -1611,6 +1617,10 @@
         function startBalance() {
           balanceIndex = 0;
           balanceSides = [];
+          balanceRound = shuffleArray(BALANCE_QUESTIONS).slice(
+            0,
+            Math.min(BALANCE_ROUND_SIZE, BALANCE_QUESTIONS.length),
+          );
           var play = document.getElementById('balancePlay');
           var result = document.getElementById('balanceResult');
           if (play) play.hidden = false;
@@ -1618,7 +1628,7 @@
           renderBalance();
         }
         function renderBalance() {
-          var item = BALANCE_QUESTIONS[balanceIndex];
+          var item = balanceRound[balanceIndex];
           var question = document.getElementById('balanceQuestion');
           var progress = document.getElementById('balanceProgress');
           var choices = document.querySelectorAll('[data-balance-answer]');
@@ -1629,14 +1639,12 @@
           });
           if (progress)
             progress.style.width =
-              (balanceIndex / BALANCE_QUESTIONS.length) * 100 + '%';
+              (balanceIndex / balanceRound.length) * 100 + '%';
         }
         function answerBalance(choice) {
-          balanceSides.push(
-            BALANCE_QUESTIONS[balanceIndex].choices[choice].side,
-          );
+          balanceSides.push(balanceRound[balanceIndex].choices[choice].side);
           balanceIndex += 1;
-          if (balanceIndex < BALANCE_QUESTIONS.length) {
+          if (balanceIndex < balanceRound.length) {
             renderBalance();
           } else {
             finishBalance();
@@ -1646,7 +1654,7 @@
           var play = document.getElementById('balancePlay');
           var result = document.getElementById('balanceResult');
           var progress = document.getElementById('balanceProgress');
-          var total = BALANCE_QUESTIONS.length;
+          var total = balanceRound.length;
           var daeCount = balanceSides.filter(function (side) {
             return side === 'dae';
           }).length;
@@ -1935,7 +1943,7 @@
           });
           wordleAttempt += 1;
           input.value = '';
-          if (hint && !won && wordleAttempt >= 3) {
+          if (hint && !won && wordleAttempt >= 4) {
             hint.textContent = '힌트: ' + wordleAnswer.hint;
           }
           window.setTimeout(

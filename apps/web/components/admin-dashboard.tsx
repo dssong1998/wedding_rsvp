@@ -65,6 +65,51 @@ function upsertSupportTicket(list: SupportTicket[], ticket: SupportTicket): Supp
   return next.slice(0, 200);
 }
 
+function escapeCsvCell(value: string | number): string {
+  const text = String(value);
+  if (/[",\n\r]/.test(text)) {
+    return `"${text.replace(/"/g, '""')}"`;
+  }
+  return text;
+}
+
+function buildRsvpCsv(rows: AdminRsvp[]): string {
+  const headers = [
+    "RSVP ID",
+    "하객 ID",
+    "이름",
+    "배정 좌석",
+    "결혼식 참석",
+    "애프터 참석",
+    "참석 인원",
+    "우편번호",
+    "도로명 주소",
+    "상세 주소",
+    "수정 시각"
+  ];
+  const lines = [
+    headers.join(","),
+    ...rows.map((row) =>
+      [
+        row.id,
+        row.guest.id,
+        row.guest.name,
+        row.guest.seats,
+        row.weddingAttend ? "참석" : "불참",
+        row.afterAttend ? "참석" : "불참",
+        row.headcount,
+        row.addrZip ?? "",
+        row.addrRoad,
+        row.addrDetail ?? "",
+        new Date(row.updatedAt).toLocaleString("ko-KR")
+      ]
+        .map(escapeCsvCell)
+        .join(",")
+    )
+  ];
+  return `\uFEFF${lines.join("\n")}`;
+}
+
 export function AdminDashboard(): JSX.Element {
   const [otp, setOtp] = useState("");
   const [ready, setReady] = useState(false);
@@ -76,6 +121,7 @@ export function AdminDashboard(): JSX.Element {
   const [supportStreamState, setSupportStreamState] = useState("실시간 채널 대기");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
   const summary = useMemo(() => {
     if (!stats) return "OTP 인증 후 통계를 불러오세요.";
@@ -139,6 +185,41 @@ export function AdminDashboard(): JSX.Element {
       setReady(false);
     } finally {
       setLoading(false);
+    }
+  }
+
+  function exportRsvpsToExcel(): void {
+    if (rsvps.length === 0) {
+      setError("내보낼 RSVP 응답 데이터가 없습니다.");
+      return;
+    }
+
+    setError("");
+    setExporting(true);
+    try {
+      const csv = buildRsvpCsv(rsvps);
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const now = new Date();
+      const pad = (value: number) => String(value).padStart(2, "0");
+      const filename = [
+        "rsvp",
+        now.getFullYear(),
+        pad(now.getMonth() + 1),
+        pad(now.getDate()),
+        `${pad(now.getHours())}${pad(now.getMinutes())}`
+      ].join("-");
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${filename}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setExporting(false);
     }
   }
 
@@ -245,8 +326,18 @@ export function AdminDashboard(): JSX.Element {
         </section>
 
         <section className="admin-card">
-          <h2 style={{ marginTop: 0 }}>응답 목록</h2>
-          <div style={{ overflowX: "auto" }}>
+          <div className="admin-support-head">
+            <h2 style={{ margin: 0 }}>응답 목록</h2>
+            <button
+              type="button"
+              className="admin-btn secondary"
+              onClick={exportRsvpsToExcel}
+              disabled={!ready || loading || exporting || rsvps.length === 0}
+            >
+              {exporting ? "내보내는 중..." : "Excel 내보내기"}
+            </button>
+          </div>
+          <div style={{ overflowX: "auto", marginTop: 12 }}>
             <table className="admin-table">
               <thead>
                 <tr>

@@ -176,7 +176,12 @@ function PhotoLightbox({
         >
           ×
         </button>
-        <img key={image} src={image} alt='대석과 다인의 사진' draggable={false} />
+        <img
+          key={image}
+          src={image}
+          alt='대석과 다인의 사진'
+          draggable={false}
+        />
         <button
           type='button'
           className='wedding-card-lightbox-nav is-next'
@@ -502,7 +507,7 @@ export function WeddingCardPage({
             <SectionHeader>안내 말씀</SectionHeader>
             <div className='wedding-card-section-body'>
               <p>
-                저희의 결혼식은 가족과 가까운 지인분들만 모시고
+                저희의 결혼식은 가족과 친척분들만 모시고
                 <br />
                 소규모로 진행될 예정입니다.
               </p>
@@ -635,9 +640,7 @@ export function WeddingCardPage({
 
         <footer className='wedding-card-footer'>
           <p>송대석 ♡ 김다인</p>
-          {!publicHome ? (
-            <a href='/information'>결혼식 정보 보기</a>
-          ) : null}
+          {!publicHome ? <a href='/information'>결혼식 정보 보기</a> : null}
         </footer>
       </article>
 

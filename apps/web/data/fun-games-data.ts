@@ -2,6 +2,7 @@
  * fun 페이지 미니게임 데이터.
  * 이 파일만 수정하면 fun 페이지의 O/X 퀴즈와 밸런스 게임 내용이 바뀝니다.
  * (수정 후 fun 페이지를 새로고침하면 반영됩니다.)
+ * O/X 퀴즈·밸런스 게임은 각각 시작 시 목록에서 랜덤 5문항만 노출됩니다.
  */
 
 export type QuizQuestion = {
@@ -33,7 +34,7 @@ export type BalanceQuestion = {
 export type WeddingWordleWord = {
   /** 정답 한글 단어. 플레이 시 자모(초성·중성·종성)로 분절됩니다. */
   answer: string;
-  /** 세 번째 오답부터 표시할 힌트 */
+  /** 네 번 틀린 뒤 다섯 번째 기회부터 표시할 힌트 */
   hint: string;
 };
 
@@ -100,7 +101,13 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
 /** 게임 시작 시 노출할 퀴즈 문항 수 */
 export const QUIZ_ROUND_SIZE = 5;
 
-/** 결혼 밸런스 게임 문항 */
+/** 게임 시작 시 노출할 밸런스 문항 수 */
+export const BALANCE_ROUND_SIZE = 5;
+
+/**
+ * 결혼 밸런스 게임 문항 풀.
+ * 아무리 많이 추가해도 게임 시작 시 이 중 랜덤 5문항만 노출됩니다.
+ */
 export const BALANCE_QUESTIONS: BalanceQuestion[] = [
   {
     question: '완벽한 신혼여행은?',
@@ -120,16 +127,16 @@ export const BALANCE_QUESTIONS: BalanceQuestion[] = [
     question: '유난히 지치는 날 배우자가 해주길 바라는 것은?',
     choices: [
       { text: '함께 나가서 산책하기', side: 'dae' },
-      { text: '달달한 빵 사주기', side: 'dain' },
+      { text: '달달한 케잌 사주기', side: 'dain' },
     ],
   },
   {
     question: '육아와 교육에 대한 가치관은?',
     choices: [
-      { text: '좋아하는 것는 찾을 수 있게 길잡이의 역할을 하기', side: 'dain' },
+      { text: '좋아하는 것는 찾을 수 있게 길잡이의 역할을 하기', side: 'dae' },
       {
         text: '원하는 것을 직접 해보고 스스로 느낄 수 있도록 자유를 주기',
-        side: 'dae',
+        side: 'dain',
       },
     ],
   },
@@ -140,6 +147,46 @@ export const BALANCE_QUESTIONS: BalanceQuestion[] = [
       {
         text: '구성원 모두가 각자의 자리에서 성취를 이루고있는 가족',
         side: 'dae',
+      },
+    ],
+  },
+  {
+    question: '오늘 저녁으로 먹고싶은 메뉴는?',
+    choices: [
+      {
+        text: '버거킹',
+        side: 'dae',
+      },
+      { text: '콰삭킹', side: 'dain' },
+    ],
+  },
+  {
+    question: '로맨틱한 저녁 당신이 선택한 주종은?',
+    choices: [
+      {
+        text: '향긋한 셰리 위스키',
+        side: 'dae',
+      },
+      { text: '달달한 포트와인', side: 'dain' },
+    ],
+  },
+  {
+    question: '결혼 기념일에 가고싶은 식당은?',
+    choices: [
+      {
+        text: '와인과 함께하는 스페인 음식점 타파코파',
+        side: 'dain',
+      },
+      { text: '정갈한 일식이 나오는 초밥집 스시아메', side: 'dae' },
+    ],
+  },
+  {
+    question: '주말 저녁 함께 밥을 먹으며 보고싶은 유튜브 채널은?',
+    choices: [
+      { text: '침착맨의 나무위키 읽기', side: 'dae' },
+      {
+        text: '비주류 초대석',
+        side: 'dain',
       },
     ],
   },
@@ -169,6 +216,7 @@ export type FunGamesData = {
   quizQuestions: QuizQuestion[];
   quizRoundSize: number;
   balanceQuestions: BalanceQuestion[];
+  balanceRoundSize: number;
   wordleWords: WeddingWordleWord[];
 };
 
@@ -177,6 +225,7 @@ export function getFunGamesData(): FunGamesData {
     quizQuestions: QUIZ_QUESTIONS,
     quizRoundSize: QUIZ_ROUND_SIZE,
     balanceQuestions: BALANCE_QUESTIONS,
+    balanceRoundSize: BALANCE_ROUND_SIZE,
     wordleWords: WEDDING_WORDLE_WORDS,
   };
 }
