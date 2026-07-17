@@ -76,7 +76,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   },
   {
     question: '다인은 초록색, 대석은 파란색 잠옷을 입는다.',
-    answer: true,
+    answer: false,
     detail: '아니에요. 대석의 잠옷이 초록색, 다인의 잠옷이 파란색입니다.',
   },
   {
