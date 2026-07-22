@@ -47,7 +47,7 @@ export const INFORMATION_DETAIL_CONTENT: Record<string, ArticleDetailContent> =
 
           bullets: [
             '예식 장소: 보넬리 가든(서울 서초구 샘마루길 11)',
-            '셔틀버스 정류장: 양재역 9번 출구',
+            '셔틀버스 정류장: 신분당선 [양재 시민의 숲(매헌)]역 4번 출구',
             '주차: 서초과학화예비군훈련장 강동송파주차장',
           ],
           linkButton: {
