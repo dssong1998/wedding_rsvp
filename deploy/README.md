@@ -55,8 +55,10 @@ cp deploy/.env.example deploy/.env
 - `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`
 - `SESSION_SECRET`
 - `CORS_ORIGIN` (프론트 도메인들)
+- `PORT` (web 컨테이너 포트, 기본 `3000`)
+- `API_PORT` (api 컨테이너 포트, 기본 `4000`)
 - `NEXT_PUBLIC_API_BASE` (예: `https://api.dae-da.com`)
-- `API_BASE` (권장: `http://api:4000`, web 컨테이너 내부 호출용)
+- `API_BASE` (권장: `http://api:4000`, web 컨테이너 내부 호출용. `API_PORT`와 포트가 같아야 함)
 - `WEB_DOMAIN`, `WWW_DOMAIN`, `API_DOMAIN`
 - `SSL_PROVIDER` (`cloudflare` 또는 `letsencrypt`)
 - `CF_SSL_CERT_DIR`, `CF_SSL_CERT_FILE`, `CF_SSL_KEY_FILE` (`cloudflare`일 때)

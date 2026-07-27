@@ -71,7 +71,7 @@ async function bootstrap(): Promise<void> {
     })
   );
 
-  await app.listen(Number.parseInt(config.get<string>("PORT") ?? "4000", 10));
+  await app.listen(Number.parseInt(config.get<string>("API_PORT") ?? "4000", 10));
 }
 
 bootstrap();

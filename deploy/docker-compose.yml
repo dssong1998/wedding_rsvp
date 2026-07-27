@@ -18,12 +18,10 @@ services:
       - .env
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
-      NODE_ENV: production
-      PORT: 4000
     depends_on:
       - postgres
     expose:
-      - '4000'
+      - '${API_PORT:-4000}'
 
   prisma-studio:
     build:
@@ -55,32 +53,10 @@ services:
     env_file:
       - .env
     restart: always
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-      API_BASE: ${API_BASE:-http://api:4000}
-      GIFT_GROOM_BANK: ${GIFT_GROOM_BANK:-}
-      GIFT_GROOM_ACCOUNT: ${GIFT_GROOM_ACCOUNT:-}
-      GIFT_GROOM_KAKAO_URL: ${GIFT_GROOM_KAKAO_URL:-}
-      GIFT_BRIDE_BANK: ${GIFT_BRIDE_BANK:-}
-      GIFT_BRIDE_ACCOUNT: ${GIFT_BRIDE_ACCOUNT:-}
-      GIFT_BRIDE_KAKAO_URL: ${GIFT_BRIDE_KAKAO_URL:-}
-      GIFT_GROOM_FATHER_BANK: ${GIFT_GROOM_FATHER_BANK:-}
-      GIFT_GROOM_FATHER_ACCOUNT: ${GIFT_GROOM_FATHER_ACCOUNT:-}
-      GIFT_GROOM_FATHER_KAKAO_URL: ${GIFT_GROOM_FATHER_KAKAO_URL:-}
-      GIFT_GROOM_MOTHER_BANK: ${GIFT_GROOM_MOTHER_BANK:-}
-      GIFT_GROOM_MOTHER_ACCOUNT: ${GIFT_GROOM_MOTHER_ACCOUNT:-}
-      GIFT_GROOM_MOTHER_KAKAO_URL: ${GIFT_GROOM_MOTHER_KAKAO_URL:-}
-      GIFT_BRIDE_FATHER_BANK: ${GIFT_BRIDE_FATHER_BANK:-}
-      GIFT_BRIDE_FATHER_ACCOUNT: ${GIFT_BRIDE_FATHER_ACCOUNT:-}
-      GIFT_BRIDE_FATHER_KAKAO_URL: ${GIFT_BRIDE_FATHER_KAKAO_URL:-}
-      GIFT_BRIDE_MOTHER_BANK: ${GIFT_BRIDE_MOTHER_BANK:-}
-      GIFT_BRIDE_MOTHER_ACCOUNT: ${GIFT_BRIDE_MOTHER_ACCOUNT:-}
-      GIFT_BRIDE_MOTHER_KAKAO_URL: ${GIFT_BRIDE_MOTHER_KAKAO_URL:-}
     depends_on:
       - api
     expose:
-      - '3000'
+      - '${PORT:-3000}'
 
   nginx:
     image: nginx:alpine
