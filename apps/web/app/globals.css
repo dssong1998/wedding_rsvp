@@ -1985,7 +1985,7 @@ a {
 }
 
 .wedding-card-sheet {
-  width: min(375px, 100%);
+  width: min(720px, 100%);
   margin: 0 auto;
   overflow: hidden;
   border-radius: 30px;
@@ -2550,7 +2550,7 @@ a {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   object-position: center;
 }
 
@@ -2560,7 +2560,7 @@ a {
 }
 
 .wedding-card-hero .wedding-card-hero-title {
-  object-fit: fill;
+  object-fit: cover;
   filter: brightness(0) saturate(100%) invert(92%) sepia(5%) saturate(140%)
     hue-rotate(350deg) brightness(99%) contrast(91%)
     drop-shadow(-1px -1px 0 rgba(255, 255, 255, 0.88))
@@ -2591,7 +2591,7 @@ a {
 .wedding-card-hero-meta {
   position: absolute;
   right: 20px;
-  bottom: 27px;
+  bottom: 30px;
   left: 20px;
   color: #fff;
   font-size: 12px;

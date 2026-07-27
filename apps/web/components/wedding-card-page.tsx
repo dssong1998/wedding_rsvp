@@ -440,7 +440,7 @@ export function WeddingCardPage({
                     <div>주현숙</div>
                   </td>
                   <td className='wedding-card-family-rel'>의</td>
-                  <td className='wedding-card-family-ord'>장남</td>
+                  <td className='wedding-card-family-ord'>아들</td>
                   <td className='wedding-card-family-self'>송대석</td>
                 </tr>
                 <tr>
@@ -449,7 +449,7 @@ export function WeddingCardPage({
                     <div>강민경</div>
                   </td>
                   <td className='wedding-card-family-rel'>의</td>
-                  <td className='wedding-card-family-ord'>차녀</td>
+                  <td className='wedding-card-family-ord'>장녀</td>
                   <td className='wedding-card-family-self'>김다인</td>
                 </tr>
               </tbody>
