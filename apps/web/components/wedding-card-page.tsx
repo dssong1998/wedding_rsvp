@@ -576,7 +576,6 @@ export function WeddingCardPage({
           </section>
         )}
 
-        {!publicHome ? (
           <section className='wedding-card-section wedding-card-gift'>
             <SectionHeader>축하의 마음 전하기</SectionHeader>
             <div className='wedding-card-section-body'>
@@ -588,7 +587,6 @@ export function WeddingCardPage({
               <a href='/wedding-gift'>축의금 보내기</a>
             </div>
           </section>
-        ) : null}
 
         <section
           className='wedding-card-section wedding-card-guestbook'
