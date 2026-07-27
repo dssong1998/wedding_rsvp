@@ -440,7 +440,7 @@ export function WeddingCardPage({
                     <div>주현숙</div>
                   </td>
                   <td className='wedding-card-family-rel'>의</td>
-                  <td className='wedding-card-family-ord'>아들</td>
+                  <td className='wedding-card-family-ord'>장남</td>
                   <td className='wedding-card-family-self'>송대석</td>
                 </tr>
                 <tr>
@@ -576,17 +576,17 @@ export function WeddingCardPage({
           </section>
         )}
 
-          <section className='wedding-card-section wedding-card-gift'>
-            <SectionHeader>축하의 마음 전하기</SectionHeader>
-            <div className='wedding-card-section-body'>
-              <p>
-                따뜻한 축하와 마음에 깊이 감사드립니다.
-                <br />
-                보내주신 마음 오래도록 소중히 간직하겠습니다.
-              </p>
-              <a href='/wedding-gift'>축의금 보내기</a>
-            </div>
-          </section>
+        <section className='wedding-card-section wedding-card-gift'>
+          <SectionHeader>축하의 마음 전하기</SectionHeader>
+          <div className='wedding-card-section-body'>
+            <p>
+              따뜻한 축하와 마음에 깊이 감사드립니다.
+              <br />
+              보내주신 마음 오래도록 소중히 간직하겠습니다.
+            </p>
+            <a href='/wedding-gift'>축의금 보내기</a>
+          </div>
+        </section>
 
         <section
           className='wedding-card-section wedding-card-guestbook'
