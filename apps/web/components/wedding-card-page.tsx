@@ -289,7 +289,7 @@ export function WeddingCardPage({
         ? '송대석♡김다인의 결혼 소식을 전합니다.'
         : '송대석♡김다인의 결혼식에 초대합니다.',
       text: publicHome
-        ? '2026년 8월 22일, 송대석과 김다인이 결혼합니다.'
+        ? '2026년 8월 22일, 송대석과 김다인이 결혼식이 예정되어 있습니다.'
         : '2026년 8월 22일 토요일 오후 5시 · 보넬리가든',
       url: window.location.href,
     };
@@ -413,7 +413,7 @@ export function WeddingCardPage({
             </div>
             <div className='wedding-card-hero-meta'>
               <p>2026년 8월 22일 토요일 오후 5시</p>
-              {!publicHome ? <p>보넬리 가든</p> : null}
+              <p>보넬리 가든</p>
             </div>
           </div>
         </section>
