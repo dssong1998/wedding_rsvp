@@ -36,6 +36,28 @@ sudo ufw enable
 - `dae-da.com`
 - `www.dae-da.com`
 - `api.dae-da.com`
+- `layout.dae-da.com` (Bonelli Layout — Cloudflare 프록시 ON)
+
+## 2b) layout.dae-da.com (Bonelli Layout)
+
+별도 repo `bonelli_layout` 컨테이너가 `deploy_default` network 에 `bonelli-layout` 이름으로 붙습니다.
+
+nginx 설정: `deploy/nginx/layout.dae-da.com.conf` (docker-compose volume 마운트됨)
+
+```bash
+# wedding_rsvp — nginx 반영
+cd deploy && ./deploy.sh
+docker exec $(docker ps -q -f name=nginx) nginx -s reload
+
+# bonelli_layout (별도 clone)
+cd ../bonelli_layout
+cp .env.example .env   # DOCKER_NETWORK=deploy_default
+npm run docker:cloudflare
+```
+
+Cloudflare Origin Certificate에 `layout.dae-da.com` 또는 `*.dae-da.com` 포함 필요.
+
+자세히: bonelli_layout `deploy/WEDDING-RSVP.md`
 
 ## 3) 코드 배치
 
@@ -118,19 +140,35 @@ cd deploy
 
 ## 6) 애플리케이션 배포
 
+최초 배포:
+
 ```bash
 cd deploy
-./deploy.sh --prune
+./deploy.sh --build
+./deploy.sh --seed   # 최초 1회
+```
+
+`.env`만 바꾼 경우 (빠름, 빌드 없음):
+
+```bash
+cd deploy
 ./deploy.sh
 ```
 
-`deploy.sh`는 인증서가 없으면 자동으로 HTTP bootstrap nginx로 기동하고,
-인증서 발급 절차(`bootstrap-cert.sh`)를 안내합니다.
-
-최초 1회 시드가 필요하면:
+코드 변경 후:
 
 ```bash
-./deploy.sh --seed
+cd deploy
+./deploy.sh --build web    # web만 변경
+./deploy.sh --build api    # api만 변경
+./deploy.sh --build        # 둘 다 변경
+```
+
+디스크 부족 시:
+
+```bash
+./deploy.sh --prune
+./deploy.sh --build
 ```
 
 ## 7) 상태 점검
@@ -148,8 +186,10 @@ docker compose -f docker-compose.yml logs -f --tail=200 nginx web api
 cd /path/to/rsvp
 git pull
 cd deploy
-./deploy.sh
+./deploy.sh --build web    # 변경 범위에 맞게 web/api/--build 선택
 ```
+
+`.env`만 수정했다면 `./deploy.sh`만 실행하면 됩니다 (수초~수십 초).
 
 ## 9) 자주 발생하는 이슈
 

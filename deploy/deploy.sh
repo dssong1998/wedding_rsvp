@@ -5,6 +5,40 @@ SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 ENV_FILE="${SCRIPT_DIR}/.env"
 ENV_EXAMPLE="${SCRIPT_DIR}/.env.example"
+COMPOSE_FILE="${SCRIPT_DIR}/docker-compose.yml"
+
+usage() {
+  cat <<'EOF'
+Usage: ./deploy.sh [options]
+
+Fast deploy (default):
+  ./deploy.sh                 Restart stack using existing images (.env changes only)
+
+Build + deploy:
+  ./deploy.sh --build         Rebuild api + web (uses Docker layer cache)
+  ./deploy.sh --build web     Rebuild web only
+  ./deploy.sh --build api     Rebuild api only
+  ./deploy.sh --rebuild       Full rebuild without cache (slow, troubleshooting)
+
+Other:
+  ./deploy.sh --seed          Run DB seed after deploy
+  ./deploy.sh --prune         Free disk space, then deploy
+
+Examples:
+  ./deploy.sh --build web     Code changed in apps/web
+  ./deploy.sh                 Only deploy/.env updated
+EOF
+}
+
+case " $* " in
+  *" --help "*|*" -h "*)
+    usage
+    exit 0
+    ;;
+esac
+
+export DOCKER_BUILDKIT=1
+export COMPOSE_BAKE=false
 
 if [ ! -f "$ENV_FILE" ] && [ -f "$ENV_EXAMPLE" ]; then
   cp "$ENV_EXAMPLE" "$ENV_FILE"
@@ -23,21 +57,106 @@ fi
 
 DO_SEED=0
 DO_PRUNE=0
-for arg in "$@"; do
-  case "$arg" in
+DO_BUILD=0
+DO_REBUILD=0
+BUILD_TARGETS=""
+
+append_build_target() {
+  target="$1"
+  case " ${BUILD_TARGETS} " in
+    *" ${target} "*) ;;
+    *) BUILD_TARGETS="${BUILD_TARGETS} ${target}" ;;
+  esac
+}
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
     --seed)
       DO_SEED=1
       ;;
     --prune)
       DO_PRUNE=1
       ;;
+    --build|-b)
+      DO_BUILD=1
+      shift
+      if [ "$#" -eq 0 ]; then
+        append_build_target api
+        append_build_target web
+      else
+        case "$1" in
+          api|web|all)
+            if [ "$1" = "all" ]; then
+              append_build_target api
+              append_build_target web
+            else
+              append_build_target "$1"
+            fi
+            shift
+            ;;
+          *)
+            append_build_target api
+            append_build_target web
+            ;;
+        esac
+      fi
+      ;;
+    --build=*)
+      DO_BUILD=1
+      build_value="${1#--build=}"
+      case "$build_value" in
+        api|web|all)
+          if [ "$build_value" = "all" ]; then
+            append_build_target api
+            append_build_target web
+          else
+            append_build_target "$build_value"
+          fi
+          ;;
+        *)
+          echo "Unknown build target: ${build_value} (use api, web, or all)"
+          exit 1
+          ;;
+      esac
+      ;;
+    --build-api)
+      DO_BUILD=1
+      append_build_target api
+      ;;
+    --build-web)
+      DO_BUILD=1
+      append_build_target web
+      ;;
+    --rebuild)
+      DO_BUILD=1
+      DO_REBUILD=1
+      append_build_target api
+      append_build_target web
+      ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
     *)
-      echo "Unknown option: $arg"
-      echo "Usage: ./deploy.sh [--prune] [--seed]"
+      echo "Unknown option: $1"
+      usage
       exit 1
       ;;
   esac
+  shift
 done
+
+BUILD_TARGETS="${BUILD_TARGETS# }"
+
+compose() {
+  # shellcheck disable=SC2086
+  docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" "$@"
+}
+
+image_exists() {
+  service="$1"
+  compose image "$service" >/dev/null 2>&1
+}
 
 AVAIL_KB="$(df -Pk . | awk 'NR==2 { print $4 }')"
 MIN_FREE_KB=3145728
@@ -84,24 +203,45 @@ else
   exit 1
 fi
 
-echo "[1/4] Building web/api images..."
-COMPOSE_BAKE=false docker compose --env-file "$ENV_FILE" -f docker-compose.yml build api
-COMPOSE_BAKE=false docker compose --env-file "$ENV_FILE" -f docker-compose.yml build web
+if [ "$DO_BUILD" -eq 0 ]; then
+  if ! image_exists api || ! image_exists web; then
+    echo "Images missing. Building api + web before first deploy..."
+    DO_BUILD=1
+    BUILD_TARGETS="api web"
+  fi
+fi
+
+if [ "$DO_BUILD" -eq 1 ]; then
+  if [ -z "$BUILD_TARGETS" ]; then
+    BUILD_TARGETS="api web"
+  fi
+
+  BUILD_FLAGS=""
+  if [ "$DO_REBUILD" -eq 1 ]; then
+    BUILD_FLAGS="--no-cache"
+  fi
+
+  echo "[1/4] Building image(s): ${BUILD_TARGETS}..."
+  # shellcheck disable=SC2086
+  compose build $BUILD_FLAGS $BUILD_TARGETS
+else
+  echo "[1/4] Skipping image build (use --build when code changed)."
+fi
 
 if [ "$SSL_PROVIDER" = "letsencrypt" ] && { [ ! -f "$CERT_FULLCHAIN" ] || [ ! -f "$CERT_PRIVKEY" ]; }; then
   echo "[2/4] TLS cert not found for ${WEB_DOMAIN}. Starting HTTP bootstrap nginx."
-  docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d --remove-orphans postgres api web
-  docker compose --env-file "$ENV_FILE" -f docker-compose.yml -f docker-compose.bootstrap.yml up -d --no-deps nginx
+  compose up -d --remove-orphans postgres api web
+  docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" -f docker-compose.bootstrap.yml up -d --no-deps nginx
   echo "Run './bootstrap-cert.sh --staging' then './bootstrap-cert.sh', and rerun './deploy.sh'."
 else
   echo "[2/4] Applying updated stack..."
-  docker compose --env-file "$ENV_FILE" -f docker-compose.yml up -d --remove-orphans
+  compose up -d --remove-orphans
 fi
 
 if [ "$DO_SEED" -eq 1 ]; then
   echo "[3/4] Syncing DB schema then running seed..."
-  docker compose --env-file "$ENV_FILE" -f docker-compose.yml exec -T api sh -lc 'pnpm prisma:migrate:deploy || true; pnpm prisma db push'
-  docker compose --env-file "$ENV_FILE" -f docker-compose.yml exec -T api pnpm prisma:seed
+  compose exec -T api sh -lc 'pnpm prisma:migrate:deploy || true; pnpm prisma db push'
+  compose exec -T api pnpm prisma:seed
   echo "[4/4] Done."
 else
   echo "[3/4] Skipping seed."

@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM node:20-bookworm-slim AS builder
 
 RUN apt-get update \
@@ -7,13 +9,15 @@ RUN apt-get update \
 RUN corepack enable
 WORKDIR /app
 
-COPY package.json pnpm-workspace.yaml turbo.json ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml turbo.json ./
 COPY apps/api/package.json apps/api/package.json
 COPY packages/shared/package.json packages/shared/package.json
 
-RUN pnpm install --no-frozen-lockfile
+RUN --mount=type=cache,id=pnpm-api,target=/pnpm/store \
+  pnpm install --frozen-lockfile --store-dir /pnpm/store
 
-COPY . .
+COPY packages/shared packages/shared
+COPY apps/api apps/api
 
 RUN pnpm --filter @wedding/shared build
 RUN pnpm --filter api prisma:generate

@@ -22,6 +22,11 @@ coverage
 deploy/.env
 deploy/certbot
 apps/api/.env
+apps/web/.env
 apps/web/.env.local
+
+deploy/
+**/*.md
+workflow.md
 
 backups
