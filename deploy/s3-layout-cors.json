@@ -1,0 +1,15 @@
+{
+  "CORSRules": [
+    {
+      "AllowedHeaders": ["*"],
+      "AllowedMethods": ["GET", "PUT", "HEAD"],
+      "AllowedOrigins": [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://layout.dae-da.com"
+      ],
+      "ExposeHeaders": ["ETag"],
+      "MaxAgeSeconds": 3600
+    }
+  ]
+}

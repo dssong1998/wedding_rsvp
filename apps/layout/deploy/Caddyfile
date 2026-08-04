@@ -1,0 +1,17 @@
+{
+	email {$ACME_EMAIL}
+}
+
+{$DOMAIN} {
+	root * /srv
+	encode gzip zstd
+
+	header {
+		X-Frame-Options "SAMEORIGIN"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+
+	file_server
+	try_files {path} /index.html
+}

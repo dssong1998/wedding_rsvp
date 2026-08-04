@@ -50,7 +50,7 @@ async function bootstrap(): Promise<void> {
 
       callback(new Error("Not allowed by CORS"), false);
     },
-    methods: ["GET", "POST", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
     maxAge: 86400

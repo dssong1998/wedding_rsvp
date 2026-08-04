@@ -7,6 +7,7 @@ import { ChatbotModule } from "./chatbot/chatbot.module";
 import { GalleryModule } from "./gallery/gallery.module";
 import { GuestMessagesModule } from "./guest-messages/guest-messages.module";
 import { GuestsModule } from "./guests/guests.module";
+import { LayoutModule } from "./layout/layout.module";
 import { NotifyModule } from "./notify/notify.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { RsvpModule } from "./rsvp/rsvp.module";
@@ -24,6 +25,7 @@ import { RsvpModule } from "./rsvp/rsvp.module";
     GuestMessagesModule,
     GuestsModule,
     RsvpModule,
+    LayoutModule,
     AdminModule
   ],
   providers: [

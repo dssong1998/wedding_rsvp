@@ -1,0 +1,21 @@
+{
+  "terrain_grass": {
+    "sheet": "rpg",
+    "defaultIndex": 915,
+    "variantIndices": [855, 856, 857, 858, 859, 912, 913, 914, 915, 916, 971, 972, 973]
+  },
+  "terrain_path_gray": { "sheet": "rpg", "indices": [7, 9] },
+  "terrain_tree": {
+    "sheet": "rpg",
+    "defaultIndex": 531,
+    "variantIndices": [531]
+  },
+  "character_groom_walk": { "sheet": "rpg", "index": 744 },
+  "character_bride_walk": { "sheet": "rpg", "index": 573 },
+  "terrain_indoor_floor": {
+    "sheet": "indoor",
+    "defaultIndex": 83,
+    "variantIndices": [83, 84, 120, 121, 137, 138]
+  },
+  "wall_indoor": { "sheet": "indoor", "autotile": "kenney_wall_v1", "baseIndex": 16 }
+}

@@ -1,0 +1,17 @@
+node_modules
+dist
+dist-ssr
+.git
+.gitignore
+.tmp
+tmp
+*.tar.gz
+*.local
+.env
+deploy/env
+.cursor
+terminals
+agent-transcripts
+docs
+*.md
+!README.md

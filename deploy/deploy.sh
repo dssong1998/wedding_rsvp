@@ -15,9 +15,10 @@ Fast deploy (default):
   ./deploy.sh                 Restart stack using existing images (.env changes only)
 
 Build + deploy:
-  ./deploy.sh --build         Rebuild api + web (uses Docker layer cache)
+  ./deploy.sh --build         Rebuild api + web + layout (uses Docker layer cache)
   ./deploy.sh --build web     Rebuild web only
   ./deploy.sh --build api     Rebuild api only
+  ./deploy.sh --build layout  Rebuild layout only (layout.dae-da.com)
   ./deploy.sh --rebuild       Full rebuild without cache (slow, troubleshooting)
 
 Other:
@@ -85,10 +86,11 @@ while [ "$#" -gt 0 ]; do
         append_build_target web
       else
         case "$1" in
-          api|web|all)
+          api|web|layout|all)
             if [ "$1" = "all" ]; then
               append_build_target api
               append_build_target web
+              append_build_target layout
             else
               append_build_target "$1"
             fi
@@ -105,10 +107,11 @@ while [ "$#" -gt 0 ]; do
       DO_BUILD=1
       build_value="${1#--build=}"
       case "$build_value" in
-        api|web|all)
+        api|web|layout|all)
           if [ "$build_value" = "all" ]; then
             append_build_target api
             append_build_target web
+            append_build_target layout
           else
             append_build_target "$build_value"
           fi
@@ -204,10 +207,10 @@ else
 fi
 
 if [ "$DO_BUILD" -eq 0 ]; then
-  if ! image_exists api || ! image_exists web; then
-    echo "Images missing. Building api + web before first deploy..."
+  if ! image_exists api || ! image_exists web || ! image_exists layout; then
+    echo "Images missing. Building api + web + layout before first deploy..."
     DO_BUILD=1
-    BUILD_TARGETS="api web"
+    BUILD_TARGETS="api web layout"
   fi
 fi
 

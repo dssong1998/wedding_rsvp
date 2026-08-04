@@ -43,3 +43,29 @@ model GuestMessage {
   @@index([createdAt])
   @@index([inviteName])
 }
+
+/// Bonelli layout — version name = S3 folder under AWS_S3_LAYOUT_PREFIX.
+model LayoutVersion {
+  id        Int                    @id @default(autoincrement())
+  name      String                 @unique
+  s3Prefix  String
+  venueId   String?
+  label     String?
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+  history   LayoutVersionHistory[]
+
+  @@index([name])
+}
+
+/// Each save appends a timestamped JSON snapshot under the version folder.
+model LayoutVersionHistory {
+  id        Int           @id @default(autoincrement())
+  version   LayoutVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  versionId Int
+  s3Key     String        @unique
+  savedAt   DateTime      @default(now())
+  label     String?
+
+  @@index([versionId, savedAt])
+}

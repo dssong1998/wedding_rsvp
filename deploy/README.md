@@ -40,24 +40,20 @@ sudo ufw enable
 
 ## 2b) layout.dae-da.com (Bonelli Layout)
 
-별도 repo `bonelli_layout` 컨테이너가 `deploy_default` network 에 `bonelli-layout` 이름으로 붙습니다.
-
-nginx 설정: `deploy/nginx/layout.dae-da.com.conf` (docker-compose volume 마운트됨)
+`apps/layout` — wedding_rsvp 모노레포 내부 Vite+Phaser 앱. docker-compose `layout` 서비스로 nginx에 연결됩니다.
 
 ```bash
-# wedding_rsvp — nginx 반영
-cd deploy && ./deploy.sh
+cd deploy
+./deploy.sh --build layout   # layout 코드 변경 시
+./deploy.sh                  # env만 변경 시
 docker exec $(docker ps -q -f name=nginx) nginx -s reload
-
-# bonelli_layout (별도 clone)
-cd ../bonelli_layout
-cp .env.example .env   # DOCKER_NETWORK=deploy_default
-npm run docker:cloudflare
 ```
+
+로컬 개발: repo root에서 `pnpm dev:layout` (http://localhost:5173)
 
 Cloudflare Origin Certificate에 `layout.dae-da.com` 또는 `*.dae-da.com` 포함 필요.
 
-자세히: bonelli_layout `deploy/WEDDING-RSVP.md`
+**이전:** 별도 `bonelli_layout` repo + `bonelli-layout` 컨테이너 → **통합 후** `./deploy.sh --build layout` 만 사용.
 
 ## 3) 코드 배치
 

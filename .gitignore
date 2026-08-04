@@ -15,3 +15,5 @@ apps/api/prisma/dev.db-journal
 apps/api/.env
 apps/web/.env
 apps/web/.env.local
+apps/layout/.env
+apps/layout/dist
