@@ -23,9 +23,11 @@ fi
 
 WEB_DOMAIN="${WEB_DOMAIN:-dae-da.com}"
 API_DOMAIN="${API_DOMAIN:-api.dae-da.com}"
+LAYOUT_DOMAIN="${LAYOUT_DOMAIN:-layout.dae-da.com}"
 
 WEB_URL="https://${WEB_DOMAIN}"
 API_URL="https://${API_DOMAIN}"
+LAYOUT_URL="https://${LAYOUT_DOMAIN}"
 
 echo "Checking web: ${WEB_URL}"
 curl -fsS "${WEB_URL}/" > /dev/null
@@ -37,4 +39,20 @@ if [ "$API_STATUS" -ge 500 ]; then
   exit 1
 fi
 
-echo "OK: web/api are reachable (api status=${API_STATUS})."
+echo "Checking layout app: ${LAYOUT_URL}/"
+LAYOUT_STATUS="$(curl -s -o /dev/null -w "%{http_code}" "${LAYOUT_URL}/")"
+if [ "$LAYOUT_STATUS" -ge 500 ]; then
+  echo "ERROR: Layout returned ${LAYOUT_STATUS}"
+  exit 1
+fi
+
+echo "Checking layout api: ${API_URL}/layout/storage/status"
+LAYOUT_API_STATUS="$(curl -s -o /dev/null -w "%{http_code}" "${API_URL}/layout/storage/status")"
+if [ "$LAYOUT_API_STATUS" = "404" ]; then
+  echo "WARN: Layout API not deployed yet (/layout/storage/status → 404). Run ./deploy.sh --build api"
+elif [ "$LAYOUT_API_STATUS" -ge 500 ]; then
+  echo "ERROR: Layout API returned ${LAYOUT_API_STATUS}"
+  exit 1
+fi
+
+echo "OK: api=${API_STATUS} layout=${LAYOUT_STATUS} layout-api=${LAYOUT_API_STATUS}."

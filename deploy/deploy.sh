@@ -84,6 +84,7 @@ while [ "$#" -gt 0 ]; do
       if [ "$#" -eq 0 ]; then
         append_build_target api
         append_build_target web
+        append_build_target layout
       else
         case "$1" in
           api|web|layout|all)
@@ -135,6 +136,7 @@ while [ "$#" -gt 0 ]; do
       DO_REBUILD=1
       append_build_target api
       append_build_target web
+      append_build_target layout
       ;;
     --help|-h)
       usage
@@ -216,7 +218,7 @@ fi
 
 if [ "$DO_BUILD" -eq 1 ]; then
   if [ -z "$BUILD_TARGETS" ]; then
-    BUILD_TARGETS="api web"
+    BUILD_TARGETS="api web layout"
   fi
 
   BUILD_FLAGS=""
@@ -250,4 +252,19 @@ else
   echo "[3/4] Skipping seed."
   echo "[4/4] Done."
   echo "Tip: run './deploy.sh --seed' once if this is first deployment."
+fi
+
+NGINX_CID="$(docker ps -q -f name=nginx | head -1 || true)"
+if [ -n "$NGINX_CID" ]; then
+  if docker exec "$NGINX_CID" grep -rq 'bonelli-layout' /etc/nginx/conf.d/ 2>/dev/null; then
+    echo ""
+    echo "WARN: nginx still proxies to bonelli-layout (removed). Run:"
+    echo "  git pull && docker compose up -d nginx"
+    echo "  Expected upstream: layout:80 in nginx/layout.dae-da.com.conf"
+  fi
+  if [ -z "$(compose ps -q layout 2>/dev/null || true)" ]; then
+    echo ""
+    echo "WARN: layout container is not running. Run:"
+    echo "  ./deploy.sh --build layout"
+  fi
 fi
