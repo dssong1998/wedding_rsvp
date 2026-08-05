@@ -8,25 +8,10 @@
     {
       "id": "01_chair",
       "name": "의자 Chair",
-      "px": [
-        32,
-        32
-      ],
-      "tiles": [
-        1,
-        1
-      ],
+      "px": [32, 32],
+      "tiles": [1, 1],
       "directions": 8,
-      "degrees": [
-        0,
-        45,
-        90,
-        135,
-        180,
-        225,
-        270,
-        315
-      ],
+      "degrees": [0, 45, 90, 135, 180, 225, 270, 315],
       "files": [
         "sprites/01_chair/01_chair_r0.png",
         "sprites/01_chair/01_chair_r45.png",
@@ -41,21 +26,10 @@
     {
       "id": "02_table_set_6",
       "name": "6인 테이블 세트",
-      "px": [
-        96,
-        128
-      ],
-      "tiles": [
-        3,
-        4
-      ],
+      "px": [96, 128],
+      "tiles": [3, 4],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/02_table_set_6/02_table_set_6_r0.png",
         "sprites/02_table_set_6/02_table_set_6_r90.png",
@@ -66,21 +40,10 @@
     {
       "id": "03_table_rect",
       "name": "직사각 테이블",
-      "px": [
-        64,
-        120
-      ],
-      "tiles": [
-        2,
-        4
-      ],
+      "px": [64, 120],
+      "tiles": [2, 4],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/03_table_rect/03_table_rect_r0.png",
         "sprites/03_table_rect/03_table_rect_r90.png",
@@ -91,21 +54,10 @@
     {
       "id": "04_head_table",
       "name": "헤드테이블",
-      "px": [
-        96,
-        96
-      ],
-      "tiles": [
-        3,
-        3
-      ],
+      "px": [96, 96],
+      "tiles": [3, 3],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/04_head_table/04_head_table_r0.png",
         "sprites/04_head_table/04_head_table_r90.png",
@@ -116,21 +68,10 @@
     {
       "id": "05_standing_table",
       "name": "스탠딩 테이블",
-      "px": [
-        48,
-        48
-      ],
-      "tiles": [
-        2,
-        2
-      ],
+      "px": [48, 48],
+      "tiles": [2, 2],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/05_standing_table/05_standing_table_r0.png",
         "sprites/05_standing_table/05_standing_table_r90.png",
@@ -141,21 +82,10 @@
     {
       "id": "06_buffet_table",
       "name": "뷔페 테이블",
-      "px": [
-        64,
-        176
-      ],
-      "tiles": [
-        2,
-        6
-      ],
+      "px": [64, 176],
+      "tiles": [2, 6],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/06_buffet_table/06_buffet_table_r0.png",
         "sprites/06_buffet_table/06_buffet_table_r90.png",
@@ -166,21 +96,10 @@
     {
       "id": "07_sofa",
       "name": "소파 Sofa",
-      "px": [
-        128,
-        56
-      ],
-      "tiles": [
-        4,
-        2
-      ],
+      "px": [128, 56],
+      "tiles": [4, 2],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/07_sofa/07_sofa_r0.png",
         "sprites/07_sofa/07_sofa_r90.png",
@@ -191,21 +110,10 @@
     {
       "id": "08_fountain",
       "name": "분수 Fountain",
-      "px": [
-        72,
-        72
-      ],
-      "tiles": [
-        3,
-        3
-      ],
+      "px": [72, 72],
+      "tiles": [3, 3],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/08_fountain/08_fountain_r0.png",
         "sprites/08_fountain/08_fountain_r90.png",
@@ -216,25 +124,10 @@
     {
       "id": "09_easel_board",
       "name": "이젤/웰컴보드",
-      "px": [
-        48,
-        64
-      ],
-      "tiles": [
-        2,
-        2
-      ],
+      "px": [48, 64],
+      "tiles": [2, 2],
       "directions": 8,
-      "degrees": [
-        0,
-        45,
-        90,
-        135,
-        180,
-        225,
-        270,
-        315
-      ],
+      "degrees": [0, 45, 90, 135, 180, 225, 270, 315],
       "files": [
         "sprites/09_easel_board/09_easel_board_r0.png",
         "sprites/09_easel_board/09_easel_board_r45.png",
@@ -249,21 +142,10 @@
     {
       "id": "10_column",
       "name": "기둥 Column",
-      "px": [
-        32,
-        32
-      ],
-      "tiles": [
-        1,
-        1
-      ],
+      "px": [32, 32],
+      "tiles": [1, 1],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/10_column/10_column_r0.png",
         "sprites/10_column/10_column_r90.png",
@@ -274,21 +156,10 @@
     {
       "id": "11_photobooth",
       "name": "포토부스(iMac)",
-      "px": [
-        96,
-        64
-      ],
-      "tiles": [
-        3,
-        2
-      ],
+      "px": [96, 64],
+      "tiles": [3, 2],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/11_photobooth/11_photobooth_r0.png",
         "sprites/11_photobooth/11_photobooth_r90.png",
@@ -299,21 +170,10 @@
     {
       "id": "12_welcome_drink",
       "name": "웰컴드링크 테이블",
-      "px": [
-        128,
-        64
-      ],
-      "tiles": [
-        4,
-        2
-      ],
+      "px": [128, 64],
+      "tiles": [4, 2],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/12_welcome_drink/12_welcome_drink_r0.png",
         "sprites/12_welcome_drink/12_welcome_drink_r90.png",
@@ -324,21 +184,10 @@
     {
       "id": "13_beer_stand",
       "name": "비어스탠드",
-      "px": [
-        96,
-        64
-      ],
-      "tiles": [
-        3,
-        2
-      ],
+      "px": [96, 64],
+      "tiles": [3, 2],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/13_beer_stand/13_beer_stand_r0.png",
         "sprites/13_beer_stand/13_beer_stand_r90.png",
@@ -349,21 +198,10 @@
     {
       "id": "14_wedding_cake",
       "name": "웨딩케이크",
-      "px": [
-        128,
-        56
-      ],
-      "tiles": [
-        4,
-        2
-      ],
+      "px": [128, 56],
+      "tiles": [4, 2],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/14_wedding_cake/14_wedding_cake_r0.png",
         "sprites/14_wedding_cake/14_wedding_cake_r90.png",
@@ -374,21 +212,10 @@
     {
       "id": "15_center_stage",
       "name": "중앙 무대",
-      "px": [
-        96,
-        96
-      ],
-      "tiles": [
-        3,
-        3
-      ],
+      "px": [96, 96],
+      "tiles": [3, 3],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/15_center_stage/15_center_stage_r0.png",
         "sprites/15_center_stage/15_center_stage_r90.png",
@@ -399,21 +226,10 @@
     {
       "id": "16_gift_desk",
       "name": "축의대",
-      "px": [
-        96,
-        64
-      ],
-      "tiles": [
-        3,
-        2
-      ],
+      "px": [96, 64],
+      "tiles": [3, 2],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/16_gift_desk/16_gift_desk_r0.png",
         "sprites/16_gift_desk/16_gift_desk_r90.png",
@@ -424,21 +240,10 @@
     {
       "id": "17_wedding_poster",
       "name": "웨딩 포스터",
-      "px": [
-        64,
-        90
-      ],
-      "tiles": [
-        2,
-        3
-      ],
+      "px": [64, 90],
+      "tiles": [2, 3],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/17_wedding_poster/17_wedding_poster_r0.png",
         "sprites/17_wedding_poster/17_wedding_poster_r90.png",
@@ -449,21 +254,10 @@
     {
       "id": "18_film_camera_table",
       "name": "필름카메라 테이블",
-      "px": [
-        96,
-        80
-      ],
-      "tiles": [
-        3,
-        3
-      ],
+      "px": [96, 80],
+      "tiles": [3, 3],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/18_film_camera_table/18_film_camera_table_r0.png",
         "sprites/18_film_camera_table/18_film_camera_table_r90.png",
@@ -474,21 +268,10 @@
     {
       "id": "19_guest_board",
       "name": "게스트보드",
-      "px": [
-        96,
-        72
-      ],
-      "tiles": [
-        3,
-        3
-      ],
+      "px": [96, 72],
+      "tiles": [3, 3],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/19_guest_board/19_guest_board_r0.png",
         "sprites/19_guest_board/19_guest_board_r90.png",
@@ -499,21 +282,10 @@
     {
       "id": "20_parasol_planter",
       "name": "화분과 양산",
-      "px": [
-        80,
-        80
-      ],
-      "tiles": [
-        3,
-        3
-      ],
+      "px": [80, 80],
+      "tiles": [3, 3],
       "directions": 4,
-      "degrees": [
-        0,
-        90,
-        180,
-        270
-      ],
+      "degrees": [0, 90, 180, 270],
       "files": [
         "sprites/20_parasol_planter/20_parasol_planter_r0.png",
         "sprites/20_parasol_planter/20_parasol_planter_r90.png",
@@ -525,26 +297,11 @@
       "id": "21_bride",
       "name": "신부 Bride",
       "type": "character",
-      "px": [
-        32,
-        48
-      ],
-      "tiles": [
-        1,
-        2
-      ],
+      "px": [32, 48],
+      "tiles": [1, 2],
       "directions": 4,
-      "facings": [
-        "down",
-        "up",
-        "left",
-        "right"
-      ],
-      "frames": [
-        "idle",
-        "walk1",
-        "walk2"
-      ],
+      "facings": ["down", "up", "left", "right"],
+      "frames": ["idle", "walk1", "walk2"],
       "walk_cycle": "walk1 -> idle -> walk2 -> idle",
       "spritesheet": "sheets/21_bride_sheet.png",
       "sheet_layout": "rows: down,left,right,up / cols: idle,walk1,walk2",
@@ -567,26 +324,11 @@
       "id": "22_groom",
       "name": "신랑 Groom",
       "type": "character",
-      "px": [
-        32,
-        48
-      ],
-      "tiles": [
-        1,
-        2
-      ],
+      "px": [32, 48],
+      "tiles": [1, 2],
       "directions": 4,
-      "facings": [
-        "down",
-        "up",
-        "left",
-        "right"
-      ],
-      "frames": [
-        "idle",
-        "walk1",
-        "walk2"
-      ],
+      "facings": ["down", "up", "left", "right"],
+      "frames": ["idle", "walk1", "walk2"],
       "walk_cycle": "walk1 -> idle -> walk2 -> idle",
       "spritesheet": "sheets/22_groom_sheet.png",
       "sheet_layout": "rows: down,left,right,up / cols: idle,walk1,walk2",
@@ -604,6 +346,51 @@
         "sprites/22_groom/22_groom_right_walk1.png",
         "sprites/22_groom/22_groom_right_walk2.png"
       ]
+    },
+    {
+      "id": "23_mc",
+      "name": "사회자 MC",
+      "type": "character",
+      "px": [40, 56],
+      "tiles": [2, 2],
+      "directions": 8,
+      "facings": [
+        "down",
+        "down_left",
+        "left",
+        "up_left",
+        "up",
+        "up_right",
+        "right",
+        "down_right"
+      ],
+      "frames": ["idle"],
+      "note": "단상+마이크 포함, 대각선 포함 8방향 개별 드로잉 (right 계열은 left 계열 미러)",
+      "files": [
+        "sprites/23_mc/23_mc_down_idle.png",
+        "sprites/23_mc/23_mc_down_left_idle.png",
+        "sprites/23_mc/23_mc_left_idle.png",
+        "sprites/23_mc/23_mc_up_left_idle.png",
+        "sprites/23_mc/23_mc_up_idle.png",
+        "sprites/23_mc/23_mc_up_right_idle.png",
+        "sprites/23_mc/23_mc_right_idle.png",
+        "sprites/23_mc/23_mc_down_right_idle.png"
+      ]
+    },
+    {
+      "id": "24_sound_system",
+      "name": "음향장비 (믹서&감독님)",
+      "px": [64, 96],
+      "tiles": [2, 3],
+      "directions": 4,
+      "degrees": [0, 90, 180, 270],
+      "files": [
+        "sprites/24_sound_system/24_sound_system_r0.png",
+        "sprites/24_sound_system/24_sound_system_r90.png",
+        "sprites/24_sound_system/24_sound_system_r180.png",
+        "sprites/24_sound_system/24_sound_system_r270.png"
+      ],
+      "note": "단일 캐비닛. 한 쌍 배치 시 2개 배치 권장"
     }
   ]
 }

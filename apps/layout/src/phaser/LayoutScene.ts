@@ -34,6 +34,9 @@ import {
   characterTextureKey,
   createBonelliCharacterAnimations,
   initialPlayerFrame,
+  isMcManifestId,
+  mcFacingFromRotation,
+  mcTextureKey,
   playCharacterAnim,
   playerSheetKey,
   preloadBonelliCharacterSheets,
@@ -154,6 +157,12 @@ export class LayoutScene extends Phaser.Scene {
     this.setupInput()
     this.bindBridge()
     this.applyModeVisuals()
+
+    const onReady = this.registry.get('onSceneReady') as (() => void) | undefined
+    if (onReady) {
+      this.registry.remove('onSceneReady')
+      onReady()
+    }
   }
 
   private rebuildBackground() {
@@ -323,7 +332,7 @@ export class LayoutScene extends Phaser.Scene {
       this.spawnMarkerLayer = this.add.container(0, 0).setDepth(8)
     }
     this.spawnMarkerLayer.removeAll(true)
-    if (this.mode === 'walkthrough') return
+    if (this.mode === 'walkthrough' || this.backgroundEdit) return
 
     const cellPx = this.layout.grid.cellPx
     const drawSpawn = (x: number, y: number, manifestId: string) => {
@@ -488,8 +497,11 @@ export class LayoutScene extends Phaser.Scene {
     if (!manifestItem) return
 
     const isCharacter = 'type' in manifestItem && manifestItem.type === 'character'
+    const isMc = isMcManifestId(manifestId)
     let key: string
-    if (isCharacter) {
+    if (isMc) {
+      key = mcTextureKey(manifestId, mcFacingFromRotation(item.rotation))
+    } else if (isCharacter) {
       const facing = rotationToFacing(item.rotation)
       key = characterTextureKey(manifestId, facing, 'idle')
     } else {
@@ -512,17 +524,19 @@ export class LayoutScene extends Phaser.Scene {
     const { w, h } = rotatedFootprint(cat.widthCells, cat.heightCells, item.rotation)
     const cellPx = this.layout.grid.cellPx
     const cx = item.x * cellPx + (w * cellPx) / 2
-    const cy = isCharacter
+    const cy = isCharacter || isMc
       ? item.y * cellPx + h * cellPx * 0.85
       : item.y * cellPx + (h * cellPx) / 2
 
     const sprite = this.add
       .image(cx, cy, key)
-      .setOrigin(0.5, isCharacter ? 0.85 : 0.5)
+      .setOrigin(0.5, isCharacter || isMc ? 0.85 : 0.5)
       .setDepth(10 + cy)
       .setInteractive({ useHandCursor: true })
     sprite.setData('itemId', item.id)
     this.itemSprites.set(item.id, sprite)
+    sprite.setVisible(this.shouldShowPlacedItems())
+    sprite.setInteractive(this.shouldShowPlacedItems() && this.mode === 'edit')
 
     if (cat.blocksMovement) {
       const body = this.collisionGroup.create(cx, cy, key) as Phaser.Physics.Arcade.Sprite
@@ -558,8 +572,10 @@ export class LayoutScene extends Phaser.Scene {
   }
 
   private updateCameraBounds() {
+    const cam = this.cameras?.main
+    if (!cam) return
     const { width, height, cellPx } = this.layout.grid
-    this.cameras.main.setBounds(0, 0, width * cellPx, height * cellPx)
+    cam.setBounds(0, 0, width * cellPx, height * cellPx)
   }
 
   private applyCameraPan(dx: number, dy: number) {
@@ -617,10 +633,6 @@ export class LayoutScene extends Phaser.Scene {
             this.beginPortalSelect(portal, pointer)
             return
           }
-        }
-
-        if (this.handleEditItemPointerDown(cell, pointer)) {
-          return
         }
 
         if (this.stamp?.kind === 'item') {
@@ -1145,10 +1157,9 @@ export class LayoutScene extends Phaser.Scene {
   private bindBridge() {
     bindPhaserBridge({
       setLayout: (layout) => {
+        if (!this.cameras?.main) return
         this.layout = cloneLayout(layout)
         this.updateCameraBounds()
-        const { width, height, cellPx } = this.layout.grid
-        this.cameras.main.centerOn((width * cellPx) / 2, (height * cellPx) / 2)
         this.rebuildBackground()
         this.rebuildWallCollision()
         this.drawGrid()
@@ -1173,6 +1184,10 @@ export class LayoutScene extends Phaser.Scene {
         this.backgroundEdit = on
         if (wasEditing && !on) {
           this.finishPaintStroke()
+        }
+        if (!wasEditing && on) {
+          this.clearItemSelection()
+          this.emitSelection()
         }
         this.selectedPortalId = null
         this.dragPortalId = null
@@ -1282,6 +1297,19 @@ export class LayoutScene extends Phaser.Scene {
     this.player.setTexture(key)
   }
 
+  private shouldShowPlacedItems(): boolean {
+    return this.mode !== 'walkthrough' && !this.backgroundEdit
+  }
+
+  private applyPlacedItemVisibility() {
+    const show = this.shouldShowPlacedItems()
+    this.itemSprites.forEach((sprite) => {
+      sprite.setVisible(show)
+      sprite.setInteractive(show && this.mode === 'edit')
+    })
+    this.spawnMarkerLayer?.setVisible(show)
+  }
+
   private applyModeVisuals() {
     const walk = this.mode === 'walkthrough'
     this.player.setVisible(walk)
@@ -1290,9 +1318,7 @@ export class LayoutScene extends Phaser.Scene {
     this.selectionGraphics.setVisible(!walk)
     this.portalLayer?.setVisible(!walk)
     this.portalLayer?.setDepth(this.backgroundEdit ? 2000 : 500)
-    this.itemSprites.forEach((sprite) => {
-      sprite.setInteractive(!walk)
-    })
+    this.applyPlacedItemVisibility()
     if (walk) {
       this.clearItemSelection()
       this.refreshSelectionOutline()
@@ -1474,7 +1500,7 @@ export class LayoutScene extends Phaser.Scene {
       }
     }
 
-    if (this.selectedIds.size === 0) return
+    if (this.selectedIds.size === 0 || this.backgroundEdit) return
 
     for (const id of this.selectedIds) {
       const item = this.findItem(id)

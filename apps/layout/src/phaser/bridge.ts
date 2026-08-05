@@ -70,7 +70,7 @@ const stampChangeHook = createEventHook<(stamp: StampSelection) => void>()
 const portalEnterHook = createEventHook<(targetVenueId: VenueId) => void>()
 const portalSelectionChangeHook = createEventHook<(id: string | null) => void>()
 
-export const phaserBridge: PhaserBridge = {
+const noopBridge: PhaserBridge = {
   setLayout: () => {},
   setMode: () => {},
   setWalkRole: () => {},
@@ -90,6 +90,19 @@ export const phaserBridge: PhaserBridge = {
   rotateSelected: () => {},
   duplicateSelected: () => {},
   setZoom: () => {},
+}
+
+export const phaserBridge: PhaserBridge = { ...noopBridge }
+
+/** Destroyed Phaser scene closures must not remain on the bridge. */
+export function resetPhaserBridge(): void {
+  Object.assign(phaserBridge, noopBridge)
+  phaserBridge.onLayoutChange = (listener) => layoutChangeHook.subscribe(listener)
+  phaserBridge.onSelectionChange = (listener) => selectionChangeHook.subscribe(listener)
+  phaserBridge.onStampChange = (listener) => stampChangeHook.subscribe(listener)
+  phaserBridge.onPortalEnter = (listener) => portalEnterHook.subscribe(listener)
+  phaserBridge.onPortalSelectionChange = (listener) =>
+    portalSelectionChangeHook.subscribe(listener)
 }
 
 export function bindPhaserBridge(impl: Partial<PhaserBridge>): void {

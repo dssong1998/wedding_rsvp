@@ -227,6 +227,7 @@ export function LeftSidebar(props: Props) {
       <section className="sidebar-section palette-section">
         <h2>{props.backgroundEdit ? ko.paletteTiles : ko.paletteItems}</h2>
         {props.mode === 'edit' &&
+          !props.backgroundEdit &&
           catalogItems.map((item) => (
             <button
               key={item.assetId}
@@ -305,7 +306,7 @@ export function LeftSidebar(props: Props) {
         <p className="hint">{formatShortcutHints()}</p>
       </section>
 
-      <ItemReferencePanel item={props.selectedItem} />
+      {!props.backgroundEdit && <ItemReferencePanel item={props.selectedItem} />}
       {props.backgroundEdit && selectedPortal && (
         <section className="sidebar-section inspector">
           <h2>{ko.portalSelection}</h2>
@@ -321,7 +322,7 @@ export function LeftSidebar(props: Props) {
           </div>
         </section>
       )}
-      {props.selectedPlaced && (
+      {!props.backgroundEdit && props.selectedPlaced && (
         <section className="sidebar-section inspector">
           {props.selectedCount > 1 && (
             <div className="hint">{props.selectedCount}개 선택됨</div>
@@ -341,28 +342,42 @@ export function LeftSidebar(props: Props) {
         </section>
       )}
 
-      <section className="sidebar-section">
-        <h2>{ko.selection}</h2>
-        <div className="btn-row">
-          <button type="button" onClick={props.onRotate}>
-            ↻ {ko.rotate}
-          </button>
-          <button type="button" onClick={props.onDuplicate}>
-            {ko.duplicate}
-          </button>
-          <button type="button" onClick={props.onDelete}>
-            {ko.delete}
-          </button>
-        </div>
-        <div className="btn-row">
-          <button type="button" onClick={() => props.onZoom(0.15)}>
-            {ko.zoomIn} ([)
-          </button>
-          <button type="button" onClick={() => props.onZoom(-0.15)}>
-            {ko.zoomOut} (])
-          </button>
-        </div>
-      </section>
+      {!props.backgroundEdit && (
+        <section className="sidebar-section">
+          <h2>{ko.selection}</h2>
+          <div className="btn-row">
+            <button type="button" onClick={props.onRotate}>
+              ↻ {ko.rotate}
+            </button>
+            <button type="button" onClick={props.onDuplicate}>
+              {ko.duplicate}
+            </button>
+            <button type="button" onClick={props.onDelete}>
+              {ko.delete}
+            </button>
+          </div>
+          <div className="btn-row">
+            <button type="button" onClick={() => props.onZoom(0.15)}>
+              {ko.zoomIn} ([)
+            </button>
+            <button type="button" onClick={() => props.onZoom(-0.15)}>
+              {ko.zoomOut} (])
+            </button>
+          </div>
+        </section>
+      )}
+      {props.backgroundEdit && (
+        <section className="sidebar-section">
+          <div className="btn-row">
+            <button type="button" onClick={() => props.onZoom(0.15)}>
+              {ko.zoomIn} ([)
+            </button>
+            <button type="button" onClick={() => props.onZoom(-0.15)}>
+              {ko.zoomOut} (])
+            </button>
+          </div>
+        </section>
+      )}
 
       <section className="sidebar-section stats">
         <div>

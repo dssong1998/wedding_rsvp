@@ -10,7 +10,8 @@ import {
   importLayoutFromFile,
   readLayoutFromLocation,
 } from './lib/layoutCodec'
-import { saveVenueDraft, loadVenueDraft } from './lib/layoutStorage'
+import { collectAllVenueLayouts } from './lib/campusBundle'
+import { saveVenueDraft, loadVenueDraft, clearAllVenueDrafts } from './lib/layoutStorage'
 import { isAppChord, matchesAppChord, matchesPlainKey } from './lib/keyboardShortcuts'
 import { ko } from './locale/ko'
 import { phaserBridge } from './phaser/bridge'
@@ -91,6 +92,7 @@ function App() {
   const saveTimer = useRef<number | null>(null)
   const layoutRef = useRef(layout)
   const isUndoing = useRef(false)
+  const versionUrlLoadRef = useRef(0)
   layoutRef.current = layout
 
   const seatCount = useMemo(() => countSeats(layout.items), [layout.items])
@@ -134,6 +136,11 @@ function App() {
     }, 1000)
   }, [])
 
+  const onBackgroundEditChange = useCallback((on: boolean) => {
+    setBackgroundEdit(on)
+    if (on) setStamp(null)
+  }, [])
+
   const applyLayout = useCallback(
     (next: LayoutDocument) => {
       const doc = ensureVenuePortals(next)
@@ -168,20 +175,21 @@ function App() {
     if (!versionName) return
 
     let cancelled = false
+    const loadId = ++versionUrlLoadRef.current
     setVersionLoadStatus('loading')
     setScreen('editor')
 
     const historyId = readHistoryIdFromLocation() ?? undefined
     fetchLayoutVersion(versionName, { historyId })
       .then((doc) => {
-        if (cancelled) return
+        if (cancelled || loadId !== versionUrlLoadRef.current) return
         applyLayout(doc)
         setActiveVersionName(versionName)
         if (historyId !== undefined) setActiveHistoryId(historyId)
         setVersionLoadStatus(null)
       })
       .catch((err: unknown) => {
-        if (cancelled) return
+        if (cancelled || loadId !== versionUrlLoadRef.current) return
         setScreen('load')
         const message =
           err instanceof Error
@@ -200,8 +208,10 @@ function App() {
 
   useEffect(() => {
     if (!gameReady) return
-    phaserBridge.setLayout(layout)
-  }, [layout, gameReady])
+    // Phaser가 이미 편집 중인 layout을 갖고 있음 — 매 변경마다 setLayout 하면 카메라가 리셋됨
+    phaserBridge.setLayout(layoutRef.current)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- gameReady 시 1회 동기화
+  }, [gameReady])
 
   useEffect(() => {
     if (!gameReady) return
@@ -279,7 +289,7 @@ function App() {
 
       if (matchesAppChord(e, 'b')) {
         e.preventDefault()
-        setBackgroundEdit((v) => !v)
+        onBackgroundEditChange(!backgroundEdit)
         return
       }
 
@@ -293,7 +303,7 @@ function App() {
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [mode, backgroundEdit, scheduleDraftSave, gameReady])
+  }, [mode, backgroundEdit, scheduleDraftSave, gameReady, onBackgroundEditChange])
 
   useEffect(() => {
     if (!gameReady) return
@@ -413,12 +423,13 @@ function App() {
 
   const createNewVersion = useCallback(
     (versionName: string) => {
+      versionUrlLoadRef.current += 1
+      clearAllVenueDrafts()
       const doc = getVenuePreset('campus_map')
       doc.name = versionName
       applyLayout(doc)
       setActiveVersionName(versionName)
       setActiveHistoryId(null)
-      // 저장 전까지 URL에 버전을 넣지 않음 (미저장 버전 API 조회 404 방지)
       window.history.replaceState({}, '', '/')
       setScreen('editor')
       setShareStatus(null)
@@ -432,7 +443,8 @@ function App() {
       setSaving(true)
       try {
         const doc = currentLayout()
-        const history = await saveLayoutVersion(versionName, doc, { label: doc.name })
+        const bundle = collectAllVenueLayouts(doc)
+        const history = await saveLayoutVersion(versionName, bundle, { label: doc.name })
         setActiveVersionName(versionName)
         setActiveHistoryId(history.id)
         const url = buildVersionUrl(versionName, { historyId: history.id })
@@ -483,11 +495,14 @@ function App() {
         draftStatus={draftStatus}
         activeVersionName={activeVersionName}
         onSave={() => setSaveModalOpen(true)}
-        onLoad={() => setScreen('load')}
+        onLoad={() => {
+          window.history.replaceState({}, '', '/')
+          setScreen('load')
+        }}
         onShareVersionLink={() => void onShareVersionLink()}
         onModeChange={setMode}
         onWalkRoleChange={setWalkRole}
-        onBackgroundEditChange={setBackgroundEdit}
+        onBackgroundEditChange={onBackgroundEditChange}
         onContinuousPlacementChange={setContinuousPlacement}
         onStampChange={setStamp}
         onShare={() => void onShare()}
@@ -510,7 +525,11 @@ function App() {
         selectedPortalId={selectedPortalId}
       />
       <main className="canvas-wrap">
-        <PhaserCanvas initialLayout={layout} onReady={() => setGameReady(true)} />
+        <PhaserCanvas
+          initialLayout={layout}
+          onReady={() => setGameReady(true)}
+          onDestroy={() => setGameReady(false)}
+        />
       </main>
 
       <VersionNameModal

@@ -9,6 +9,31 @@ export const BONELLI_CHARACTER_MANIFEST = {
   bride: '21_bride',
 } as const
 
+export const BONELLI_MC_MANIFEST_ID = '23_mc'
+
+export type McFacing =
+  | 'down'
+  | 'down_left'
+  | 'left'
+  | 'up_left'
+  | 'up'
+  | 'up_right'
+  | 'right'
+  | 'down_right'
+
+const MC_FACINGS: McFacing[] = [
+  'down',
+  'down_left',
+  'left',
+  'up_left',
+  'up',
+  'up_right',
+  'right',
+  'down_right',
+]
+
+const MC_DEGREES = [0, 45, 90, 135, 180, 225, 270, 315]
+
 export type BonelliCharacterRole = keyof typeof BONELLI_CHARACTER_MANIFEST
 export type CharacterFacing = 'down' | 'up' | 'left' | 'right'
 export type CharacterFrame = 'idle' | 'walk1' | 'walk2'
@@ -23,7 +48,32 @@ const SHEET_KEYS: Record<BonelliCharacterRole, string> = {
 }
 
 export function isBonelliCharacterManifestId(manifestId: string): boolean {
-  return manifestId === BONELLI_CHARACTER_MANIFEST.groom || manifestId === BONELLI_CHARACTER_MANIFEST.bride
+  return (
+    manifestId === BONELLI_CHARACTER_MANIFEST.groom ||
+    manifestId === BONELLI_CHARACTER_MANIFEST.bride
+  )
+}
+
+export function isMcManifestId(manifestId: string): boolean {
+  return manifestId === BONELLI_MC_MANIFEST_ID
+}
+
+export function mcFacingFromRotation(rotationDeg: number): McFacing {
+  const r = ((Math.round(rotationDeg) % 360) + 360) % 360
+  let bestIdx = 0
+  let bestDiff = 360
+  for (let i = 0; i < MC_DEGREES.length; i++) {
+    const diff = Math.abs(((r - MC_DEGREES[i] + 180) % 360) - 180)
+    if (diff < bestDiff) {
+      bestDiff = diff
+      bestIdx = i
+    }
+  }
+  return MC_FACINGS[bestIdx]
+}
+
+export function mcTextureKey(manifestId: string, facing: McFacing): string {
+  return bonelliLoadKeyFromPath(`sprites/${manifestId}/${manifestId}_${facing}_idle.png`)
 }
 
 export function roleFromManifestId(manifestId: string): BonelliCharacterRole | null {

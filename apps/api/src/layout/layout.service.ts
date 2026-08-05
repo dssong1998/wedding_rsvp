@@ -339,6 +339,11 @@ export class LayoutService {
   }
 
   private extractVenueId(layout: Record<string, unknown>): string | null {
+    if (layout.version === 3 && layout.venues && typeof layout.venues === "object") {
+      const active = layout.activeVenueId;
+      if (typeof active === "string" && active.trim()) return active.trim();
+      return "campus_map";
+    }
     const venueId = layout.venueId;
     return typeof venueId === "string" && venueId.trim() ? venueId.trim() : null;
   }

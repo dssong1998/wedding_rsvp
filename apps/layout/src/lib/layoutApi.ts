@@ -1,6 +1,5 @@
-import type { LayoutDocument } from '../types/layout'
-import { parseLayoutJson } from './layoutCodec'
-import { toPresetJson } from './presetJson'
+import type { CampusLayoutBundle, LayoutDocument } from '../types/layout'
+import { applyStoredLayout, toStoredJson } from './campusBundle'
 
 const VERSION_PARAM = 'version'
 const HISTORY_PARAM = 'history'
@@ -147,7 +146,7 @@ export async function fetchLayoutVersion(
   }
 
   const data = (await res.json()) as LayoutVersionGetResponse
-  return parseLayoutJson(JSON.stringify(data.layout))
+  return applyStoredLayout(data.layout)
 }
 
 export async function listLayoutVersions(): Promise<LayoutVersionMeta[]> {
@@ -221,10 +220,10 @@ async function presignAppendUpload(
 }
 
 async function uploadLayoutJsonToS3(
-  layout: LayoutDocument,
+  bundle: CampusLayoutBundle,
   presign: LayoutUploadPresign,
 ): Promise<void> {
-  const body = JSON.stringify(toPresetJson(layout))
+  const body = JSON.stringify(toStoredJson(bundle))
   const res = await fetch(presign.uploadUrl, {
     method: 'PUT',
     headers: presign.headers,
@@ -290,37 +289,37 @@ async function finalizeAppendLayoutVersion(
 
 export async function createLayoutVersion(
   name: string,
-  layout: LayoutDocument,
+  bundle: CampusLayoutBundle,
   options?: { label?: string },
 ): Promise<{ meta: LayoutVersionMeta; history: LayoutVersionHistoryMeta }> {
   const presign = await presignCreateUpload(name, options)
-  await uploadLayoutJsonToS3(layout, presign)
+  await uploadLayoutJsonToS3(bundle, presign)
   return finalizeCreateLayoutVersion(name, presign.s3Key, options)
 }
 
 export async function appendLayoutVersionHistory(
   name: string,
-  layout: LayoutDocument,
+  bundle: CampusLayoutBundle,
   options?: { label?: string },
 ): Promise<{ meta: LayoutVersionMeta; history: LayoutVersionHistoryMeta }> {
   const presign = await presignAppendUpload(name, options)
-  await uploadLayoutJsonToS3(layout, presign)
+  await uploadLayoutJsonToS3(bundle, presign)
   return finalizeAppendLayoutVersion(name, presign.s3Key, options)
 }
 
 export async function saveLayoutVersion(
   name: string,
-  layout: LayoutDocument,
+  bundle: CampusLayoutBundle,
   options?: { label?: string },
 ): Promise<LayoutVersionHistoryMeta> {
   const trimmed = name.trim()
   const versions = await listLayoutVersions()
   const exists = versions.some((v) => v.name === trimmed)
   if (exists) {
-    const result = await appendLayoutVersionHistory(trimmed, layout, options)
+    const result = await appendLayoutVersionHistory(trimmed, bundle, options)
     return result.history
   }
-  const result = await createLayoutVersion(trimmed, layout, options)
+  const result = await createLayoutVersion(trimmed, bundle, options)
   return result.history
 }
 

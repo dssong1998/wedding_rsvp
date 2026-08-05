@@ -4,7 +4,7 @@ export const ko = {
   modeEdit: '편집',
   modeWalkthrough: '동선 점검',
   backgroundEdit: '배경 수정',
-  backgroundEditHint: '타일 칠하기 · Shift+드래그 영역 채우기. 아이템 선택·이동·복제·삭제도 가능',
+  backgroundEditHint: '타일 칠하기 · Shift+드래그 영역 채우기',
   backgroundPortalHint: '포털: 클릭 선택 · 드래그 이동 · Delete 삭제',
   continuousPlacement: '연속 배치',
   portalHint: '파란 포털 클릭으로 구역 이동',

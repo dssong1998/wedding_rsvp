@@ -5,6 +5,7 @@ import type { LayoutDocument } from '../types/layout'
 export function createPhaserGame(
   parent: HTMLElement,
   initialLayout: LayoutDocument,
+  onSceneReady?: () => void,
 ): Phaser.Game {
   const width = parent.clientWidth || window.innerWidth
   const height = parent.clientHeight || window.innerHeight
@@ -30,6 +31,7 @@ export function createPhaserGame(
     callbacks: {
       preBoot: (game) => {
         game.registry.set('initialLayout', initialLayout)
+        if (onSceneReady) game.registry.set('onSceneReady', onSceneReady)
       },
     },
   })

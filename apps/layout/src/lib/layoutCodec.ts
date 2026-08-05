@@ -1,4 +1,5 @@
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string'
+import { applyStoredLayout } from './campusBundle'
 import type { LayoutDocument } from '../types/layout'
 import { LAYOUT_VERSION } from '../types/layout'
 import { migrateLayout, createEmptyLayout } from './layoutMigrate'
@@ -68,7 +69,7 @@ export function downloadLayoutJson(layout: LayoutDocument, filename?: string): v
 
 export async function importLayoutFromFile(file: File): Promise<LayoutDocument> {
   const text = await file.text()
-  return parseLayoutJson(text)
+  return applyStoredLayout(JSON.parse(text) as unknown)
 }
 
 export function layoutOrDefault(fromUrl: LayoutDocument | null, venueId: VenueId = 'side_garden'): LayoutDocument {

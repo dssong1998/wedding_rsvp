@@ -1,4 +1,5 @@
 import manifest from '../../public/assets/tilesets/bonelli_wedding_pixel_pack/manifest.json'
+import { isMcManifestId, mcFacingFromRotation, mcTextureKey } from '../phaser/bonelliCharacters'
 import kenneyMap from '../data/kenney-tile-map.json'
 import { getRecommendedTiles } from '../lib/tileLabels'
 
@@ -41,6 +42,8 @@ export const MANIFEST_ALIASES: Record<string, string> = {
   film_camera_table: '18_film_camera_table',
   board_guest: '19_guest_board',
   parasol_planter: '20_parasol_planter',
+  mc_host: '23_mc',
+  sound_system: '24_sound_system',
   character_bride: '21_bride',
   character_groom: '22_groom',
 }
@@ -54,6 +57,7 @@ function isCharacterItem(item: ManifestItem): boolean {
 }
 
 function manifestDirections(item: ManifestItem): number[] {
+  if (item.id === '23_mc') return [0, 45, 90, 135, 180, 225, 270, 315]
   if (isCharacterItem(item)) return [0, 90, 180, 270]
   return item.degrees ?? [0]
 }
@@ -73,7 +77,8 @@ function buildBonelliEntry(assetId: string, manifestId: string): CatalogItem | n
   if (!item) return null
   const { w, h } = cellsFromManifest(item)
   const character = isCharacterItem(item)
-  const rotationStep = character ? 90 : item.directions === 8 ? 45 : 90
+  const isMc = item.id === '23_mc'
+  const rotationStep = isMc ? 45 : character ? 90 : item.directions === 8 ? 45 : 90
   return {
     assetId,
     label_ko: item.name,
@@ -81,10 +86,16 @@ function buildBonelliEntry(assetId: string, manifestId: string): CatalogItem | n
     manifestId,
     widthCells: w,
     heightCells: h,
-    blocksMovement: !character,
+    blocksMovement: !character || isMc,
     seats: assetId === 'table_rect_6' ? 6 : assetId === 'chair_wedding' ? 1 : undefined,
     interactable: true,
-    referenceImage: character ? `${PACK_BASE}/previews/_characters_all.png` : undefined,
+    referenceImage: character
+      ? isMc
+        ? `${PACK_BASE}/previews/_23_mc_8dir.png`
+        : `${PACK_BASE}/previews/_characters_all.png`
+      : assetId === 'sound_system'
+        ? `${PACK_BASE}/previews/_24_sound_system.png`
+        : undefined,
     rotationStep,
     directions: manifestDirections(item),
   }
@@ -139,6 +150,10 @@ export function listPlacedCatalogItems(): CatalogItem[] {
 export function bonelliSpriteUrl(manifestId: string, rotationDeg: number): string {
   const item = manifestById(manifestId)
   if (!item) throw new Error(`Unknown manifest id: ${manifestId}`)
+  if (isMcManifestId(manifestId)) {
+    const facing = mcFacingFromRotation(rotationDeg)
+    return `${PACK_BASE}/sprites/${manifestId}/${manifestId}_${facing}_idle.png`
+  }
   if (isCharacterItem(item)) {
     const facing = characterFacingFromRotation(rotationDeg)
     return `${PACK_BASE}/sprites/${manifestId}/${manifestId}_${facing}_idle.png`
@@ -168,6 +183,9 @@ function characterFacingFromRotation(rotationDeg: number): 'down' | 'up' | 'left
 export function textureKeyForBonelli(manifestId: string, rotationDeg: number): string {
   const item = manifestById(manifestId)
   if (!item) return `bonelli_${manifestId}`
+  if (isMcManifestId(manifestId)) {
+    return mcTextureKey(manifestId, mcFacingFromRotation(rotationDeg))
+  }
   if (isCharacterItem(item)) {
     const facing = characterFacingFromRotation(rotationDeg)
     const file = `sprites/${manifestId}/${manifestId}_${facing}_idle.png`
